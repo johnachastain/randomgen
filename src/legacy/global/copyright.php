@@ -1,0 +1,1 @@
+&copy; 2010 copyright <a href="/">Pica Studio.</a>

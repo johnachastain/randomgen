@@ -1,0 +1,1 @@
+<p id="footer"><?php include 'copyright.php'; ?> &nbsp;|&nbsp; <a href="mailto:12pt@picastudio.com">12pt@picastudio.com</a></p>
