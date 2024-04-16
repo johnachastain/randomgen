@@ -60,42 +60,42 @@ export const getSyntaxList = (n:number, typ:string, adj:string) => {
 
 
 const getSyntax = (typ:string, adj:string) => {
-	const r = getRandom(100);;
+	let r = getRandom(100);;
 		switch(typ) {
-			// case "construction_town":
-			// 	return getTwoWordItem(typ, adj);
+			case "construction_town":
+				return getTwoWordItem(typ, adj);
 			
-			// case "construction_fortification":
-			// case "natural_mountain":
-			// 	r = getRandom(100);
-			// 		if (r <= 25) {
-			// 			return getSpecialPrefixItem(typ, adj);
-			// 		} else {
-			// 			return getWildernessItem(typ, adj);
-			// 		}
+			case "construction_fortification":
+			case "natural_mountain":
+				r = getRandom(100);
+					if (r <= 25) {
+						return getSpecialPrefixItem(typ, adj);
+					} else {
+						return getWildernessItem(typ, adj);
+					}
 			
-			// case "construction_city":
-			// 	return getCityItem(typ, adj);
+			case "construction_city":
+				return getCityItem(typ, adj);
 				
-			// case "political_nation":
-			// 	return getWildernessItem(typ, adj);
+			case "political_nation":
+				return getWildernessItem(typ, adj);
 			
-			// case "tomb_room":
-			// case "temple_room":
-			// case "cavern_room":
-			// case "magical_room":
-			// case "dungeon_room":
-			// case "any_dungeon_room":
-			// 	return getDungeonItem(typ, adj);
+			case "tomb_room":
+			case "temple_room":
+			case "cavern_room":
+			case "magical_room":
+			case "dungeon_room":
+			case "any_dungeon_room":
+				return getDungeonItem(typ, adj);
 				
-			// case "construction_tavern":
-			// 	return getTavernItem(typ, adj);
+			case "construction_tavern":
+				return getTavernItem(typ, adj);
 			
-			// case "natural_river":
-			// 	return getRiverItem(typ, adj);
+			case "natural_river":
+				return getRiverItem(typ, adj);
 			
-			// case "deity":
-			// 	return getDeity(typ, adj);
+			case "deity":
+				return getDeity(typ, adj);
 			
 			default:
 				return getWildernessItem(typ, adj);

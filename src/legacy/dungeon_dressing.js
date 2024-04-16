@@ -1,45 +1,30 @@
-/*	////////////////////////////////////////////////////////////////////////////////
-
-    --------------------------------------------------------------------------------
+// WALLS
 	
-	WALLS
-	================================================================================ */
-	
-var dressing_wall_basic = [
+const dressing_wall_basic = [
 
 ];
 
-var dressing_wall_special = [
+const dressing_wall_special = [
 
 ];
 
-/*	////////////////////////////////////////////////////////////////////////////////
+// FLOORS
 
-    --------------------------------------------------------------------------------
-	
-	FLOORS
-	================================================================================ */
-
-var dressing_floor_basic = [
+const dressing_floor_basic = [
 
 ];
 
-var dressing_floor_special = [
+const dressing_floor_special = [
 
 ];
 
-/*	////////////////////////////////////////////////////////////////////////////////
+// FIXED
 
-    --------------------------------------------------------------------------------
-	
-	FIXED
-	================================================================================ */
-
-var dressing_furniture = [
+const dressing_furniture = [
 	//fixed
 ];
 
-var dressing_lighting = [
+const dressing_lighting = [
 "Wall Sconce",
 "Torch",
 "Candle",
@@ -49,14 +34,9 @@ var dressing_lighting = [
 "Lantern"
 ];
 
-/*	////////////////////////////////////////////////////////////////////////////////
+// UNFIXED
 
-    --------------------------------------------------------------------------------
-	
-	UNFIXED
-	================================================================================ */
-
-var dressing_trophies = [
+const dressing_trophies = [
 "Animal Skins",
 "Stuffed Animals",
 "Stuffed Heads mounted on plaques",
@@ -64,15 +44,15 @@ var dressing_trophies = [
 "Suits of Armor"
 ];
 
-var dressing_object = [
+const dressing_object = [
 	//unfixed
 ];
 
-var dressing_religous = [
+const dressing_religous = [
 
 ];
 
-var dressing_storage = [
+const dressing_storage = [
 "Chest",
 "Urn",
 "Jar",
@@ -80,14 +60,14 @@ var dressing_storage = [
 "Sack"
 ];
 
-var dressing_magical = [
+const dressing_magical = [
 	
 ];
 
-var dressing_object_condition = [
+const dressing_object_condition = [
 
 ];
 
-var dressing_refuse = [
+const dressing_refuse = [
 
 ];

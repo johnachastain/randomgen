@@ -1,36 +1,8 @@
-function getRandom(n) {
+const  getRandom = (n) => {
 	return Math.floor(Math.random()*n);
 }
 
-var cols = 10;
-var rows = 10;
-var gridH = 120;
-var gridW = 120;
-var mapW = gridW * (cols +2);
-var mapH = gridH * (rows +2);
-
-//var mapW = (gridW +1) * (cols +2); //for img border debugging
-//var mapH = (gridH +1) * (rows +2); //for img border debugging
-
-var maxNum = (cols + 2) * (rows + 2);
-var mapArray =[];
-var tempArray = [];
-var tested = false;
-
-
-/*	////////////////////////////////////////////////////////////////////////////////
-
-    --------------------------------------------------------------------------------
-	
-	geomorphs
-	================================================================================ */
-
-
-
-
-// the base array
-
-var geomorphs = [
+export const geomorphs = [
 {	type: "solid",
 	src: "images/00.gif",
 	top: "closed",
@@ -575,7 +547,7 @@ var geomorphs = [
 
 ];
 
-var error = {	type: "",
+export const error = {	type: "",
 	src: "images/error.gif",
 	top: "any",
 	right: "any",
@@ -588,218 +560,206 @@ var error = {	type: "",
 	nodes: []
 }
 
+export const getGeomorphMap = () => {
+  // number of cols excluding first/left and last/right
+  const cols = 10;
+  // number of cols excluding first/top and last/bottom
+  const rows = 10;
+  // pixel dimensions of geomorphs
+  const gridH = 120;
+  const gridW = 120;
 
-/*	////////////////////////////////////////////////////////////////////////////////
+  const mapW = gridW * (cols +2);
+  const mapH = gridH * (rows +2);
+  //const mapW = (gridW +1) * (cols +2); //for img border debugging
+  //const mapH = (gridH +1) * (rows +2); //for img border debugging
+  // total number of geomorphs
+  const maxNum = (cols + 2) * (rows + 2);
+  let mapArray =[];
+  let tempArray = [];
+  // let tested = false;
 
-    --------------------------------------------------------------------------------
-	
-	DOCUMENT READY
-	================================================================================ */
-	
+  /*   
+  // build dynamic arrays, 
+  // revision, this may not even be needed
 
-$(document).ready(function() {
-		/*   
-		// build dynamic arrays, 
-		// revision, this may not even be needed
-		
-		for (i=0; i< geomorphs.length; i++) {
-			
-			if (!window['top_' + geomorphs[i].top]) {
-				window['top_' + geomorphs[i].top] =[];
-			}
-				window['top_' + geomorphs[i].top].push(geomorphs[i]);
-			
-			if (!window['bottom_' + geomorphs[i].bottom]) {
-				window['bottom_' + geomorphs[i].bottom] =[];
-			}
-				window['bottom_' + geomorphs[i].bottom].push(geomorphs[i]);
-			
-			if (!window['left_' + geomorphs[i].left]) {
-				window['left_' + geomorphs[i].left] =[];
-			}
-				window['left_' + geomorphs[i].left].push(geomorphs[i]);
-			
-			if (!window['right_' + geomorphs[i].right]) {
-				window['right_' + geomorphs[i].right] =[];
-			}
-				window['right_' + geomorphs[i].right].push(geomorphs[i]);
-		}
-		*/
-		
-		// assign outer border solid grid items to array first
-		for (i=0; i< maxNum; i++) {
-			if ( i < (cols + 2) ) {
-				mapArray[mapArray.length] = geomorphs[0];
-			} else if (i >= ((cols + 2)  * (rows + 1)) ) {
-				mapArray[mapArray.length] = geomorphs[0];
-			} else {
-				if (i % (cols+2) == 0 ) {
-					mapArray[mapArray.length] = geomorphs[0];	
-				} else if (i % (cols+2) == (cols +1) ) {
-					mapArray[mapArray.length] = geomorphs[0];
-				} else {
-					mapArray[mapArray.length] = { type: "empty", src: "images/01.gif", top: "any", right: "any", bottom: "any", left: "any", top_left: "any", top_right: "any", bottom_left: "any", bottom_right: "any" };
-				}
-			}
-		}
-		
-			
-			function getParams(i) {
-				/*var outerVals = { 	top: mapArray[i - (cols + 2)].bottom,
-									bottom: mapArray[i + (cols + 2)].top,
-									left: mapArray[i - 1].right,
-									right: mapArray[i + 1].left,
-										top_left: mapArray[i - 1].top_right,
-										top_right: mapArray[i - (cols + 2)].bottom_right,
-										bottom_left: mapArray[i - (cols + 2)].top_left,
-										bottom_right: mapArray[i + 1].bottom_left
-								};*/
-								
-								
-				var btm_rght = "any";
-					if  ( mapArray[i + (cols + 2)].top_right =="closed") {
-						btm_rght = "closed";
-					}
-					if  ( mapArray[i + 1].bottom_left =="closed") {
-						btm_rght = "closed";
-					}
-				
-								
-				var outerVals = { 	top: mapArray[i - (cols + 2)].bottom,
-									bottom: mapArray[i + (cols + 2)].top,
-									left: mapArray[i - 1].right,
-									right: mapArray[i + 1].left,
-										top_left: mapArray[i - 1].top_right,
-										top_right: mapArray[i - (cols + 2)].bottom_right,
-										bottom_left: mapArray[i - 1].bottom_right,
-										bottom_right: btm_rght
-								};
-								
-				return outerVals;
-			}
-		
-		// assign random items to remaining grid
-		
-		
-		for (i=0; i< mapArray.length; i++) {
-			if (mapArray[i].type != 'solid') {
-				
-				tempArray = []; //clear array
-				
-				var isAvailableArray = [];
-					for (j=0; j< geomorphs.length; j++) {
-						isAvailableArray[j] = true;
-					}
-				
-				var itemParams = getParams(i);
-						for (j=0; j< geomorphs.length; j++) {
-							//if (itemParams.top != "any") {
-								if (itemParams.top != geomorphs[j].top ) {
-											isAvailableArray[j] = false;
-								}
-							//}
-							//if (itemParams.left != "any") {
-								if (itemParams.left != geomorphs[j].left ) {
-											isAvailableArray[j] = false;
-								}
-							//}
-							//if (itemParams.top_left != "any") {
-								if (itemParams.top_left != geomorphs[j].top_left ) {
-											isAvailableArray[j] = false;
-								}
-							//}
-							//if (itemParams.top_right != "any") {
-								if (itemParams.top_right != geomorphs[j].top_right ) {
-											isAvailableArray[j] = false;
-								}
-							//}
-							
-							
-							//if (itemParams.bottom_left != "any") {
-								if (itemParams.bottom_left != geomorphs[j].bottom_left ) {
-											isAvailableArray[j] = false;
-								}
-							//}	
-							if (itemParams.right != "any") {
-								if (itemParams.right != geomorphs[j].right ) {
-											isAvailableArray[j] = false;
-								}
-							}
-							
-							if (itemParams.bottom != "any") {
-								if (itemParams.bottom != geomorphs[j].bottom ) {
-											isAvailableArray[j] = false;
-								}
-							}
-							
-							if (itemParams.bottom_right != "any") {
-								if (itemParams.bottom_right != geomorphs[j].bottom_right ) {
-											isAvailableArray[j] = false;
-								}
-							}
-							
-							
-						}
-				
-			
-				for (j=0; j< geomorphs.length; j++) {
-						if (isAvailableArray[j] == true) {
-							tempArray[tempArray.length] = geomorphs[j];
-						}
-				}
-				
-				
-				
-				
-				
-				
-				
-				
-				
-					if (tempArray.length != 0) {
-						//randomly pick one of the remaining items in the tempArray
-							var selectedIndex = getRandom(tempArray.length);
-							mapArray[i] = tempArray[selectedIndex];
-				
-					} else {
-						// catch errors if there are no items left in tempArray
-							mapArray[i] = error;
-				}
-			}
-		}
-	
-		
-		
-		
-		
-		
-		// display all imgs assigned to mapArray
-		$('#canvas').css( 'height', mapH );
-		$('#canvas').css( 'width', mapW );
-		var currentImg;
-		for (i=0; i< mapArray.length; i++) {
-			currentImg = $('<img />').attr('src', mapArray[i].src).load(function(){ });
-			var alt = " " + i;
-				alt += " | top: " + mapArray[i].top;
-				alt += " | left: " + mapArray[i].left;
-				alt += " | right: " + mapArray[i].right;
-				alt += " | bottom: " + mapArray[i].bottom;
-				alt += " | top_left: " + mapArray[i].top_left;
-				alt += " | top_right: " + mapArray[i].top_right;
-				alt += " | bottom_left: " + mapArray[i].bottom_left;
-				alt += " | bottom_right: " + mapArray[i].bottom_right;
-				
-			$(currentImg).attr('title', alt);
-			$('#canvas').append( currentImg);
-		}
-	
-	
-/*	////////////////////////////////////////////////////////////////////////////////
+  for (i=0; i< geomorphs.length; i++) {
+    
+    if (!window['top_' + geomorphs[i].top]) {
+      window['top_' + geomorphs[i].top] =[];
+    }
+      window['top_' + geomorphs[i].top].push(geomorphs[i]);
+    
+    if (!window['bottom_' + geomorphs[i].bottom]) {
+      window['bottom_' + geomorphs[i].bottom] =[];
+    }
+      window['bottom_' + geomorphs[i].bottom].push(geomorphs[i]);
+    
+    if (!window['left_' + geomorphs[i].left]) {
+      window['left_' + geomorphs[i].left] =[];
+    }
+      window['left_' + geomorphs[i].left].push(geomorphs[i]);
+    
+    if (!window['right_' + geomorphs[i].right]) {
+      window['right_' + geomorphs[i].right] =[];
+    }
+      window['right_' + geomorphs[i].right].push(geomorphs[i]);
+  }
+  */
+      
+  // assign outer border solid grid items to array first
+  for (let i=0; i< maxNum; i++) {
+    // first twelve are top row
+    if ( i < (cols + 2) ) {
+      mapArray[mapArray.length] = geomorphs[0];
+      
+      // last last row on bottom
+    } else if (i >= ((cols + 2)  * (rows + 1)) ) {
+      mapArray[mapArray.length] = geomorphs[0];
 
-    --------------------------------------------------------------------------------
+    } else {
+      // far right column
+      if (i % (cols+2) == 0 ) {
+        mapArray[mapArray.length] = geomorphs[0];	
+
+        // far left column
+      } else if (i % (cols+2) == (cols +1) ) {
+        mapArray[mapArray.length] = geomorphs[0];
+
+        // everything else
+      } else {
+        mapArray[mapArray.length] = { type: "empty", src: "images/01.gif", top: "any", right: "any", bottom: "any", left: "any", top_left: "any", top_right: "any", bottom_left: "any", bottom_right: "any" };
+      }
+    }
+  }
+      
+        
+  const getParams = (i) => {
+    /*const outerVals = { 	top: mapArray[i - (cols + 2)].bottom,
+      bottom: mapArray[i + (cols + 2)].top,
+      left: mapArray[i - 1].right,
+      right: mapArray[i + 1].left,
+      top_left: mapArray[i - 1].top_right,
+      top_right: mapArray[i - (cols + 2)].bottom_right,
+      bottom_left: mapArray[i - (cols + 2)].top_left,
+      bottom_right: mapArray[i + 1].bottom_left
+    };*/      
+    const btm_rght = "any";
+    if  ( mapArray[i + (cols + 2)].top_right =="closed") {
+      btm_rght = "closed";
+    }
+    if  ( mapArray[i + 1].bottom_left =="closed") {
+      btm_rght = "closed";
+    }         
+    const outerVals = { 	top: mapArray[i - (cols + 2)].bottom,
+      bottom: mapArray[i + (cols + 2)].top,
+      left: mapArray[i - 1].right,
+      right: mapArray[i + 1].left,
+      top_left: mapArray[i - 1].top_right,
+      top_right: mapArray[i - (cols + 2)].bottom_right,
+      bottom_left: mapArray[i - 1].bottom_right,
+      bottom_right: btm_rght
+    };        
+    return outerVals;
+  }
+      
+  // assign random items to remaining grid
+
+  for (i=0; i< mapArray.length; i++) {
+    if (mapArray[i].type != 'solid') {
+
+      tempArray = []; //clear array
+      const isAvailableArray = [];
+        for (j=0; j< geomorphs.length; j++) {
+          isAvailableArray[j] = true;
+        }
+      const itemParams = getParams(i);
+
+      for (j=0; j< geomorphs.length; j++) {
+        //if (itemParams.top != "any") {
+        if (itemParams.top != geomorphs[j].top ) {
+              isAvailableArray[j] = false;
+        }
+        //}
+        //if (itemParams.left != "any") {
+        if (itemParams.left != geomorphs[j].left ) {
+              isAvailableArray[j] = false;
+        }
+        //}
+        //if (itemParams.top_left != "any") {
+        if (itemParams.top_left != geomorphs[j].top_left ) {
+              isAvailableArray[j] = false;
+        }
+        //}
+        //if (itemParams.top_right != "any") {
+        if (itemParams.top_right != geomorphs[j].top_right ) {
+              isAvailableArray[j] = false;
+        }
+        //}
+        
+        //if (itemParams.bottom_left != "any") {
+        if (itemParams.bottom_left != geomorphs[j].bottom_left ) {
+              isAvailableArray[j] = false;
+        }
+        //}	
+        if (itemParams.right != "any") {
+          if (itemParams.right != geomorphs[j].right ) {
+                isAvailableArray[j] = false;
+          }
+        }
+        
+        if (itemParams.bottom != "any") {
+          if (itemParams.bottom != geomorphs[j].bottom ) {
+                isAvailableArray[j] = false;
+          }
+        }
+        
+        if (itemParams.bottom_right != "any") {
+          if (itemParams.bottom_right != geomorphs[j].bottom_right ) {
+                isAvailableArray[j] = false;
+          }
+        } 
+      }
+
+      for (j=0; j< geomorphs.length; j++) {
+        if (isAvailableArray[j] == true) {
+          tempArray[tempArray.length] = geomorphs[j];
+        } 
+      }
+    
+      if (tempArray.length != 0) {
+      //randomly pick one of the remaining items in the tempArray
+        const selectedIndex = getRandom(tempArray.length);
+        mapArray[i] = tempArray[selectedIndex];
+
+      } else {
+      // catch errors if there are no items left in tempArray
+        mapArray[i] = error;
+      }
+    }
+  }
+  
+  // display all imgs assigned to mapArray
+  // $('#canvas').css( 'height', mapH );
+  // $('#canvas').css( 'width', mapW );
+  let currentImg;
+  for (let i=0; i< mapArray.length; i++) {
+    currentImg = $('<img />').attr('src', mapArray[i].src).load(function(){ });
+    const alt = " " + i;
+      alt += " | top: " + mapArray[i].top;
+      alt += " | left: " + mapArray[i].left;
+      alt += " | right: " + mapArray[i].right;
+      alt += " | bottom: " + mapArray[i].bottom;
+      alt += " | top_left: " + mapArray[i].top_left;
+      alt += " | top_right: " + mapArray[i].top_right;
+      alt += " | bottom_left: " + mapArray[i].bottom_left;
+      alt += " | bottom_right: " + mapArray[i].bottom_right;
+      
+    // $(currentImg).attr('title', alt);
+    // $('#canvas').append( currentImg);
+  }
+
+}
+
 	
-	END DOCUMENT READY
-	================================================================================ */
-	
-});
 
