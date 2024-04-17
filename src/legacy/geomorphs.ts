@@ -1,4 +1,4 @@
-const  getRandom = (n) => {
+const  getRandom = (n: number) => {
 	return Math.floor(Math.random()*n);
 }
 
@@ -559,6 +559,44 @@ export const error = {	type: "",
 	bottom_right: "any",
 	nodes: []
 }
+export type GridItem = {
+	column: number,
+	row: number,
+	geomorph: any,
+	type: string
+}
+
+export const getGrid = (columns: number, rows: number): GridItem[] => {
+	const maxNum = columns * rows
+	let row = 0
+	let column = 0
+	let grid: GridItem[] = []
+	for (let i=1; i< maxNum; i++) {
+		const modulo = i % columns
+		if (modulo === 1) {
+			row++
+			column = 1
+		} else {
+			column++
+		}
+		const edges = {
+			top: row === 1 ? "closed" : "any",
+			right: column === columns ? "closed" : "any",
+			bottom: row === rows ? "closed" : "any",
+			left: column === 1 ? "closed" :"any"
+		}
+
+		let item: GridItem = { 
+			column, 
+			row, 
+			geomorph: { edges }, 
+			type: ''
+		}
+
+		grid = [ ...grid, item]
+	}
+	return grid
+}
 
 export const getGeomorphMap = () => {
   // number of cols excluding first/left and last/right
@@ -571,41 +609,12 @@ export const getGeomorphMap = () => {
 
   const mapW = gridW * (cols +2);
   const mapH = gridH * (rows +2);
-  //const mapW = (gridW +1) * (cols +2); //for img border debugging
-  //const mapH = (gridH +1) * (rows +2); //for img border debugging
   // total number of geomorphs
   const maxNum = (cols + 2) * (rows + 2);
   let mapArray =[];
   let tempArray = [];
-  // let tested = false;
 
-  /*   
-  // build dynamic arrays, 
-  // revision, this may not even be needed
 
-  for (i=0; i< geomorphs.length; i++) {
-    
-    if (!window['top_' + geomorphs[i].top]) {
-      window['top_' + geomorphs[i].top] =[];
-    }
-      window['top_' + geomorphs[i].top].push(geomorphs[i]);
-    
-    if (!window['bottom_' + geomorphs[i].bottom]) {
-      window['bottom_' + geomorphs[i].bottom] =[];
-    }
-      window['bottom_' + geomorphs[i].bottom].push(geomorphs[i]);
-    
-    if (!window['left_' + geomorphs[i].left]) {
-      window['left_' + geomorphs[i].left] =[];
-    }
-      window['left_' + geomorphs[i].left].push(geomorphs[i]);
-    
-    if (!window['right_' + geomorphs[i].right]) {
-      window['right_' + geomorphs[i].right] =[];
-    }
-      window['right_' + geomorphs[i].right].push(geomorphs[i]);
-  }
-  */
       
   // assign outer border solid grid items to array first
   for (let i=0; i< maxNum; i++) {
@@ -632,76 +641,40 @@ export const getGeomorphMap = () => {
       }
     }
   }
-      
-        
-  const getParams = (i) => {
-    /*const outerVals = { 	top: mapArray[i - (cols + 2)].bottom,
-      bottom: mapArray[i + (cols + 2)].top,
-      left: mapArray[i - 1].right,
-      right: mapArray[i + 1].left,
-      top_left: mapArray[i - 1].top_right,
-      top_right: mapArray[i - (cols + 2)].bottom_right,
-      bottom_left: mapArray[i - (cols + 2)].top_left,
-      bottom_right: mapArray[i + 1].bottom_left
-    };*/      
-    const btm_rght = "any";
-    if  ( mapArray[i + (cols + 2)].top_right =="closed") {
-      btm_rght = "closed";
-    }
-    if  ( mapArray[i + 1].bottom_left =="closed") {
-      btm_rght = "closed";
-    }         
-    const outerVals = { 	top: mapArray[i - (cols + 2)].bottom,
-      bottom: mapArray[i + (cols + 2)].top,
-      left: mapArray[i - 1].right,
-      right: mapArray[i + 1].left,
-      top_left: mapArray[i - 1].top_right,
-      top_right: mapArray[i - (cols + 2)].bottom_right,
-      bottom_left: mapArray[i - 1].bottom_right,
-      bottom_right: btm_rght
-    };        
+    
+  const getParams = (i: any) => {        
+    const outerVals = { 	
+		top: mapArray[i - (cols + 2)].bottom,
+      	bottom: mapArray[i + (cols + 2)].top,
+      	left: mapArray[i - 1].right,
+      	right: mapArray[i + 1].left,
+	}
     return outerVals;
   }
       
   // assign random items to remaining grid
 
-  for (i=0; i< mapArray.length; i++) {
+  for (let i=0; i< mapArray.length; i++) {
     if (mapArray[i].type != 'solid') {
 
       tempArray = []; //clear array
       const isAvailableArray = [];
-        for (j=0; j< geomorphs.length; j++) {
+        for (let j=0; j< geomorphs.length; j++) {
           isAvailableArray[j] = true;
         }
       const itemParams = getParams(i);
 
-      for (j=0; j< geomorphs.length; j++) {
-        //if (itemParams.top != "any") {
+      for (let j=0; j< geomorphs.length; j++) {
+
         if (itemParams.top != geomorphs[j].top ) {
               isAvailableArray[j] = false;
         }
-        //}
-        //if (itemParams.left != "any") {
+
         if (itemParams.left != geomorphs[j].left ) {
               isAvailableArray[j] = false;
         }
-        //}
-        //if (itemParams.top_left != "any") {
-        if (itemParams.top_left != geomorphs[j].top_left ) {
-              isAvailableArray[j] = false;
-        }
-        //}
-        //if (itemParams.top_right != "any") {
-        if (itemParams.top_right != geomorphs[j].top_right ) {
-              isAvailableArray[j] = false;
-        }
-        //}
-        
-        //if (itemParams.bottom_left != "any") {
-        if (itemParams.bottom_left != geomorphs[j].bottom_left ) {
-              isAvailableArray[j] = false;
-        }
-        //}	
+
+
         if (itemParams.right != "any") {
           if (itemParams.right != geomorphs[j].right ) {
                 isAvailableArray[j] = false;
@@ -714,14 +687,9 @@ export const getGeomorphMap = () => {
           }
         }
         
-        if (itemParams.bottom_right != "any") {
-          if (itemParams.bottom_right != geomorphs[j].bottom_right ) {
-                isAvailableArray[j] = false;
-          }
-        } 
       }
 
-      for (j=0; j< geomorphs.length; j++) {
+      for (let j=0; j< geomorphs.length; j++) {
         if (isAvailableArray[j] == true) {
           tempArray[tempArray.length] = geomorphs[j];
         } 
@@ -739,13 +707,9 @@ export const getGeomorphMap = () => {
     }
   }
   
-  // display all imgs assigned to mapArray
-  // $('#canvas').css( 'height', mapH );
-  // $('#canvas').css( 'width', mapW );
-  let currentImg;
   for (let i=0; i< mapArray.length; i++) {
-    currentImg = $('<img />').attr('src', mapArray[i].src).load(function(){ });
-    const alt = " " + i;
+    // currentImg = $('<img />').attr('src', mapArray[i].src).load(function(){ });
+    let alt = " " + i;
       alt += " | top: " + mapArray[i].top;
       alt += " | left: " + mapArray[i].left;
       alt += " | right: " + mapArray[i].right;
@@ -755,8 +719,6 @@ export const getGeomorphMap = () => {
       alt += " | bottom_left: " + mapArray[i].bottom_left;
       alt += " | bottom_right: " + mapArray[i].bottom_right;
       
-    // $(currentImg).attr('title', alt);
-    // $('#canvas').append( currentImg);
   }
 
 }
