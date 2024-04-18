@@ -56,11 +56,13 @@ export const getGrid = (columns: number, rows: number): GridItem[] => {
       return t && r && b && l
     })
     const geomorph = available[ getRandom(available.length -1) ]
+    console.log('available.length', available.length)
+    console.log('geomorph', geomorph)
 
 		let item: GridItem = { 
 			column, 
 			row, 
-			edges,
+			edges: geomorph.edges,
       geomorph
 		}
 
