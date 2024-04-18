@@ -1,50 +1,36 @@
-import { useMemo, useEffect } from 'react';
-import { useRecoilValue, useRecoilState } from "recoil";
-import { BaseListState, BaseTypeState, BaseAdjState, BaseCountState, BaseOutputState, SyntaxMap } from "../state/recoil_state";
-import { getSyntaxList } from '../legacy/functions'
-import { ListItem } from "./ListItem";
+import { useMemo, useState } from 'react';
+import { getGrid } from '../legacy/geomorphs';
+import { GridItem } from '../model/Geomorph';
 
 export type SelectProps = {
   name: string
 }
 
+export type MapItemProps = {
+  gridItem: GridItem
+}
+
+export const MapItem = ({gridItem: { geomorph, row, column }}: MapItemProps) => {
+  return <img src={geomorph.src} style={{gridRow: row, gridColumn: column}} />
+}
 
 export const GeomorphGenerator = ({name}: SelectProps) => {
-  const List = useRecoilValue(BaseListState);
-  const Type = useRecoilValue(BaseTypeState);
-  const Adj = useRecoilValue(BaseAdjState);
-  const Count = useRecoilValue(BaseCountState);
-  const [Output, setOutput] = useRecoilState(BaseOutputState)
-  
-  // const syntaxList: string[] =  getSyntaxList(Count, Type, Adj)
-  const syntaxMemo: SyntaxMap[] = useMemo(
-    () => {
-      const syntaxList: string[] =  getSyntaxList(Count, Type, Adj)
-      return syntaxList.map((n,i) => {
-        return {
-          name: n,
-          key: i,
-          checked: false
-        }
-      })
-    },
-    [Count, Type, Adj]
-  );
+  const [rows, setRows] = useState(5)
+  const [columns, setColumns] = useState(5)
 
-  useEffect(() => {
-    setOutput(syntaxMemo)
-  }, [syntaxMemo]);
+  const gridMemo: GridItem[] = useMemo(
+    () => getGrid(columns, rows),
+    [rows, columns]
+  );
 
   return (
     <div>
       <h3>{`Geomorphs: ${name}`}</h3>
-      <ol>
-        {Output.map(
-          (i:SyntaxMap) => <ListItem 
-            key={i.key} 
-            item={i} />
-        )}
-      </ol>
+        <div style={{ display: 'grid' }}>
+          {gridMemo.map(
+            (g) => <MapItem gridItem={g} />
+          )}
+        </div>
     </div>
   )
 }

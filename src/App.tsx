@@ -10,11 +10,10 @@ function App() {
   return (
       <RecoilRoot>
         <Switch>
-      <Route path="/" component={Base} />
-      <Route path="/geomorph" component={Geomorph} />
-
-      <Route>404: No such page!</Route>
-    </Switch>
+          <Route path="/" component={Base} />
+          <Route path="/geomorph" component={Geomorph} />
+          <Route>404: No such page!</Route>
+        </Switch>
       </RecoilRoot>
   )
 }

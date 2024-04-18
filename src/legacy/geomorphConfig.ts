@@ -102,88 +102,88 @@ export const geomorphs: Geomorph[] = [
 
 
 
-  {	type: "",
-    src: "./png/24.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/25.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/26.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/27.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/28.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/29.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/30.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/31.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/32.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/33.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/34.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/35.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/36.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/37.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/38.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/39.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/40.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/41.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/42.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/43.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  },
-  {	type: "",
-    src: "./png/44.png",
-    edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
-  }
+  // {	type: "",
+  //   src: "./png/24.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/25.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/26.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/27.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/28.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/29.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/30.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/31.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/32.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/33.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/34.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/35.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/36.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/37.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/38.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/39.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/40.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/41.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/42.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/43.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // },
+  // {	type: "",
+  //   src: "./png/44.png",
+  //   edges: {top: Edge.Open, right: Edge.Open,  bottom: Edge.Open, left: Edge.Open}
+  // }
 ];

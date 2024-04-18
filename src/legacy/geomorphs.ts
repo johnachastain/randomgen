@@ -1,17 +1,18 @@
 import { GridItem, Edge, Edges, Geomorph } from "../model/Geomorph";
+import { geomorphs } from './geomorphConfig'
 
 const  getRandom = (n: number) => {
 	return Math.floor(Math.random()*n);
 }
 
-const geomorphs: any = []
+// const geomorphs: any = []
 
 export const getEdges = (
   array: GridItem[], column: number, row: number, columns: number, rows: number
 ) => {  
-  const above = array.find(
+  const above: GridItem | undefined = array.find(
     (i: any) =>  i.row === row - 1 && i.column === column)
-  const prev = array.find(
+  const prev: GridItem | undefined = array.find(
     (i: any) =>  i.column === column - 1 && i.row === row)
 
   // const below = array.find(
@@ -19,10 +20,10 @@ export const getEdges = (
   // const next = array.find(
   //   (i: any) =>  i.column === column + 1 && i.row === row)
 
-  const top = row === 1 ? "closed" : above?.geomorph.edges.bottom
+  const top = row === 1 ? "closed" : above?.geomorph.edges?.bottom
   const right = column === columns ? "closed" : undefined
   const bottom = row === rows ? "closed" : undefined
-  const left = column === 1 ? "closed" : prev?.geomorph.edges.right
+  const left = column === 1 ? "closed" : prev?.geomorph.edges?.right
 
   return { top, right, bottom, left }
 }
@@ -32,7 +33,7 @@ export const getGrid = (columns: number, rows: number): GridItem[] => {
 	let row = 0
 	let column = 0
 	let grid: GridItem[] = []
-	for (let i=1; i< maxNum; i++) {
+	for (let i=1; i<= maxNum; i++) {
 		const modulo = i % columns
 		if (modulo === 1) {
 			row++
@@ -49,7 +50,7 @@ export const getGrid = (columns: number, rows: number): GridItem[] => {
       const l = edges.left ? g.edges.left === edges.left : true
       return t && r && b && l
     })
-    const geomorph = getRandom(available.length)
+    const geomorph = available[ getRandom(available.length) ]
 
 		let item: GridItem = { 
 			column, 
@@ -131,23 +132,23 @@ export const getGeomorphMap = () => {
 
       for (let j=0; j< geomorphs.length; j++) {
 
-        if (itemParams.top != geomorphs[j].top ) {
+        if (itemParams.top != geomorphs[j].edges.top ) {
               isAvailableArray[j] = false;
         }
 
-        if (itemParams.left != geomorphs[j].left ) {
+        if (itemParams.left != geomorphs[j].edges.left ) {
               isAvailableArray[j] = false;
         }
 
 
         if (itemParams.right != "any") {
-          if (itemParams.right != geomorphs[j].right ) {
+          if (itemParams.right != geomorphs[j].edges.right ) {
                 isAvailableArray[j] = false;
           }
         }
         
         if (itemParams.bottom != "any") {
-          if (itemParams.bottom != geomorphs[j].bottom ) {
+          if (itemParams.bottom != geomorphs[j].edges.bottom ) {
                 isAvailableArray[j] = false;
           }
         }
