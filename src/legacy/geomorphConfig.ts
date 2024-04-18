@@ -1,21 +1,4 @@
-export enum Edge {
-  Closed = "closed",
-  Open = "open",
-  Connect = "connect"
-}
-
-export type Edges = {
-  top: Edge,
-  right: Edge,
-  bottom: Edge,
-  left: Edge
-}
-
-export type Geomorph = {
-  type: string,
-  src: string,
-  edges: Edges
-}
+import { Edge, Edges, Geomorph } from "../model/Geomorph";
 
 export const geomorphs: Geomorph[] = [
   {	type: "solid",

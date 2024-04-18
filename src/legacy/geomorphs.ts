@@ -1,569 +1,30 @@
+import { GridItem, Edge, Edges, Geomorph } from "../model/Geomorph";
+
 const  getRandom = (n: number) => {
 	return Math.floor(Math.random()*n);
 }
 
-export const geomorphs = [
-{	type: "solid",
-	src: "images/00.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "open",
-	src: "images/01.gif",
-	top: "open",
-	right: "open",
-	bottom: "open",
-	left: "open",
-	top_left: "open",
-	top_right: "open",
-	bottom_left: "open",
-	bottom_right: "open",
-	nodes: [ 	{	x: 100, y: 100, prop: "normal" },
-				{	x: 200, y: 150, prop: "trap"	}	]
-},
-{	type: "",
-	src: "images/02.gif",
-	top: "connect",
-	right: "closed",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "open",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/03.gif",
-	top: "closed",
-	right: "connect",
-	bottom: "connect",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/04.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "connect",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/05.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "connect",
-	left: "connect",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/06.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "open",
-	left: "open",
-	top_left: "open",
-	top_right: "closed",
-	bottom_left: "open",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/07.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "closed",
-	left: "connect",
-	top_left: "closed",
-	top_right: "open",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/08.gif",
-	top: "closed",
-	right: "connect",
-	bottom: "closed",
-	left: "closed",
-	top_left: "open",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/09.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "connect",
-	left: "closed",
-	top_left: "closed",
-	top_right: "open",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/10.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "connect",
-	left: "closed",
-	top_left: "open",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/11.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "closed",
-	left: "connect",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/12.gif",
-	top: "connect",
-	right: "closed",
-	bottom: "connect",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/13.gif",
-	top: "closed",
-	right: "connect",
-	bottom: "closed",
-	left: "connect",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/14.gif",
-	top: "closed",
-	right: "connect",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/15.gif",
-	top: "connect",
-	right: "connect",
-	bottom: "connect",
-	left: "connect",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/16.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "closed",
-	left: "connect",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/17.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/18.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "open",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "open",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/19.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "open",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/20.gif",
-	top: "connect",
-	right: "closed",
-	bottom: "closed",
-	left: "connect",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/21.gif",
-	top: "connect",
-	right: "closed",
-	bottom: "open",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "open",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/22.gif",
-	top: "connect",
-	right: "connect",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "open",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/23.gif",
-	top: "closed",
-	right: "connect",
-	bottom: "connect",
-	left: "connect",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/24.gif",
-	top: "connect",
-	right: "connect",
-	bottom: "closed",
-	left: "connect",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/25.gif",
-	top: "connect",
-	right: "connect",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/26.gif",
-	top: "connect",
-	right: "closed",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/27.gif",
-	top: "connect",
-	right: "closed",
-	bottom: "closed",
-	left: "connect",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/28.gif",
-	top: "closed",
-	right: "open",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "open",
-	bottom_left: "closed",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/29.gif",
-	top: "connect",
-	right: "closed",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/30.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "closed",
-	left: "open",
-	top_left: "open",
-	top_right: "closed",
-	bottom_left: "open",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/31.gif",
-	top: "closed",
-	right: "open",
-	bottom: "closed",
-	left: "connect",
-	top_left: "closed",
-	top_right: "open",
-	bottom_left: "closed",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/32.gif",
-	top: "closed",
-	right: "connect",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "open",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/33.gif",
-	top: "closed",
-	right: "connect",
-	bottom: "closed",
-	left: "open",
-	top_left: "open",
-	top_right: "closed",
-	bottom_left: "open",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/34.gif",
-	top: "connect",
-	right: "connect",
-	bottom: "connect",
-	left: "closed",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/35.gif",
-	top: "connect",
-	right: "closed",
-	bottom: "connect",
-	left: "connect",
-	top_left: "closed",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/36.gif",
-	top: "open",
-	right: "closed",
-	bottom: "closed",
-	left: "open",
-	top_left: "open",
-	top_right: "open",
-	bottom_left: "open",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/37.gif",
-	top: "open",
-	right: "open",
-	bottom: "closed",
-	left: "closed",
-	top_left: "open",
-	top_right: "open",
-	bottom_left: "closed",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/38.gif",
-	top: "closed",
-	right: "open",
-	bottom: "open",
-	left: "closed",
-	top_left: "closed",
-	top_right: "open",
-	bottom_left: "open",
-	bottom_right: "open",
-	nodes: []
-},
-{	type: "",
-	src: "images/39.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "closed",
-	left: "closed",
-	top_left: "closed",
-	top_right: "open",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/40.gif",
-	top: "open",
-	right: "closed",
-	bottom: "closed",
-	left: "closed",
-	top_left: "open",
-	top_right: "open",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/41.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "closed",
-	left: "closed",
-	top_left: "open",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/42.gif",
-	top: "closed",
-	right: "closed",
-	bottom: "connect",
-	left: "connect",
-	top_left: "closed",
-	top_right: "open",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/43.gif",
-	top: "open",
-	right: "closed",
-	bottom: "connect",
-	left: "closed",
-	top_left: "open",
-	top_right: "open",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-},
-{	type: "",
-	src: "images/44.gif",
-	top: "closed",
-	right: "connect",
-	bottom: "connect",
-	left: "closed",
-	top_left: "open",
-	top_right: "closed",
-	bottom_left: "closed",
-	bottom_right: "closed",
-	nodes: []
-}
+const geomorphs: any = []
 
-];
+export const getEdges = (
+  array: any[], column: number, row: number, columns: number, rows: number
+) => {  
+  const above = array.find(
+    (i: any) =>  i.row === row - 1 && i.column === column)
+  const prev = array.find(
+    (i: any) =>  i.column === column - 1 && i.row === row)
 
-export const error = {	type: "",
-	src: "images/error.gif",
-	top: "any",
-	right: "any",
-	bottom: "any",
-	left: "any",
-	top_left: "any",
-	top_right: "any",
-	bottom_left: "any",
-	bottom_right: "any",
-	nodes: []
-}
-export type GridItem = {
-	column: number,
-	row: number,
-	geomorph: any,
-	type: string
+  // const below = array.find(
+  //   (i: any) =>  i.row === row + 1 && i.column === column)
+  // const next = array.find(
+  //   (i: any) =>  i.column === column + 1 && i.row === row)
+
+  const top = row === 1 ? "closed" : above.bottom
+  const right = column === columns ? "closed" : undefined
+  const bottom = row === rows ? "closed" : undefined
+  const left = column === 1 ? "closed" : prev.right
+
+  return { top, right, bottom, left }
 }
 
 export const getGrid = (columns: number, rows: number): GridItem[] => {
@@ -579,18 +40,22 @@ export const getGrid = (columns: number, rows: number): GridItem[] => {
 		} else {
 			column++
 		}
-		const edges = {
-			top: row === 1 ? "closed" : "any",
-			right: column === columns ? "closed" : "any",
-			bottom: row === rows ? "closed" : "any",
-			left: column === 1 ? "closed" :"any"
-		}
+		const edges = getEdges(grid, column, row, columns, rows )
+
+    const available = geomorphs.filter((g: any) => {
+      const t = edges.top ? g.edges.top === edges.top : true
+      const r = edges.right ? g.edges.right === edges.right : true
+      const b = edges.bottom ? g.edges.bottom === edges.bottom : true
+      const l = edges.left ? g.edges.left === edges.left : true
+      return t && r && b && l
+    })
+    const geomorph = getRandom(available.length)
 
 		let item: GridItem = { 
 			column, 
 			row, 
-			geomorph: { edges }, 
-			type: ''
+			edges,
+      geomorph
 		}
 
 		grid = [ ...grid, item]
@@ -611,7 +76,7 @@ export const getGeomorphMap = () => {
   const mapH = gridH * (rows +2);
   // total number of geomorphs
   const maxNum = (cols + 2) * (rows + 2);
-  let mapArray =[];
+  let mapArray: any[] = [];
   let tempArray = [];
 
 
@@ -641,7 +106,7 @@ export const getGeomorphMap = () => {
       }
     }
   }
-    
+
   const getParams = (i: any) => {        
     const outerVals = { 	
 		top: mapArray[i - (cols + 2)].bottom,
@@ -702,7 +167,7 @@ export const getGeomorphMap = () => {
 
       } else {
       // catch errors if there are no items left in tempArray
-        mapArray[i] = error;
+        // mapArray[i] = error;
       }
     }
   }
