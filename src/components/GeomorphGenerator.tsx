@@ -28,7 +28,7 @@ export const GeomorphGenerator = ({name}: SelectProps) => {
       <h3>{`Geomorphs: ${name}`}</h3>
         <div style={{ display: 'grid' }}>
           {gridMemo.map(
-            (g) => <MapItem gridItem={g} />
+            (g, i) => <MapItem key={i} gridItem={g} />
           )}
         </div>
     </div>
