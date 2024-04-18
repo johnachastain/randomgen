@@ -7,7 +7,7 @@ const  getRandom = (n: number) => {
 const geomorphs: any = []
 
 export const getEdges = (
-  array: any[], column: number, row: number, columns: number, rows: number
+  array: GridItem[], column: number, row: number, columns: number, rows: number
 ) => {  
   const above = array.find(
     (i: any) =>  i.row === row - 1 && i.column === column)
@@ -19,10 +19,10 @@ export const getEdges = (
   // const next = array.find(
   //   (i: any) =>  i.column === column + 1 && i.row === row)
 
-  const top = row === 1 ? "closed" : above.bottom
+  const top = row === 1 ? "closed" : above?.geomorph.edges.bottom
   const right = column === columns ? "closed" : undefined
   const bottom = row === rows ? "closed" : undefined
-  const left = column === 1 ? "closed" : prev.right
+  const left = column === 1 ? "closed" : prev?.geomorph.edges.right
 
   return { top, right, bottom, left }
 }
