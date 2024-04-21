@@ -1,8 +1,8 @@
-import * as baseLists from './base_lists'
-import * as deityLists from './deity_lists'
-import * as dungeonLists from './dungeon_rooms'
-import * as miscLists from './misc_lists'
-import * as adjLists from './adjective_lists'
+import * as baseLists from '../lists/base_lists'
+import * as deityLists from '../lists/deity_lists'
+import * as dungeonLists from '../lists/dungeon_rooms'
+import * as miscLists from '../lists/misc_lists'
+import * as adjLists from '../lists/adjective_lists'
 
 const allLists = { ...baseLists, ...deityLists, ...dungeonLists, ...miscLists, ...adjLists }
 

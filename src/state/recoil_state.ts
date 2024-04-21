@@ -1,10 +1,13 @@
 import { atom, selector } from "recoil";
+import { GridItem } from "../model/Geomorph";
 
 export type SyntaxMap = {
   name: string,
   key: number,
   checked: boolean
 }
+
+//  lists
 
 const BaseListState = atom({
   key: "BaseListState",
@@ -30,6 +33,23 @@ const BaseOutputState = atom({
   key: "BaseOutputState",
   default: [] as SyntaxMap[]
 });
+
+//  maps 
+
+const MapRowsState = atom({
+  key: "MapRowsState",
+  default: 5
+});
+
+const MapColumnsState = atom({
+  key: "MapColumnsState",
+  default: 5
+});
+
+const MapGridState = atom({
+  key: "MapGridState",
+  default: [] as GridItem[]
+})
 
 
 
@@ -79,6 +99,10 @@ export {
   BaseAdjState,
   BaseCountState,
   BaseOutputState,
+  
+  MapColumnsState,
+  MapRowsState,
+  MapGridState
 
 
   // filteredBaseListState,

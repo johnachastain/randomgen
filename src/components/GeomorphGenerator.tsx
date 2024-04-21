@@ -1,34 +1,46 @@
-import { useMemo, useState } from 'react';
-import { getGrid } from '../legacy/geomorphs';
+import { useMemo, useState, useCallback, useEffect } from 'react';
+import { getNewGrid } from '../functions/geomorphs';
 import { GridItem } from '../model/Geomorph';
+import { MapItem } from './MapItem';
+import { useRecoilValue, useRecoilState } from "recoil";
+import { MapGridState, MapRowsState, MapColumnsState } from "../state/recoil_state";
+
 
 export type SelectProps = {
   name: string
 }
 
-export type MapItemProps = {
-  gridItem: GridItem
-}
-
-export const MapItem = ({gridItem: { geomorph, row, column }}: MapItemProps) => {
-  return <img src={geomorph.src} style={{gridRow: row, gridColumn: column}} />
-}
-
 export const GeomorphGenerator = ({name}: SelectProps) => {
-  const [rows, setRows] = useState(5)
-  const [columns, setColumns] = useState(5)
+  const [mapGrid, setMapGrid] = useRecoilState(MapGridState)
+  const [rows, setRows] = useRecoilState(MapRowsState)
+  const [columns, setColumns] = useRecoilState(MapColumnsState)
+  
+  const [editModeItem, setEditModeItem] =useState<number>()
 
   const gridMemo: GridItem[] = useMemo(
-    () => getGrid(columns, rows),
+    () => getNewGrid(columns, rows),
     [rows, columns]
   );
+
+  useEffect(() => {
+    setMapGrid(gridMemo)
+  }, [gridMemo]);
+
+  const onSetEditModeItem = useCallback((i: number) => {
+    setEditModeItem(i !== editModeItem ? i : undefined)
+  }, [editModeItem, setEditModeItem]);
 
   return (
     <div>
       <h3>{`Geomorphs: ${name}`}</h3>
         <div style={{ display: 'grid' }}>
-          {gridMemo.map(
-            (g, i) => <MapItem key={i} gridItem={g} />
+          {mapGrid.map(
+            (g, i) => (
+            <MapItem
+              key={i} 
+              gridItem={g}
+              onSetEditModeItem={() => onSetEditModeItem(i)}
+              visible={editModeItem === i} />)
           )}
         </div>
     </div>
