@@ -38,12 +38,12 @@ const BaseOutputState = atom({
 
 const MapRowsState = atom({
   key: "MapRowsState",
-  default: 5
+  default: 3
 });
 
 const MapColumnsState = atom({
   key: "MapColumnsState",
-  default: 5
+  default: 3
 });
 
 const MapGridState = atom({

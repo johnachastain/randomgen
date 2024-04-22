@@ -1,8 +1,8 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { GridItem } from '../model/Geomorph';
 import {createUseStyles} from 'react-jss'
-import { Edge, Edges, Geomorph } from "../model/Geomorph";
-import { getNeighbors, setGridItem, setItemInGrid, updateNeighbors, updateSelf } from '../functions/geomorphs';
+import { Edge, Edges } from "../model/Geomorph";
+import { updateSelf } from '../functions/geomorphs';
 import { MapGridState, MapRowsState, MapColumnsState } from "../state/recoil_state";
 import { useRecoilValue, useRecoilState } from "recoil";
 
@@ -94,9 +94,6 @@ export const MapItemOverlay = (
   const onSave = () => {
     const newEdges: Edges =  convertToEdges(itmState)
     let updatedGrid = updateSelf(grid, gridItem, columns, rows, newEdges)
-    // const test= updateNeighbors(grid, gridItem, columns, rows)
-
-
     setGrid(updatedGrid)
     onClose()
   }
