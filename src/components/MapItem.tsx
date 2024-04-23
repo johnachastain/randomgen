@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { GridItem } from '../model/Geomorph';
 import {createUseStyles} from 'react-jss'
 import { Edge, Edges } from "../model/Geomorph";
@@ -90,6 +90,8 @@ export const MapItemOverlay = (
   const setAll = ({ all }: any) => setItmState({
     top: all, right: all, bottom: all, left: all, all
   })
+
+  useEffect(() => { !visible && setItmState(convertFromEdges(edges)) }, [edges])
 
   const onSave = () => {
     const newEdges: Edges =  convertToEdges(itmState)
