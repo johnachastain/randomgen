@@ -4,6 +4,17 @@ export enum Edge {
   Connect = "connect"
 }
 
+export enum GeomorphTag {
+  Entrance = "entrance",
+  Exit = "exit",
+  Cave = "cave",
+  Dungeon = "dungeon",
+  Crypt = "crypt",
+  Mine = "mine",
+  Temple = "temple",
+  Solid = "solid"
+}
+
 export type Edges = {
   top?: Edge,
   right?: Edge,
@@ -13,7 +24,7 @@ export type Edges = {
 
 export type Geomorph = {
   key: string,
-  type: string,
+  type?: GeomorphTag[],
   src: string,
   edges: Edges
 }
