@@ -65,7 +65,15 @@ export const convertToEdges = (i: any): Edges => {
   }
 }
 
-export const convertFromEdges = (edges: Edges): any => {
+export type ItemState = {
+  top: any,
+  right: any,
+  bottom: any,
+  left: any,
+  all: any,
+}
+
+export const convertFromEdges = (edges: Edges): ItemState => {
   return {
     top: edges.top !== Edge.Closed,
     right: edges.right !== Edge.Closed,
@@ -73,6 +81,17 @@ export const convertFromEdges = (edges: Edges): any => {
     left: edges.left !== Edge.Closed,
     all: false
   }
+}
+
+export const OverlayCheckboxList = (
+  {itmState, onChange }: {itmState: ItemState, onChange: any}
+) => {
+  let key: keyof ItemState;
+  let output: any = []
+  for (key in itmState) {
+    output = [ ...output, <OverlayCheckbox name={key} checked={itmState[key]} onChange={onChange} /> ]
+  }
+  return (<>{ output }</>)
 }
 
 export const MapItemOverlay = (
@@ -91,6 +110,15 @@ export const MapItemOverlay = (
     top: all, right: all, bottom: all, left: all, all
   })
 
+  const onChangeHandler = (edge: any) => {
+    console.log('onChangeHandler edge', edge)
+    // if (key === 'all') {
+    //   setItmState({ top: value, right: value, bottom: value, left: value, all: value })
+    // } else {
+    //   setItmState({ ...itmState, ...{ [key]: value} })
+    // }
+  }
+
   useEffect(() => { !visible && setItmState(convertFromEdges(edges)) }, [edges])
 
   const onSave = () => {
@@ -103,11 +131,12 @@ export const MapItemOverlay = (
   return (
     <>
     {visible ? <div className={styles.mapItemOverlay}>
-      <OverlayCheckbox name='all' checked={itmState.all} onChange={setAll} />
+      <OverlayCheckboxList itmState={itmState} onChange={onChangeHandler} />
+      {/* <OverlayCheckbox name='all' checked={itmState.all} onChange={setAll} />
       <OverlayCheckbox name='top' checked={itmState.top} onChange={setAny} />
       <OverlayCheckbox name='right' checked={itmState.right} onChange={setAny} />
       <OverlayCheckbox name='bottom' checked={itmState.bottom} onChange={setAny} />
-      <OverlayCheckbox name='left' checked={itmState.left} onChange={setAny} />    
+      <OverlayCheckbox name='left' checked={itmState.left} onChange={setAny} />     */}
       <button onClick={onClose}>Close</button>
       <button onClick={onSave}>Save</button>
     </div> : null}
