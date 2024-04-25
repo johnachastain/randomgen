@@ -12,7 +12,9 @@ export enum GeomorphTag {
   Crypt = "crypt",
   Mine = "mine",
   Temple = "temple",
-  Solid = "solid"
+  Solid = "solid",
+  Room = "room",
+  Corridor = "corridor"
 }
 
 export type Edges = {
