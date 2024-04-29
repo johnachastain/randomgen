@@ -1,0 +1,814 @@
+personalities 
+ 1 Always bored
+ 51 Klutz
+ 2 Anxious
+ 52 Know-it-all
+ 3 Archetype (p.53)
+ 53 Knows everybody
+ 4 Arrogant
+ 54 Logical
+ 5 Blunt
+ 55 Love-struck
+ 6 Bossy
+ 56 Manic
+ 7 Braggart
+ 57 Melancholic
+ 8 Bully
+ 58 Misanthrop
+ 9 Can-do attitude
+ 59 Miserly
+ 10 Chatterbox
+ 60 Morbid
+ 11 Chipper
+ 61 Naive
+ 12 Chummy
+ 62 Narcissist
+ 13 Competitive
+ 63 Nerd
+ 14 Compulsive liar
+ 64 Never gives up
+ 15 Condescending
+ 65 Obsessive
+ 16 Conniving
+ 66 Over-cautious
+ 17 Courageous
+ 67 Paranoid
+ 18 Cowardly
+ 68 Patriotic
+ 19 Creep
+ 69 Pedantic
+ 20 Cryptic
+ 70 Perfect manners
+ 21 Debonair
+ 71 Perfectionist
+ 22 Decadent
+ 72 Pious
+ 23 Ditz
+ 73 Power-hungry
+ 24 Dogmatic
+ 74 Prejudiced
+ 25 Droll
+ 75 Prickly
+ 26 Epicurean
+ 76 Proselytizer
+ 27 Fanatic
+ 77 Righteous
+ 28 Femme fatale
+ 78 Rigid discipline
+ 29 Fiercely loyal
+ 79 Ruthless
+ 30 Flamboyant
+ 80 Sadist
+ 31 Flirt
+ 81 Sarcastic
+ 32 Folksy
+ 82 Self-pitying
+ 33 Formal
+ 83 Serene
+ 34 Generous
+ 84 Skeptical
+ 35 Germaphobe
+ 85 Slacker
+ 36 Glutton
+ 86 Slovenly
+ 37 Gossip
+ 87 Snitch
+ 38 Gullible
+ 88 Snob
+ 39 Hard-boiled
+ 89 Sophist
+ 40 Holds a grudge
+ 90 Spacey
+ 41 Honorable
+ 91 Superstitious
+ 42 Hothead
+ 92 Terrible memory
+ 43 Humorless
+ 93 Thick
+ 44 Idealistic
+ 94 Toady
+ 45 Imperious
+ 95 Totally unreliable
+ 46 Impulsive
+ 96 Truthful
+ 47 Insecure
+ 97 Uptight
+ 48 Intense
+ 98 Whiner
+ 49 Jealous
+ 99 Windbag
+ 50 Jerk 
+ 00 Wisecracking 
+
+npc details 
+ 1 Acid scar
+ 51 Missing finger
+ 2 Aquiline face
+ 52 Missing foot
+ 3 Arrow scar
+ 53 Missing hand
+ 4 Athletic
+ 54 Missing leg
+ 5 Bad eyesight
+ 55 Missing teeth
+ 6 Bald
+ 56 Mutation (p.30)
+ 7 Balding
+ 57 Mute
+ 8 Beautiful
+ 58 No eyebrows
+ 9 Birthmark
+ 59 Noose scar
+ 10 Bite mark
+ 60 Oily
+ 11 Blade scar
+ 61 Pageboy hair
+ 12 Blind
+ 62 Perfect posture
+ 13 Blunt face
+ 63 Perfumed
+ 14 Bony
+ 64 Piercings
+ 15 Braided hair
+ 65 Pointed face
+ 16 Brawny
+ 66 Ponytail
+ 17 Bristly hair
+ 67 Pox scars
+ 18 Broken nose
+ 68 Ripped
+ 19 Burn scar
+ 69 Ritual scar
+ 20 Bushy brows
+ 70 Rosy face
+ 21 Childish face
+ 71 Rotten teeth
+ 22 Chiseled face
+ 72 Round face
+ 23 Claw scar
+ 73 Rugged
+ 24 Coiffed
+ 74 Scrawny
+ 25 Corpulent
+ 75 Shaggy hair
+ 26 Craggy face
+ 76 Sharp teeth
+ 27 Crooked teeth
+ 77 Shriveled
+ 28 Cropped hair
+ 78 Silky hair
+ 29 Curly hair
+ 79 Sinewy
+ 30 Deaf
+ 80 Slender
+ 31 Delicate face
+ 81 Slicked hair
+ 32 Dreadlocks
+ 82 Slouched
+ 33 Filthy hair
+ 83 Smelly
+ 34 Flabby
+ 84 Square face
+ 35 Flat face
+ 85 Squint
+ 36 Frail
+ 86 Statuesque
+ 37 Freckles
+ 87 Stout
+ 38 Furrowed face
+ 88 Sweaty
+ 39 Gaunt
+ 89 Tattooed
+ 40 Gold tooth
+ 90 Tiny
+ 41 Hard of hearing
+ 91 Topknot
+ 42 Hulking
+ 92 Towering
+ 43 Lanky
+ 93 Twisted lip
+ 44 Lantern jaw
+ 94 Very long hair
+ 45 Limp
+ 95 Warts
+ 46 Lumpy face
+ 96 Wavy hair
+ 47 Luxurious hair
+ 97 Weathered face
+ 48 Missing arm
+ 98 Willowy
+ 49 Missing ear
+ 99 Wiry
+ 50 Missing eye 
+ 00 Wispy hair
+ 57 
+
+professions 
+ 1 Abbot
+ 51 Jailer
+ 2 Acolyte
+ 52 Jester
+ 3 Acrobat
+ 53 Jeweler
+ 4 Adviser
+ 54 Juggler
+ 5 Alchemist
+ 55 Knight
+ 6 Apothecary
+ 56 Lady
+ 7 Archer
+ 57 Locksmith
+ 8 Archetype (p.53)
+ 58 Magician
+ 9 Artisan
+ 59 Mariner
+ 10 Artist
+ 60 Merchant
+ 11 Baker
+ 61 Minstrel
+ 12 Beggar
+ 62 Monarch
+ 13 Blacksmith
+ 63 Moneylender
+ 14 Bookbinder
+ 64 Monk
+ 15 Brewer
+ 65 Musician
+ 16 Burglar
+ 66 Orphan
+ 17 Circus performer
+ 67 Outlander
+ 18 Carpenter
+ 68 Outlaw
+ 19 Composer
+ 69 Page
+ 20 Cook
+ 70 Peddler
+ 21 Count
+ 71 Pilgrim
+ 22 Courtier
+ 72 Poacher
+ 23 Cutpurse
+ 73 Poisoner
+ 24 Doctor
+ 74 Priest
+ 25 Dogcatcher
+ 75 Prince
+ 26 Dramaturge
+ 76 Privateer
+ 27 Duke
+ 77 Ratcatcher
+ 28 Earl
+ 78 Scholar
+ 29 Eunuch
+ 79 Scribe
+ 30 Executioner
+ 80 Sellsword
+ 31 Falconer
+ 81 Ship’s captain
+ 32 Farmer
+ 82 Shopkeeper
+ 33 Fence
+ 83 Smuggler
+ 34 Fisherman
+ 84 Soldier
+ 35 Fishwife
+ 85 Sp.36 Fortuneteller
+ 86 Squire
+ 37 Galley slave
+ 87 Student
+ 38 Gambler
+ 88 Swindler
+ 39 Gardener
+ 89 Tailor
+ 40 General
+ 90 Tavern wench
+ 41 Gladiator
+ 91 Thespian
+ 42 Governess
+ 92 Tomb robber
+ 43 Gravedigger
+ 93 Torturer
+ 44 Horse breeder
+ 94 Trapper
+ 45 Guard
+ 95 Urchin
+ 46 Herbalist
+ 96 Vagrant
+ 47 Hermit
+ 97 Viscount
+ 48 Hunter
+ 98 Vizier
+ 49 Innkeeper
+ 99 Wigmaker
+ 50 Interpreter 
+ 00 Young lady 
+
+goals 
+ 1 Achieve holiness
+ 51 Enforce morality
+ 2 Acquire followers
+ 52 Enlightenment
+ 3 Acquire land
+ 53 Entertainment
+ 4 Acquire wealth
+ 54 Fame and glory
+ 5 Advise leader
+ 55 Find justice
+ 6 Amaze city
+ 56 Find love
+ 7 Avoid detection
+ 57 Frame faction
+ 8 Become free
+ 58 Frighten city
+ 9 Become infamous
+ 59 Frighten faction
+ 10 Become learned
+ 60 Gain respect
+ 11 Clear region
+ 61 Get revenge
+ 12 Collect artifacts
+ 62 Hear rumors
+ 13 Conquer city
+ 63 Indulge tastes
+ 14 Conquer region
+ 64 Join faction
+ 15 Control city
+ 65 Join nobility
+ 16 Control faction
+ 66 Lead faction
+ 17 Control magic
+ 67 Map wild
+ 18 Control military
+ 68 Master skill
+ 19 Control politics
+ 69 Mission (p.51)
+ 20 Control religion
+ 70 Overthrow ruler
+ 21 Control trade
+ 71 Pacify faction
+ 22 Create army
+ 72 Protect artifacts
+ 23 Create art
+ 73 Protect borders
+ 24 Create base
+ 74 Protect city
+ 25 Create city
+ 75 Protect faction
+ 26 Create disease
+ 76 Protect family
+ 27 Create dungeon
+ 77 Protect history
+ 28 Create faction
+ 78 Protect leader
+ 29 Create family
+ 79 Protect region
+ 30 Create machine
+ 80 Protect the weak
+ 31 Create monopoly
+ 81 Publish works
+ 32 Create monster
+ 82 Purge traitors
+ 33 Create portal
+ 83 Raise the dead
+ 34 Cripple faction
+ 84 Restore faction
+ 35 Cure disease
+ 85 Restore ruler
+ 36 Destroy army
+ 86 Rule city
+ 37 Destroy artifacts
+ 87 Rule realm
+ 38 Destroy city
+ 88 Rule world
+ 39 Destroy faction
+ 89 Sabotage faction
+ 40 Destroy family
+ 90 See the world
+ 41 Destroy magic
+ 91 Serve a deity
+ 42 Destroy nobility
+ 92 Serve evil
+ 43 Destroy realm
+ 93 Serve faction
+ 44 Destroy religion
+ 94 Serve leader
+ 45 Destroy world
+ 95 Serve the needy
+ 46 Discredit faction
+ 96 Share knowledge
+ 47 Distribute wealth
+ 97 Slay monsters
+ 48 End poverty
+ 98 Sow chaos
+ 49 End war
+ 99 Spread beliefs
+ 50 Enforce law 
+ 00 Survive dangers
+ 58 
+
+assets 
+ 1 Agile
+ 51 Natural leader
+ 2 Assassin leader
+ 52 Noble
+ 3 Bodyguards
+ 53 Nothing to lose
+ 4 Book expert (p.40)
+ 54 Owed favors
+ 5 Building (p.47)
+ 55 Owed money
+ 6 Building access
+ 56 Owns armory
+ 7 Card shark
+ 57 Owns army
+ 8 Charming
+ 58 Owns castle
+ 9 Contortionist
+ 59 Owns factory
+ 10 Cooks books
+ 60 Owns fleet
+ 11 Cult leader
+ 61 Owns library
+ 12 Demigod
+ 62 Owns manor
+ 13 Disciples
+ 63 Owns press
+ 14 Disguises
+ 64 Owns relics
+ 15 Dungeon access
+ 65 Owns ship
+ 16 Elite archer
+ 66 Owns stables
+ 17 Elite fighter
+ 67 Owns the guards
+ 18 Erases evidence
+ 68 Owns tower
+ 19 Excellent liar
+ 69 Owns warband
+ 20 Extremely rich
+ 70 Political leader
+ 21 Faction leader
+ 71 Potion (p.35)
+ 22 Faction member
+ 72 Potion stockpile
+ 23 Famous actor
+ 73 Power (p.65)
+ 24 Famous artist
+ 74 Powerful ex
+ 25 Famous cleric
+ 75 Powerful friend
+ 26 Famous composer
+ 76 Powerful lover
+ 27 Famous explorer
+ 77 Powerful parent
+ 28 Famous general
+ 78 Powerful spouse
+ 29 Famous poet
+ 79 Procures gear
+ 30 Fast
+ 80 Profession (p.57)
+ 31 Feared
+ 81 Religious leader
+ 32 Fence
+ 82 Respected
+ 33 Forges papers
+ 83 Saboteur
+ 34 Gorgeous
+ 84 Secret base
+ 35 Hears rumors
+ 85 Secret lab
+ 36 Heir to a fortune
+ 86 Secret weapon
+ 37 Huge family
+ 87 Sells contraband
+ 38 Impersonator
+ 88 Servants
+ 39 Instructor
+ 89 Shapeshifter
+ 40 Intimidating
+ 90 Smuggles goods
+ 41 Knows buyers
+ 91 Spell (pp.22-25)
+ 42 Knows shortcut
+ 92 Spy network
+ 43 Launders money
+ 93 Stage magician
+ 44 Local knowledge
+ 94 Stealthy
+ 45 Loremaster
+ 95 Strong
+ 46 Loyal henchmen
+ 96 Structure (p.11)
+ 47 Master mage
+ 97 Trained animals
+ 48 Mechanical expert
+ 98 Trained monsters
+ 49 Military leader
+ 99 Unbreakable
+ 50 Multilingual 
+ 00 War hero 
+
+liabilities 
+ 1 Alcoholic
+ 51 Many exes
+ 2 Arthritis
+ 52 Migraines
+ 3 Bad leader
+ 53 Military enemy
+ 4 Bad liar
+ 54 Mind-controlled
+ 5 Bankrup.55 Misinformed
+ 6 Beholden
+ 56 Money trail
+ 7 Blackmailed
+ 57 Monster trait (p.65)
+ 8 Blind
+ 58 Mutation (p.30)
+ 9 Cannot count
+ 59 Narcissist
+ 10 Cannot read
+ 60 Needs flattery
+ 11 Clumsy
+ 61 Needs medicine
+ 12 Condescending
+ 62 No rights
+ 13 Coward
+ 63 Non-human
+ 14 Crippled
+ 64 Obese
+ 15 Cursed
+ 65 Obnoxious
+ 16 Deaf
+ 66 OCD
+ 17 Decadent
+ 67 Outcast
+ 18 Delusion (p.30)
+ 68 Paranoid
+ 19 Disloyal followers
+ 69 Pariah
+ 20 Disobeys orders
+ 70 Party animal
+ 21 Drug addict
+ 71 Political enemy
+ 22 Evil lineage
+ 72 Poor equipment
+ 23 Exiled
+ 73 Prison record
+ 24 Faction enemy
+ 74 Reckless
+ 25 Faints
+ 75 Religious enemy
+ 26 Family enemy
+ 76 Scandalous birth
+ 27 Flirts constantly
+ 77 Scent (p.66)
+ 28 Food addict (p.49)
+ 78 Secret lover
+ 29 Fragile
+ 79 Seizures
+ 30 Gambling addict
+ 80 Senile
+ 31 Gets in fights
+ 81 Softhearted
+ 32 Glutton
+ 82 Sound (p.66)
+ 33 Greedy
+ 83 Strict routines
+ 34 Gullible
+ 84 Stupid
+ 35 Hemophilia
+ 85 Superstitious
+ 36 Hideous
+ 86 Surveilled
+ 37 Huge debts
+ 87 Suspicious
+ 38 Insurrectionist
+ 88 Too generous
+ 39 Jealous
+ 89 Transformed
+ 40 Known con artist
+ 90 Uncool
+ 41 Known murderer
+ 91 Undead
+ 42 Known thief
+ 92 Unpopular
+ 43 Known traitor
+ 93 Vampire
+ 44 Known vandal
+ 94 Very short
+ 45 Laughingstock
+ 95 Wanted
+ 46 Lazy
+ 96 War criminal
+ 47 Leaves evidence
+ 97 Weak-willed
+ 48 Loud
+ 98 Weakness (p.67)
+ 49 Lowborn
+ 99 Werewolf
+ 50 Many enemies 
+ 00 Widely despised
+
+
+mannerisms
+ 1 Anecdotes
+ 51 Narrates
+ 2 Archetype (p.53)
+ 52 Nasal
+ 3 Asides
+ 53 Ominous
+ 4 Authoritative
+ 54 Overconfident
+ 5 Booming
+ 55 Overly casual
+ 6 Breathy
+ 56 Pedantic
+ 7 Brusque
+ 57 Platitudinous
+ 8 Chatty
+ 58 Ponderous
+ 9 Cheery
+ 59 Pontificating
+ 10 Chuckles
+ 60 Precise
+ 11 Clipped
+ 61 Prissy
+ 12 Cocky
+ 62 Profane
+ 13 Condescending
+ 63 Professorial
+ 14 Conspiratorial
+ 64 Purring
+ 15 Crooning
+ 65 Quaint sayings
+ 16 Cryptic
+ 66 Quiet
+ 17 Curt
+ 67 Quivering
+ 18 Deadpan
+ 68 Quotations
+ 19 Deep voice
+ 69 Rambling
+ 20 Dramatic
+ 70 Random facts
+ 21 Drawl
+ 71 Ranting
+ 22 Droning
+ 72 Rapid-fire
+ 23 Effusive
+ 73 Rasp.24 Enunciates
+ 74 Resonant
+ 25 Flowery
+ 75 Rhyming
+ 26 Genteel
+ 76 Rhythmic
+ 27 Grave
+ 77 Robotic
+ 28 Gravelly
+ 78 Sarcastic
+ 29 Growling
+ 79 Seductive
+ 30 Halting
+ 80 Shrill
+ 31 Hiccup.81 Sing-song
+ 32 Highly formal
+ 82 Slow speech
+ 33 Histrionic
+ 83 Slurring
+ 34 Hoarse
+ 84 Sneering
+ 35 Honeyed
+ 85 Sonorous
+ 36 Hushed
+ 86 Soothing
+ 37 Hyperbolic
+ 87 Sound (p.66)
+ 38 Hypnotic
+ 88 Speechifying
+ 39 Incoherent
+ 89 Squeaky
+ 40 Insistent
+ 90 Street slang
+ 41 Interrupts
+ 91 Stutters
+ 42 Laconic
+ 92 Talks to self
+ 43 Languid
+ 93 Trails off
+ 44 Lilting
+ 94 Upspoken
+ 45 Long pauses
+ 95 Vitriolic
+ 46 Melodious
+ 96 Voice breaks
+ 47 Monosyllabic
+ 97 Warm
+ 48 Monotone
+ 98 Whispers
+ 49 Mumbles
+ 99 Wistful
+ 50 Name-drops 
+ 00 Wry 
+
+relationships 
+ 1 Acquaintance
+ 51 Kidnapper
+ 2 Admirer
+ 52 Lover
+ 3 Adviser
+ 53 Maid
+ 4 Ally
+ 54 Master
+ 5 Apprentice
+ 55 Mentor
+ 6 Assistant
+ 56 Niece or nephew
+ 7 Aunt or uncle
+ 57 Nemesis
+ 8 Believer
+ 58 Oppressor
+ 9 Beneficiary
+ 59 Paid companion
+ 10 Best friend
+ 60 Paramour
+ 11 Blackmailer
+ 61 Parent
+ 12 Bodyguard
+ 62 Patron
+ 13 Business partner
+ 63 Pen pal
+ 14 Business rival
+ 64 Political prisoner
+ 15 Buyer
+ 65 Political rival
+ 16 Captive
+ 66 Predator
+ 17 Captor
+ 67 Prey
+ 18 Champion
+ 68 Prisoner
+ 19 Child
+ 69 Protege
+ 20 Client
+ 70 Quarry
+ 21 Coach
+ 71 Right hand
+ 22 Collaborator
+ 72 Rival suitor
+ 23 Colleague
+ 73 Servant
+ 24 Competitor
+ 74 Sibling
+ 25 Confessor
+ 75 Snitch
+ 26 Confidant
+ 76 Social rival
+ 27 Contact
+ 77 Source
+ 28 Crush
+ 78 Sponsor
+ 29 Customer
+ 79 Spouse
+ 30 Debtholder
+ 80 Stalker
+ 31 Debtor
+ 81 Step-child
+ 32 Disciple
+ 82 Step-parent
+ 33 Donor
+ 83 Step-sibling
+ 34 Employee
+ 84 Steward
+ 35 Employer
+ 85 Student
+ 36 Ex-spouse
+ 86 Suitor
+ 37 Fan
+ 87 Supplicant
+ 38 Fiance
+ 88 Supplier
+ 39 Frenemy
+ 89 Sweetheart
+ 40 Grandchild
+ 90 Teacher
+ 41 Grandparent
+ 91 Teammate
+ 42 Guardian
+ 92 Thrall
+ 43 Guest
+ 93 Tormentor
+ 44 Half-sibling
+ 94 Trainer
+ 45 Harasser
+ 95 Unrequited love
+ 46 Henchman
+ 96 Valet
+ 47 Housekeeper
+ 97 Vassal
+ 48 Idol
+ 98 Victim
+ 49 Investor
+ 99 War buddy
+ 50 Jilted lover 
+ 00 Ward

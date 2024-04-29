@@ -1,0 +1,87 @@
+Appearance 
+
+  1 Balding 
+  2 Stocky build 
+  3 Very tall 
+  4 Beauty mark 
+  5 One eye 
+  6 Braided hair 
+  7 Muscular 
+  8 White hair 
+  9 Scar on face 
+  10 Willowy build 
+  11 Sweaty 
+  12 Cleft chin 
+  13 Frail 
+  14 Big eyebrows 
+  15 Tattooed 
+  16 Floppy hat 
+  17 Gold tooth 
+  18 Six fingers 
+  19 Very short 
+  20 Large nose
+
+Does 
+
+  Spits 
+  Always eating 
+  Moves quickly 
+  Card tricks 
+  Prays aloud 
+  Writes in diary 
+  Apologetic 
+  Slaps backs 
+  Drops things 
+  Swears oaths 
+  Makes puns 
+  Rare accent 
+  Easily spooked 
+  Forgetful 
+  Speaks quietly 
+  Twitches 
+  Moves slowly 
+  Speaks loudly 
+  Swaggers 
+  Smokes pipe 
+
+Secret
+
+  Hiding a fugitive
+  Adores baby animals
+  Obsessed with fire
+  In a religious cult
+  Is a half-demon
+  Was a wizard's apprentice
+  Needlessly picks pockets
+  Has a false identity
+  Afraid of storms
+  Has functional gills
+  In deep gambling debt
+  Works as a smuggler
+  Is a werewolf
+  Can actually smell lies
+  Cast out of wealthy family
+  In love with a bartender
+  Left the Thieves' Guild
+  Best friends with a prince 
+  Retired crawler
+  Has a pet basilisk
+
+Occupation 
+
+  Gravedigger 
+  Carpenter 
+  Scholar 
+  Blacksmith
+  Tax collector 
+  Farmer 
+  Bartender 
+  Beggar
+  Baker 
+  Cook 
+  Sailor 
+  Butcher
+  Locksmith 
+  Cobbler 
+  Friar/nun 
+  Merchant

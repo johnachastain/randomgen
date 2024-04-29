@@ -1,0 +1,1073 @@
+Character Properties
+
+Name
+Nickname
+
+Epithets
+  the Lesser
+  the Greater
+  the Bald
+  the Impure
+  the Unready
+  the Grim
+  The Mad
+  the First, Second, Third, etc
+  the Miserable
+  the Fat
+  the Unreliable
+  the Forgotten
+  the Incompetent
+  the Slippery
+  the Inconsistent
+
+
+
+
+Social Status
+  Royal
+  Noble
+  Guildsman
+  Gentry
+
+Wealth
+  1 Destitute
+  2 Impoverished
+  3 Working class
+  4 Middle class
+  5 Prosperous
+  6 Decadent
+
+Title effected by gender/Occupation/status/age
+  Lord
+  Lady
+
+  Master
+  Apprentice
+
+  King/Queen
+  (crown) Prince/Princess
+  Duke/Duchess
+  Marquis/Marchioness
+  Earl/Count/Countess
+  Baron/Baroness
+
+  Chamberlain
+
+  Sheriff
+  Alderman
+  Lord Mayor
+  Burgomaster
+  Councilman
+  Governor
+  Prefect
+  Minister
+  Warden
+  Magistrate
+  praetor
+  provost
+  steward
+
+
+  Bishop
+  Abbot
+  Brother
+  Sister
+  Curate
+
+age 
+  Child
+  Adolescent
+  Young adult
+  Middle-aged
+  Aged
+  Elderly
+  Ancient
+
+
+gender
+  Male
+  Female
+  Neutral
+  
+
+
+Kin/Ancestry
+Class
+  Warrior
+  Rogue
+  Cleric
+
+Ability Stats
+  str
+  int
+  wis
+  dex
+  char
+  con
+level
+HP
+AC
+
+
+
+star sign
+spirit animal
+Skills
+Talents
+Feats
+Proficiencies
+Boons
+Banes
+Sanity
+brawn
+wit
+Will
+affluence
+vigour
+grip
+Blessings
+Curses
+Omens/Visions
+Conditions
+Corruption
+
+Profession/Occupation effected by wealth and class
+
+  Criminal
+  Poor
+  Merchant
+  Artisan
+  Elite
+  Military
+  Ecclesiastical
+
+
+  Gravedigger
+  Plague Doctor
+  Inquisitor
+  Hangman
+  Smuggler
+  Tax collector
+
+  Scrivener
+  Monk
+
+
+  BarrelMaker
+  CheeseMaker
+  Fishmonger
+  Butcher
+  Apothecary
+
+
+  Mason
+  Carpenter
+  Weaver
+
+  Farmer
+  Fisherman
+
+
+
+
+  1 Alchemist
+  2 Beggar
+  3 Butcher
+  4 Burglar
+  5 Charlatan
+  6 Cleric
+  7 Cook
+  8 Cultist
+  9 Gambler
+  10 Herbalist
+  11 Magician
+  12 Mariner
+  13 Mercenary
+  14 Merchant
+  15 Outlaw
+  16 Performer
+  17 Pickpocket
+  18 Smuggler
+  19 Student
+  20 Tracker
+
+  11 - Alchemist/Chemist/Herbalist
+  12 - Necromancer/Demonologist
+  13 - Tailor/Weaver
+  14 - Blacksmith
+  15 - Soldier/Mercenary/Deserter
+  16 - Merchant
+  21 - Rogue/Swindler/Gambler
+  22 - Noble/Royal
+  23 - Guard/Watchman
+  24 - Butcher
+  25 - Baker/Cook
+  26 - Farmer/Serf
+  31 - Banker/Scribe
+  32 - Monk/Priest
+  33 - Tanner
+  34 - Poacher/Trapper
+  35 - Murderer/Assassin
+  36 - Prisoner/Inmate
+  41 - Musician/Poet
+  42 - Servant/Retainer
+  43 - Jailer/Warden
+  44 - Torturer/Inquisitor
+  45 - Brewer/Innkeeper/Alewife
+  46 - Doctor/Dentist/Barber-Surgeon
+  51 - Grave-robber/Tomb-plunderer
+  52 - Gravedigger/Undertaker
+  53 - Fortune-teller/Witch/Seer
+  54 - Artist/Artisan
+  55 - Beggar/Gutterborn Scvm
+  56 - Performer/Fool/Actor
+  61 - Nightsoil/corpse/leech collector
+  62 - Executioner
+  63 - Counterfeiter/Smuggler
+  64 - Groom/Horseman
+  65 - Ratbit/bloodmole/toad catcher
+  66 - Pilgrim/Hermit/Prophet
+
+
+
+
+
+Quirks
+  Twitching
+  uncontrolable cursing
+  Amnesia
+
+Physical conditions
+  hunchback
+  missing limb/fingers
+  missing/glass eye
+  Deaf
+  Blind
+  Albino
+
+
+Flaws
+  1 Arrogance
+  2 Drunkenness
+  3 Paranoia
+  4 Gluttony
+  5 Sloth
+  6 Cruelty
+  7 Cowardice
+  8 Wrath
+  9 Greed
+  10 Lust
+
+Vices
+  Addiction
+  Gambling
+  Compulsive Lying
+  Pyromania
+  Kleptomania
+  Depression
+  Alcoholism
+  Claustrophobia
+  Debauchery
+  Paranoia
+  Gluttony
+  Zealotry
+  Necrophilia
+  Obsessive Compulsive
+  inferiority complex
+  sadist
+
+
+
+Scars/Tattoos
+  Blade scar
+  Burn
+  Birthmark
+  whip scar
+  Tattoos
+
+  Face
+    eye
+    nose
+    mouth
+    ear
+    cheek
+    chin
+
+  Head/Neck
+  Torso
+    front
+    back
+    Chest
+    shoulder
+  arm
+    right
+    left
+    elbow
+    hand
+  leg
+    right
+    left
+    knee
+    foot
+
+Demeanor
+  2 Agreeable
+  3 Aggressive
+  19 Trusting
+  20 Unaware
+  5 Bored
+  7 Cheerful
+
+  1 Abrasive
+  4 Arrogant
+  6 Calm
+  8 Confident
+  9 Courteous
+  10 Eccentric
+  11 Flamboyant
+  12 Friendly
+  13 Humble
+  14 Naive
+  15 Nervous
+  16 Reserved
+  17 Stubborn
+  18 Suspicious
+
+
+  Impatient
+  Absent minded
+  Judgemental
+  Cantankerous
+  Curmudgeonly
+  Clumsy/bumbling
+  Fidgety
+  Glib
+  Ornery
+  Pompous
+  Fretful
+  Silent
+  Jovial
+  Snooty
+  Suspicious
+  Lazy
+  Bitter
+  Vindictive
+  Conflicted
+  Sullen
+
+
+
+
+Reputation
+  negative
+    Liar/dishonest
+    Untrustworthy
+    Dangerous
+    Treacherous
+    cruel
+
+  neutral
+    Forgetful
+    frugal/miser
+
+  positve
+    Pious
+    Wise
+    Knowledgable
+    Generous
+    Honest
+    Humble
+
+
+Motivation
+  Social Status
+  Wealth/Greed
+  Power/Control
+  Destruction
+  Revenge
+  Conspiracy
+  Blackmail
+  Debt
+  Envy
+  Hedonism
+  Devotion/Belief/Morality
+  Knowledge/Information
+  Obligation/Oath
+  Redemption
+  Loyalty
+  Prejudice
+  Corruption
+  Vanity/Pride/Hubris
+  Guilt
+
+
+
+
+
+
+Diseases
+  leper
+
+
+
+Possessed by
+  Spirits
+  Demon
+  Ghosts
+  Visions
+
+Crimes Committed/Accused of
+  Heresy
+  Murder
+  Witchcraft
+  Treason
+  Petty Theft
+  Immorality
+  Bribery
+  Forgery
+
+Phobias
+Obsessions
+Secrets
+
+Trinkets
+  Key
+  Locket
+  Ring
+  dagger
+  Horn
+
+
+Possessions
+
+Pets
+  Owl
+  Raven
+  cat
+  rat
+  ferret
+  toad
+
+Family
+
+Childhood
+  Abandoned
+  Bastard
+  Immigrant/Exile
+  Orphan
+  boarding school
+
+  Adopted
+
+  twin
+  only child
+  middle child
+  first-born
+  last-born
+
+
+
+
+STATURE
+    3 Corpulent
+    4 Delicate
+    5 Gaunt
+    6 Hulking
+    7 Lanky
+    10 Scrawny
+    11 Short
+    12 Sinewy
+    13 Slender
+    14 Flabby
+    16 Stout
+    17 Tiny
+    18 Towering
+    20 Wiry
+    Hunched
+    Tall
+
+
+    1 Athletic
+    2 Brawny
+    8 Ripped
+    9 Rugged
+    19 Willowy
+    15 Statuesque
+
+  FACE
+    1 Bloated   
+    3 Bony
+    4 Chiseled
+    5 Delicate
+    6 Elongated
+    10 Broken
+    11 Impish
+    12 Narrow
+    14 Round
+    15 Sunken
+    16 Sharp
+    18 Square
+    19 Wide
+
+
+    20 Wolfish
+    13 Ratlike
+    9 Hawkish
+    7 Patrician
+    8 Pinched
+    17 Soft
+
+Prominent feature
+  eyes
+  ears
+  nose
+  brow
+  chin
+  cheek bones
+  mouth
+  over Bite
+  under Bite
+
+
+Facial Hair effected by gender Male
+  Bearded
+  Moustache
+  goatee
+  sideburns
+  eyebrows
+
+Adornment
+  Gold tooth
+  Nose ring
+  Ear ring(s)
+  Makeup
+
+  Eye patch
+  Glass eye
+
+
+
+
+SKIN
+  1 Battle Scar
+  2 Birthmark
+  3 Dark
+  4 Light
+  5 Makeup
+  6 Oily
+  7 Pale
+  8 Perfect
+  9 Pierced
+  10 Pockmarked
+  11 Reeking
+  12 Tattooed
+  13 Rosy
+  14 Rough
+  15 Sallow
+  16 Sunburned
+  17 Tanned
+  18 War Paint
+  19 Weathered
+  20 Whip Scar
+
+HAIR
+
+  8 Filthy
+  9 Frizzy
+  10 Greasy
+  11 Limp
+  15 Oily
+
+  1 Bald
+  Shaved
+  2 Braided
+  4 Cropped
+  12 Long
+  16 Ponytail
+  wrapped/covered
+
+
+  3 Bristly
+  5 Curly
+  6 Messy
+  19 Wavy
+  20 Wispy 
+  17 Silky
+  Smooth
+  Flat
+
+
+  7 Dreads
+  18 Topknot
+  14 Mohawk
+  13 Luxurious
+
+MISERY
+  1 Abandoned
+  2 Addicted
+  3 Blackmailed
+  4 Condemned
+  5 Cursed
+  6 Defrauded
+  7 Demoted
+  8 Discredited
+  9 Disowned
+  10 Exiled
+  11 Framed
+  12 Haunted
+  13 Kidnapped
+  14 Mutilated
+  15 Poor
+  16 Pursued
+  17 Rejected
+  18 Replaced
+  19 Robbed
+  20 Suspected
+
+CLOTHES effected by wealth
+  3 Ceremonial
+  4 Decorated
+  6 Elegant
+  7 Fashionable
+  17 Perfumed
+  Immaculate
+
+  9 Flamboyant
+  5 Eccentric
+  11 Foreign
+  1 Antique
+
+  Simple
+
+  2 Bloody
+  8 Filthy
+  10 Stained
+  12 Frayed
+  13 Frumpy
+  14 Livery
+  15 Oversized
+  16 Patched
+  18 Rancid
+  19 Torn
+  20 Undersized
+
+VIRTUE
+  1 Ambitious
+  2 Cautious
+  3 Courageous
+  4 Courteous
+  5 Curious
+  6 Disciplined
+  7 Focused
+  8 Generous
+  9 Gregarious
+  10 Honest
+  11 Honorable
+  12 Humble
+  13 Idealistic
+  14 Just
+  15 Loyal
+  16 Merciful
+  17 Righteous
+  18 Serene
+  19 Stoic
+  20 Tolerant
+
+VICE
+  1 Aggressive
+  2 Arrogant
+  3 Bitter
+  4 Cowardly
+  5 Cruel
+  6 Deceitful
+  7 Flippant
+  8 Gluttonous
+  9 Greedy
+  10 Irascible
+  11 Lazy
+  12 Nervous
+  13 Prejudiced
+  14 Reckless
+  15 Rude
+  16 Suspicious
+  17 Vain
+  18 Vengeful
+  19 Wasteful
+  20 Whiny
+
+PAST
+
+
+SPEECH
+  1 Blunt
+  2 Booming
+  3 Breathy
+  4 Cryptic
+  5 Drawling
+  6 Droning
+  7 Flowery
+  8 Formal
+  9 Gravelly
+  10 Hoarse
+  11 Mumbling
+  12 Precise
+  13 Quaint
+  14 Rambling
+  15 Rapid-fire
+  16 Dialect
+  17 Slow
+  18 Squeaky
+  19 Stuttering
+  20 Whispery
+
+Physique
+  1	Athletic	
+  6	Scrawny
+  2	Brawny	
+  7	Short
+  3	Flabby	
+  8	Statuesque
+  4	Lanky	
+  9	Stout
+  5	Rugged	
+  10 Towering
+
+Skin
+  1	Birthmarked	
+  6	Marked
+  2	Oily	
+  7	Rosy
+  3	Scarred	
+  8	Soft
+  4	Tanned	
+  9	Tattooed
+  5	Webbed	
+  10	Weathered
+
+Hair effected by gender
+  1	Bald	
+  6	Long
+  2	Braided	
+  7	Luxurious
+  3	Curly	
+  8	Oily
+  4	Filthy	
+  9	Wavy
+  5	Frizzy	
+  10	Wispy
+
+Face
+  1	Bony	
+  6	Perfect
+  2	Broken	
+  7	Rakish
+  3	Chiseled	
+  8	Sharp
+  4	Elongated	
+  9	Square
+  5	Pale	
+  10	Sunken
+
+Speech
+  1	Blunt	
+  6	Gravelly
+  2	Booming	
+  7	Precise
+  3	Cryptic	
+  8	Squeaky
+  4	Droning	
+  9	Stuttering
+  5	Formal	
+  10	Whispery
+
+Clothing
+  1	Antique	
+  6	Frayed
+  2	Bloody	
+  7	Frumpy
+  3	Elegant	
+  8	Livery
+  4	Filthy	
+  9	Rancid
+  5	Foreign	
+  10	Soiled
+
+Virtue
+  1	Ambitious	
+  6	Honorable
+  2	Cautious	
+  7	Humble
+  3	Courageous	
+  8	Merciful
+  4	Disciplined	
+  9	Serene
+  5	Gregarious	
+  10	Tolerant
+
+Vice
+  1	Aggressive	
+  6	Lazy
+  2	Bitter	
+  7	Nervous
+  3	Craven	
+  8	Rude
+  4	Deceitful	
+  9	Vain
+  5	Greedy	
+  10	Vengeful
+
+DISPOSITION (d66)
+  11 - Cursed/Despairing
+  12 - Bloodthirsty/Sadistic
+  13 - Drunken/Drugged
+  14 - Miserable/Melancholic
+  15 - Malign/Sociopathic
+  16 - Greedy/Miserly
+  21 - Reclusive/Shy
+  22 - Eccentric/Hysterical
+  23 - Awkward
+  24 - Treacherous/Dishonest
+  25 - Generous
+  26 - Secretive/Suspicious
+  31 - Destitute/Ragged
+  32 - Pestilent/Leprous
+  33 - Heretical
+  34 - Repellent/Wretched
+  35 - Inscrutable/Hermetic
+  36 - Injured/Wounded/Broken
+  41 - Sickly/Gaunt
+  42 - Burly/Imposing
+  43 - Slimy/Insincere
+  44 - Narcissistic
+  45 - Bitter/Spiteful
+  46 – Belligerent/Rude
+  51 - Nihilistic
+  52 - (Over-)friendly
+  53 - Arcane/Ancient
+  54 - Pretentious/Extravagant
+  55 - Sinister/Possessed
+  56 - Hopeless/Talentless
+  61 – Cowardly/Scared
+  62 - Exiled/Tragic
+  63 - Fanatical
+  64 - Guilty/Penitent
+  65 – Leering/Creepy
+  66 - Rowdy/Profane
+
+PROFESSION (d66)
+
+
+
+
+
+
+
+
+
+
+
+
+
+1 – Order of (the) Bestial Dolor/Sadness
+2 – Society “ Baleful Death
+3 – Fraternity “ Unholy Witch/craft
+4 – Sorority “ Spectral Whisper/s
+5 – Brothers “ Oneiric Darkness
+6 – Sisters “ Sinful Mason/ry
+7 – Penitents “ Horrific Misery
+8 – Sodality “ Necrotic Decay
+9 – Cult “ Accursed Lord/Lady
+10 – Children “ Black Corruption
+11 – Knights “ Unnamable Relic/Saint
+12 – College “ Infinite Druid/ry
+
+
+
+
+Motivation
+  1 – Acceptance 
+  26 – Knowledge 
+  51 – Pride 
+  76 – Hostility
+  2 – Addiction 
+  27 – Adventure 
+  52 – Asceticism 
+  77 – Entertainment
+  3 – Power 
+  28 – Approval 
+  53 – Survival 
+  78 – Altruism
+  4 – Conformity 
+  29 – Compassion 
+  54 – Gain the upper hand 
+  79 – Hatred
+  5 – Greed 
+  30 – Debt 
+  55 – Desperation 
+  80 – Devotion
+  6 – Charity 
+  31 – Boredom 
+  56 – Nihilism 
+  81 – Envy
+  7 – Follow orders 
+  32 – Faith 
+  57 – Fame 8
+  2 – Revenge
+  8 – Gain favor 
+  33 – Well-being 
+  58 – Hedonism 
+  83 – Impress someone
+  9 – Confusion 
+  34 – Status 
+  59 – Justice 
+  84 – Tradition
+  10 – Jealousy 
+  35 – Love 
+  60 – Loyalty 
+  85 – Control
+  11 – Mastery 
+  36 – Wealth 
+  61 – Fear 
+  86 – Glory
+  12 – Obligations 
+  37 – Patriotism 
+  62 – Honor 
+  87 – Peace
+  13 – Anger 
+  38 – Peace 
+  63 – Misguidedness
+  88 – Personal growth
+  14 – Wantonness 
+  39 – Freedom 
+  64 – Enviousness 
+  89 – Philanthropy
+  15 – Pleasure 
+  40 – Strength 
+  65 – Prejudice 
+  90 – Rebellion
+  16 – Sow discord 
+  41 – Redemption 
+  66 – Belief 
+  91 – Respect
+  17 – Security 
+  42 – Domination 
+  67 – Take power
+  92 – Social Cohesion
+  18 – Protection 
+  43 – Spiritual power 
+  68 – Immortality 
+  93 – Reputation
+  19 – Stability 
+  44 – Destroy the status quo 
+  69 – Corruption 
+  94 – Teach a lesson
+  20 – Recognition 
+  45 – Self-esteem 
+  70 – Pride 
+  95 – Safety
+  21 – Cause harm 
+  46 – Lust 
+  71 – Transcendence 
+  96 – Wanderlust
+  22 – Blackmail 
+  47 – Desperation 
+  72 – Hate 
+  97 – Selfimprovement
+  23 – Fulfill plan 
+  48 – Conspiracy 
+  73 – Responsibility
+  98 – Mental illness
+  24 – Help Others 
+  49 – Pressured 
+  74 – Victim of blackmail 
+  99 – Prove oneself
+  25 – Harm their enemies 
+  50 – Health 
+  75 – Independence 
+  100 – None
+
+
+
+
+
+
+
+Apothecary
+Armorer
+Baker
+Barrister
+Basketweaver
+Barber
+Beekeeper
+Blacksmith
+Bookbinder
+Bowyer
+Brewer
+Dyer
+Embroiderer
+Engraver
+Fencer
+Fisherman
+Fletcher
+Lamplighter
+Laundress
+Leatherworker
+Locksmith
+Mason
+Midwife
+Miller
+Moneychanger
+Needleworker
+Butcher
+Candlemaker
+Carpenter
+Cartwright
+Cheesemaker
+Chimney sweep
+Clerk
+Clothier
+Cobbler
+Cooper
+Coppersmith
+Crier
+Cutler
+Glassblower
+Goldsmith
+Gravedigger
+Haberdasher
+Herald
+Herbalist
+Innkeeper
+Jailer
+Jester
+Jeweler
+Lacemaker
+Painter
+Perfumemaker
+Porter
+Potter
+Ropemaker
+Sailor
+Seamstress
+Servant
+Shipwright
+Shoemaker
+Silversmith
+Soapmaker
+Spy
+Stonecarver
+Storyteller
+Tailor
+Tanner
+Tavernkeeper
+Tax collector
+Taxidermist
+Thatcher
+Toll collector
+Vermincatcher
+Vintner
+Wainwright
+Weaponsmith
+Weaver
+Wheelwright
+Woodcarver
