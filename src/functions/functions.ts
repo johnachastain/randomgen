@@ -532,7 +532,7 @@ const getSurname = (algn: string) => {
 		return `${getItem(allLists.s_pre)} ${getItem(allLists.s_mid)} ${getItem(allLists.s_suf)}`;
 	}
 	
-	const getLongName = () => {
+	export const getLongName = () => {
 		return` ${getItem(allLists.l_pre)} ${getItem(allLists.l_mid)} ${getItem(allLists.l_suf)}`;
 	}
 	

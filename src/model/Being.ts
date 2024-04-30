@@ -3,6 +3,6 @@ import { Object } from './Object'
 
 export interface Being extends Base {
   name: string
-  age: number
+  age: string
   possessions: Object[]
 }

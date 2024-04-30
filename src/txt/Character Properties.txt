@@ -311,29 +311,27 @@ Scars/Tattoos
     foot
 
 Demeanor
-  2 Agreeable
-  3 Aggressive
-  19 Trusting
-  20 Unaware
-  5 Bored
-  7 Cheerful
+  Agreeable
+  Aggressive
+  Trusting
+  Unaware
+  Bored
+  Cheerful
 
-  1 Abrasive
-  4 Arrogant
-  6 Calm
-  8 Confident
-  9 Courteous
-  10 Eccentric
-  11 Flamboyant
-  12 Friendly
-  13 Humble
-  14 Naive
-  15 Nervous
-  16 Reserved
-  17 Stubborn
-  18 Suspicious
-
-
+  Abrasive
+  Arrogant
+  Calm
+  Confident
+  Courteous
+  Eccentric
+  Flamboyant
+  Friendly
+  Humble
+  Naive
+  Nervous
+  Reserved
+  Stubborn
+  Suspicious
   Impatient
   Absent minded
   Judgemental
@@ -348,7 +346,6 @@ Demeanor
   Silent
   Jovial
   Snooty
-  Suspicious
   Lazy
   Bitter
   Vindictive
