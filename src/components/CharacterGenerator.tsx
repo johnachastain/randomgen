@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { getItem, getLongName } from '../functions/functions';
-import { Character } from '../model/Character';
-// import { Character } from '../model/Character';
+import { Character, Gender } from '../model/Character';
 
 const age = [
   'Child',
@@ -29,10 +28,16 @@ const wealth = [
   'Decadent'
 ]
 
+// const gender = [
+//   'male',
+//   'female',
+//   'neutral'
+// ]
+
 const gender = [
-  'male',
-  'female',
-  'neutral'
+  Gender.Male,
+  Gender.Female,
+  Gender.Neutral
 ]
 
 const bTitle = [
@@ -48,7 +53,6 @@ const bTitle = [
   'Minister',
   'Magistrate',
   'Bishop',
-  'Abbot',
   'Curate'
 ]
 
@@ -60,7 +64,8 @@ const mTitle = [
   'Marquis',
   'Earl/Count',
   'Baron',
-  'Brother'
+  'Brother',
+  'Abbot',
 ]
 
 const fTitle = [
@@ -71,7 +76,8 @@ const fTitle = [
   'Marchioness',
   'Countess',
   'Baroness',
-  'Sister'
+  'Sister',
+  'Abbess'
 ]
 
 export type Title = {
