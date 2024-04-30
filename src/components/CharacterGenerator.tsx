@@ -30,37 +30,63 @@ const wealth = [
 ]
 
 const gender = [
-  'Male',
-  'Female',
-  'Neutral'
+  'male',
+  'female',
+  'neutral'
 ]
 
-const title = [
-  'Lord',
-  'Lady',
+const bTitle = [
   'Master',
   'Apprentice',
-  'King/Queen',
-  'Prince/Princess',
-  'Duke/Duchess',
-  'Marquis/Marchioness',
-  'Earl/Count/Countess',
-  'Baron/Baroness',
   'Chamberlain',
   'Sheriff',
   'Alderman',
   'Lord Mayor',
   'Burgomaster',
-  'Chancelor',
+  'Chancellor',
   'Governor',
   'Minister',
   'Magistrate',
   'Bishop',
   'Abbot',
-  'Brother',
-  'Sister',
   'Curate'
 ]
+
+const mTitle = [
+  'Lord',
+  'King',
+  'Prince',
+  'Duke',
+  'Marquis',
+  'Earl/Count',
+  'Baron',
+  'Brother'
+]
+
+const fTitle = [
+  'Lady',
+  'Queen',
+  'Princess',
+  'Duchess',
+  'Marchioness',
+  'Countess',
+  'Baroness',
+  'Sister'
+]
+
+export type Title = {
+  male: string[],
+  female: string[],
+  neutral: string[]
+}
+
+const title: Title = {
+  male: [ ...bTitle, ...mTitle ],
+  female: [ ...bTitle, ...fTitle ],
+  neutral: bTitle
+}
+
+
 
 const demeanor = [
   'Abrasive',
@@ -114,17 +140,20 @@ export type Config = {
   socialStatus: String[]
   wealth: String[]
   gender: String[]
-  title: String[]
+  title: {
+    male: String[], 
+    female: String[]
+  }
   profession: String[]
   demeanor: String[]
 }
 
 const config: Config = {
   name: getLongName,
+  gender,
   age,
   socialStatus,
   wealth,
-  gender,
   title,
   profession,
   demeanor
@@ -138,8 +167,15 @@ const getCharacter = () => {
     let result
     if (functionOrArray instanceof Function) {
       result = functionOrArray()
-    } else {
+
+    }  else if (Array.isArray(functionOrArray)) {
       result = getItem(functionOrArray)
+
+    } else {
+      const gender = baseCharacter.gender
+      const array = functionOrArray[gender as keyof typeof functionOrArray]
+      result = getItem(array)
+
     }
     baseCharacter[prop as keyof Character] = result
   }
@@ -153,7 +189,7 @@ export const CharacterGenerator = () => {
     <div>
       <h3>Character Generator</h3>
       { Object.keys(character).map(key => (
-          <p>{`${key}: ${character[key as keyof Character]}`}</p>
+          <p key={key}>{`${key}: ${character[key as keyof Character]}`}</p>
         ))
       }
     </div>
