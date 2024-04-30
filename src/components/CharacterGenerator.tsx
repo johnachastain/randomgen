@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { getLongName } from '../functions/functions';
+import { getItem, getLongName } from '../functions/functions';
+import { Character } from '../model/Character';
 // import { Character } from '../model/Character';
 
 const age = [
@@ -107,7 +108,18 @@ const profession = [
   'Ecclesiastical'
 ]
 
-const CharacterDefinition = {
+export type Config = {
+  name: Function
+  age: String[]
+  socialStatus: String[]
+  wealth: String[]
+  gender: String[]
+  title: String[]
+  profession: String[]
+  demeanor: String[]
+}
+
+const config: Config = {
   name: getLongName,
   age,
   socialStatus,
@@ -118,13 +130,32 @@ const CharacterDefinition = {
   demeanor
 }
 
+const getCharacter = () => {
+  let baseCharacter: Character = {}
+
+  for (const prop in config) {
+    const functionOrArray = config[ prop as keyof Config ]
+    let result
+    if (functionOrArray instanceof Function) {
+      result = functionOrArray()
+    } else {
+      result = getItem(functionOrArray)
+    }
+    baseCharacter[prop as keyof Character] = result
+  }
+  return baseCharacter
+}
 
 export const CharacterGenerator = () => {
-  const [character, setCharacter] =useState()
+  const [character, setCharacter] =useState<Character>(getCharacter())
 
   return (
     <div>
       <h3>Character Generator</h3>
+      { Object.keys(character).map(key => (
+          <p>{`${key}: ${character[key as keyof Character]}`}</p>
+        ))
+      }
     </div>
   )
 }

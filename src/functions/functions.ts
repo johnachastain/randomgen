@@ -7,9 +7,9 @@ import * as adjLists from '../lists/adjective_lists'
 const allLists = { ...baseLists, ...deityLists, ...dungeonLists, ...miscLists, ...adjLists }
 
 
-const getRandom = (n: number) => Math.floor(Math.random()* n)
+export const getRandom = (n: number) => Math.floor(Math.random()* n)
 
-const getItem:any = (arr: any) => {
+export const getItem:any = (arr: any) => {
 	const itm = arr.at(getRandom(arr.length));
   const result = typeof itm == 'object' ? getItem(itm) : itm
   return result

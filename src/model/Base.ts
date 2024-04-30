@@ -1,6 +1,6 @@
 
 export interface Base {
-  name: string
-  key: string
-  description: string
+  name?: string
+  key?: string
+  description?: string
 }
