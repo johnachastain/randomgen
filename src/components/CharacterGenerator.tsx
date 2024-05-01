@@ -2,10 +2,17 @@ import { useState } from 'react';
 import { getItem, getLongName, getRandom } from '../functions/functions';
 import { Character, Gender } from '../model/Character';
 
+export type TaggedItem = { 
+  name: string, 
+  tags: String[] 
+}
 
+export type Updater<T> = { (obj: T): T }
 
+export const getTaggedItem = (arr: TaggedItem[]): string => 
+  (arr[getRandom(arr.length)].name)
 
-const containsAll = (required: string[], target: string[]) => (
+export const containsAll = (required: string[], target: string[]) => (
   required.every((s: string) => target.includes(s))
 );
 
@@ -34,12 +41,6 @@ const wealth = [
   'Prosperous',
   'Decadent'
 ]
-
-// const gender = [
-//   'male',
-//   'female',
-//   'neutral'
-// ]
 
 const gender = [
   Gender.Male,
@@ -99,50 +100,11 @@ const bTitle = [
   'Magistrate',
 ]
 
-// const bReligiousTitle = [
-//   'Bishop',
-//   'Curate',
-//   'Vicar'
-// ]
-
-// const mReligiousTitle = [
-//   'Brother',
-//   'Abbot',
-//   'Prior',
-//   'Friar'
-// ]
-
-// const mRoyalTitle = [
-//   'Lord',
-//   'King',
-//   'Prince',
-//   'Duke',
-//   'Marquis',
-//   'Earl/Count',
-//   'Baron',
-// ]
-
-// const fRoyalTitle = [
-//   'Lady',
-//   'Queen',
-//   'Princess',
-//   'Duchess',
-//   'Marchioness',
-//   'Countess',
-//   'Baroness',
-// ]
-
-// const fReligiousTitle = [
-//   'Sister',
-//   'Abbess',
-//   'Prioress'
-// ]
-
-export type Title = {
-  male: string[],
-  female: string[],
-  neutral: string[]
-}
+// export type Title = {
+//   male: string[],
+//   female: string[],
+//   neutral: string[]
+// }
 
 const demeanor = [
   'Abrasive',
@@ -190,59 +152,85 @@ const profession = [
   'Ecclesiastical'
 ]
 
-export type TaggedItem = { 
-  name: string, 
-  tags: String[] 
-}
 
-export type UpdateCharacter = (character: Character) => Character
 
-export type Config = {
-  name: UpdateCharacter
-  age: UpdateCharacter
-  socialStatus: UpdateCharacter
-  wealth: UpdateCharacter
-  gender: UpdateCharacter
-  title: UpdateCharacter
-  profession: UpdateCharacter
-  demeanor: UpdateCharacter
-}
+// export type UpdateCharacter = (character: Character) => Character
 
-const config: Config = {
-  name: (character) => ({ ...character, name: getLongName() }),
-  gender: (character) => ({ ...character, gender: getItem(gender) }),
-  age: (character) => ({ ...character, age: getItem(age) }),
-  socialStatus: (character) => ({ ...character, socialStatus: getItem(socialStatus) }),
-  wealth: (character) => ({ ...character, wealth: getItem(wealth) }),
-  title: (character) => {
-    const gender = character.gender || Gender.Neutral
-    const array = title.filter((i) => containsAll([gender], i.tags))
-    const r = getRandom(array.length)
-    return { ...character, title: array[r].name }
+// export type Config = {
+//   name: UpdateCharacter
+//   age: UpdateCharacter
+//   socialStatus: UpdateCharacter
+//   wealth: UpdateCharacter
+//   gender: UpdateCharacter
+//   title: UpdateCharacter
+//   profession: UpdateCharacter
+//   demeanor: UpdateCharacter
+// }
+
+// const config: Config = {
+//   name: (character) => ({ ...character, name: getLongName() }),
+//   gender: (character) => ({ ...character, gender: getItem(gender) }),
+//   age: (character) => ({ ...character, age: getItem(age) }),
+//   socialStatus: (character) => ({ ...character, socialStatus: getItem(socialStatus) }),
+//   wealth: (character) => ({ ...character, wealth: getItem(wealth) }),
+//   title: (character) => {
+//     const gender = character.gender || Gender.Neutral
+//     const array = title.filter((i) => containsAll([gender], i.tags))
+//     const r = getRandom(array.length)
+//     return { ...character, title: array[r].name }
+//   },
+//   profession: (character) => ({ ...character, profession: getItem(profession) }),
+//   demeanor: (character) => ({ ...character, demeanor: getItem(demeanor) })
+// }
+
+// const getCharacter = () => {
+//   let result: Character = {}
+//   for (const prop in config) {
+//     const updateCharacter = config[ prop as keyof Config ]
+//     result = updateCharacter(result)
+//   }
+//   return result
+// }
+
+const configArray: Updater<Character>[] = [
+  (obj) => ({ ...obj, name: getLongName() }),
+  (obj) => ({ ...obj, gender: getItem(gender) }),
+  (obj) => ({ ...obj, age: getItem(age) }),
+  (obj) => ({ ...obj, socialStatus: getItem(socialStatus) }),
+  (obj) => ({ ...obj, wealth: getItem(wealth) }),
+
+  (obj) => {
+    const { gender = Gender.Neutral } = obj
+    const array: TaggedItem[] = title.filter(
+      (i) => containsAll([gender], i.tags))
+    return { ...obj, title: getTaggedItem(array) }
   },
-  profession: (character) => ({ ...character, profession: getItem(profession) }),
-  demeanor: (character) => ({ ...character, demeanor: getItem(demeanor) })
-}
+  
+  (obj) => ({ ...obj, profession: getItem(profession) }),
+  (obj) => ({ ...obj, demeanor: getItem(demeanor) })
+]
 
-const getCharacter = () => {
-  let result: Character = {}
-  for (const prop in config) {
-    const updateCharacter = config[ prop as keyof Config ]
-    result = updateCharacter(result)
+const getConfig = (configArray: Function[]) => {
+  let result = {}
+  for (const updater of configArray) {
+    result = updater(result)
   }
   return result
 }
 
+
 export const CharacterGenerator = () => {
-  const [character, setCharacter] =useState<Character>(getCharacter())
+  const [character, setCharacter] =useState<Character>(getConfig(configArray))
+
+  console.log('character', character)
 
   return (
     <div>
-      <h3>Character Generator</h3>
+      {/* <h3>Character Generator</h3>
       { Object.keys(character).map(key => (
           <p key={key}>{`${key}: ${character[key as keyof Character]}`}</p>
         ))
-      }
+      } */}
     </div>
   )
 }
