@@ -32,19 +32,33 @@ const { All } = Generic
 const { Male, Female, Neutral } = Gender
 const gender = [ Male, Female, Neutral ]
 
-const { Servant, Labor, Merchant, Artisan, Elite, Military, Ecclesiastical, Royal, Criminal, Administration } = SocialClass
-const socialClass = [
-  Servant,
-  Labor,
-  Merchant,
-  Artisan,
-  Elite,
-  Military,
-  Ecclesiastical,
+const { 
+  Servant, 
+  Labor, 
+  Merchant, 
+  Artisan, 
+  Elite, 
+  Military, 
+  Ecclesiastical, 
   Royal, 
   Criminal, 
-  Administration
-]
+  Administration 
+} = SocialClass
+
+// const socialClass = [
+//   Servant,
+//   Labor,
+//   Merchant,
+//   Artisan,
+//   Elite,
+//   Military,
+//   Ecclesiastical,
+//   Royal, 
+//   Criminal, 
+//   Administration
+// ]
+
+const socialClass = [ ...Object.values(SocialClass) ]
 
 
 const age = [
@@ -57,12 +71,12 @@ const age = [
   'Ancient'
 ]
 
-const socialStatus =[
-  'Royal',
-  'Noble',
-  'Guildsman',
-  'Gentry'
-]
+// const socialStatus =[
+//   'Royal',
+//   'Noble',
+//   'Guildsman',
+//   'Gentry'
+// ]
 
 const wealth = [
   'in debt',
@@ -352,19 +366,32 @@ const demeanor = [
   'Sullen'
 ]
 
-const profession = [
-  'Criminal',
-  'Poor',
-  'Merchant',
-  'Artisan',
-  'Elite',
-  'Military',
-  'Ecclesiastical'
-]
+// const profession = [
+//   'Criminal',
+//   'Poor',
+//   'Merchant',
+//   'Artisan',
+//   'Elite',
+//   'Military',
+//   'Ecclesiastical'
+// ]
+
+const getName = (gender: Gender): string => {
+  const firstName  = gender === Male ? getItem(d_name_male) : getItem(d_name_female)
+  const lastName = `${getItem(d_silly)}${getItem(d_nasty)}`
+  return `${firstName} ${lastName}`
+}
 
 const configArray: Updater<Character>[] = [
-  (obj) => ({ ...obj, name: getLongName() }),
+  
   (obj) => ({ ...obj, gender: getItem(gender) }),
+
+  (obj) => {
+    const { gender = Neutral } = obj
+    const name = getName(gender)
+    return { ...obj, name }
+  },
+
   (obj) => ({ ...obj, age: getItem(age) }),
   // (obj) => ({ ...obj, socialStatus: getItem(socialStatus) }),
   (obj) => ({ ...obj, socialClass: getItem(socialClass) }),
