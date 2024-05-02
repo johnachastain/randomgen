@@ -544,7 +544,7 @@ const getSurname = (algn: string) => {
 		const gender = getGender();
 		const align = getAlignment();
 		let name;
-		let surname;
+		// let surname;
 		let domain;
 		
 		str = getDName(align, gender);
@@ -557,13 +557,13 @@ const getSurname = (algn: string) => {
 		}
 
 		if ( align == 'Good' ) {
-			surname = getItem(allLists.d_surname_good);
+			// surname = getItem(allLists.d_surname_good);
 			domain = getItem(allLists.d_domain_good);
 		} else if ( align == 'Evil' ) {
-			surname = getItem(allLists.d_surname_evil);
+			// surname = getItem(allLists.d_surname_evil);
 			domain = getItem(allLists.d_domain_evil);
 		} else {
-			surname = getItem(allLists.d_surname_neutral);
+			// surname = getItem(allLists.d_surname_neutral);
 			domain = getItem(allLists.d_domain_neutral);
 		}
 		

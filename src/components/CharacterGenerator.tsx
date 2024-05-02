@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { getItem, getLongName, getRandom } from '../functions/functions';
-import { Character, Gender, SocialClass } from '../model/Character';
+import { Character, Gender, SocialClass, Alignment } from '../model/Character';
+import { d_name_male, d_name_female, d_silly, d_nasty } from '../lists/deity_lists';
+
 
 export enum Generic { 
   All = 'all' 
@@ -8,7 +10,7 @@ export enum Generic {
 
 export type TaggedItem = { 
   name: string, 
-  tags: String[] 
+  tags: string[] 
 }
 
 export type Updater<T> = { (obj: T): T }
@@ -19,6 +21,12 @@ export const getTaggedItem = (arr: TaggedItem[]): string =>
 export const containsAll = (required: string[], target: string[]) => (
   required.every((s: string) => target.includes(s))
 );
+
+const getFilteredList = (required: string[], list: TaggedItem[]) => {
+  const array = list.filter(
+    ({tags}) => containsAll(required, tags))
+  return getTaggedItem(array)
+}
 
 const { All } = Generic
 const { Male, Female, Neutral } = Gender
@@ -358,28 +366,23 @@ const configArray: Updater<Character>[] = [
   (obj) => ({ ...obj, name: getLongName() }),
   (obj) => ({ ...obj, gender: getItem(gender) }),
   (obj) => ({ ...obj, age: getItem(age) }),
-  (obj) => ({ ...obj, socialStatus: getItem(socialStatus) }),
+  // (obj) => ({ ...obj, socialStatus: getItem(socialStatus) }),
   (obj) => ({ ...obj, socialClass: getItem(socialClass) }),
   (obj) => ({ ...obj, wealth: getItem(wealth) }),
 
   (obj) => {
-    const { gender = Neutral } = obj
-    const { socialClass = Labor } = obj
-    const array: TaggedItem[] = title.filter(
-      (i) => containsAll([gender, socialClass], i.tags))
-    return { ...obj, title: getTaggedItem(array) }
+    const { gender = Neutral, socialClass = Labor } = obj
+    const result = getFilteredList([gender, socialClass], title)
+    return { ...obj, title: result }
   },
 
   (obj) => {
-    // const { gender = Neutral } = obj
     const { socialClass = Labor } = obj
-    const array: TaggedItem[] = occupation.filter(
-      (i) => containsAll([socialClass], i.tags))
-    return { ...obj, occupation: getTaggedItem(array) }
+    const result = getFilteredList([socialClass], occupation)
+    return { ...obj, occupation: result }
   },
   
-  
-  (obj) => ({ ...obj, profession: getItem(profession) }),
+  // (obj) => ({ ...obj, profession: getItem(profession) }),
   (obj) => ({ ...obj, demeanor: getItem(demeanor) })
 ]
 

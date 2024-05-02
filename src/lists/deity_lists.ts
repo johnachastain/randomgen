@@ -1,6 +1,6 @@
 // DEITIES & DEMIGODS
 
-	export const d_name_male = [
+export const d_name_male = [
 	"Abercrombie",
 	"Aldus",
 	"Alfred",
@@ -24,6 +24,8 @@
 	"Elmer",
 	"Elmo",
 	"Ernest",
+	"Ethelbert",
+	"Ethelred",
 	"Esher",
 	"Felix",
 	"Ferdinand",
@@ -100,21 +102,21 @@
 	"Horatio",
 	"Alger",
 	"Thurman",
-"Ebenezer",
-"Sigmund",
-"Simon",
-"Seymour",
-"Maxwell",
-"Jasper",
-"Jarvis",
-"Falstaff",
-"Griswald",
-"Winston",
-"Chauncy",
-"Silas"
+	"Ebenezer",
+	"Sigmund",
+	"Simon",
+	"Seymour",
+	"Maxwell",
+	"Jasper",
+	"Jarvis",
+	"Falstaff",
+	"Griswald",
+	"Winston",
+	"Chauncy",
+	"Silas"
 	];
 	
-	export const d_name_female = [
+export const d_name_female = [
 	"Abigail",
 	"Agatha",
 	"Althea",
@@ -162,44 +164,44 @@
 	"Zelda",
 	"Silas",
 	"Zooey",
-"Zooey",
-"Zoe"
-	];
+	"Zooey",
+	"Zoe"
+];
 	
-	export const d_surname_female = [
+export const d_surname_female = [
 	"Awesome", 
 	"Beautiful", 
 	"Cool"
-	];
+];
 	
-	export const d_surname_male = [
+export const d_surname_male = [
 	"Awesome", 
 	"Beautiful", 
 	"Cool"
-	];
+];
 	
-	export const d_surname_good = [
+export const d_surname_good = [
 	"Awesome", 
 	"Beautiful", 
 	"Cool"
-	];
+];
 	
-	export const d_surname_evil = [
+export const d_surname_evil = [
 	"Angry", 
 	"Bad", 
 	"Cranky"
-	];
-	export const d_surname_neutral = [
+];
+export const d_surname_neutral = [
 	"Apathetic", 
 	"Boring", 
 	"Cold"
-	];
+];
 	
-	export const d_surname_all = [
+export const d_surname_all = [
 	d_surname_good, 
 	d_surname_evil, 
 	d_surname_neutral
-	];
+];
 	
 	export const d_silly = [
 		"Beard",
@@ -276,7 +278,7 @@
 		"Wart"
 	];
 	
-	export const d_nasty = [
+export const d_nasty = [
 	"Ash",
 	"Axe",
 	"Bag",
@@ -541,88 +543,88 @@
 	"Wrack",
 	"Wrath",
 	"Wraith"
-	];
+];
 
 	
-	export const d_title_prefix_good = [
+export const d_title_prefix_good = [
 	"Sublime",
 	"Exalted",
 	"Celestial"
-	];
+];
 	
-	export const d_title_prefix_evil = [
+export const d_title_prefix_evil = [
 	"Dread",
 	"Vile",
 	"Grim"
-	];
-	export const d_title_prefix_neutral = [
+];
+export const d_title_prefix_neutral = [
 	"Mighty",
 	"Unvanquishable",
 	"Bellicose"
-	];
+];
 	
 	
-	export const d_title_good = [
+export const d_title_good = [
 	"Warden", 
 	"Protector"
-	];
+];
 	
-	export const d_title_evil = [
+export const d_title_evil = [
 	"Fiend"
-	];
-	export const d_title_neutral = [
+];
+export const d_title_neutral = [
 	"Overseer"
-	];
+];
 	
-	export const d_title_male = [
+export const d_title_male = [
 	"King", 
 	"Lord", 
 	"God"
-	];
-	export const d_title_female = [
+];
+export const d_title_female = [
 	"Queen", 
 	"Lady", 
-	"Godess"
-	];
+	"Goddess"
+];
 	
 	
 	
-	export const d_title_all = [
+export const d_title_all = [
 	d_title_good, 
 	d_title_evil, 
 	d_title_neutral,
 	d_title_male, 
 	d_title_female
-	];
+];
 	
 	
 	
 	
 	
-	export const d_domain_good = [
+export const d_domain_good = [
 	"Apples", 
-	"Bannanas", 
+	"Bananas", 
 	"Custard"
-	];
+];
 	
-	export const d_domain_evil = [
-	"Agression", 
+export const d_domain_evil = [
+	"Aggression", 
 	"Bad Breath", 
-	"C"
-	];
-	export const d_domain_neutral = [
+	"Cucumbers"
+];
+export const d_domain_neutral = [
 	"Ants", 
 	"Birds", 
 	"Cats"
-	];
+];
 	
-	export const d_domain_all = [
+export const d_domain_all = [
 	d_domain_good,
 	d_domain_evil,
 	d_domain_neutral
-	];
+];
 	
-	export const s_suf = [
+export const s_suf = [
 	"ch",
 	"ck",
 	"ct",
@@ -666,7 +668,7 @@
 	"tt",
 	"wl",
 	"wn"
-	];
+];
 	
 	export const s_mid = [
 		"a",
@@ -757,7 +759,7 @@
 		"Wh" 
 	];
 	
-	export const l_suf = [
+export const l_suf = [
 	"annum",
 	"aril",
 	"arn",
@@ -807,16 +809,16 @@
 	"wick",
 	"zar",
 	"zin"
-	];
+];
 
-	export const l_mid = [
+export const l_mid = [
 	"a",
 	"el",
 	"er",
 	"um"
-	];
+];
 	
-	export const l_pre = [
+export const l_pre = [
 	"Ald",
 	"Alizer",
 	"Alm",
@@ -894,4 +896,4 @@
 	"Xana",
 	"Xanth",
 	"Zyl"
-	];
+];

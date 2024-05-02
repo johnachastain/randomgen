@@ -6,6 +6,11 @@ export enum Gender {
   Neutral = 'neutral'
 }
 
+export enum Alignment {
+  Good = 'good',
+  Evil = 'evil'
+}
+
 export enum SocialClass { 
   Servant = 'servant',
   Labor = 'labor',
@@ -16,18 +21,20 @@ export enum SocialClass {
   Ecclesiastical = 'ecclesiastical',
   Royal = 'royal',
   Administration = 'administration',
-  Criminal = 'criminal'
+  Criminal = 'criminal',
+  Governmental = 'governmental',
+  Craftsman = 'craftsman'
 }
 
 export interface Character extends Being {
   name?: string
   age?: string
-  socialStatus?: string
+  // socialStatus?: string
   wealth?: string
   gender?: Gender
   socialClass?: SocialClass
   title?: string
-  profession?: string
+  // profession?: string
   occupation?: string
   demeanor?: string
 }
