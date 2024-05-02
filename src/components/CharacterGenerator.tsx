@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { getItem, getLongName, getRandom } from '../functions/functions';
-import { Character, Gender } from '../model/Character';
+import { Character, Gender, SocialClass } from '../model/Character';
+
+export enum Generic { 
+  All = 'all' 
+}
 
 export type TaggedItem = { 
   name: string, 
@@ -10,38 +14,26 @@ export type TaggedItem = {
 export type Updater<T> = { (obj: T): T }
 
 export const getTaggedItem = (arr: TaggedItem[]): string => 
-  (arr[getRandom(arr.length)].name)
+  (arr[getRandom(arr.length)]?.name)
 
 export const containsAll = (required: string[], target: string[]) => (
   required.every((s: string) => target.includes(s))
 );
 
-const gender = [
-  Gender.Male,
-  Gender.Female,
-  Gender.Neutral
-]
+const { All } = Generic
+const { Male, Female, Neutral } = Gender
+const gender = [ Male, Female, Neutral ]
 
-export enum SocialClass { 
-  Servant = 'servant',
-  Labor = 'labor',
-  Merchant = 'merchant',
-  Artisan = 'artisan',
-  Elite = 'elite',
-  Military = 'military',
-  Ecclesiastical = 'ecclesiastical',
-  Royal = 'royal'
-}
-
+const { Servant, Labor, Merchant, Artisan, Elite, Military, Ecclesiastical, Royal } = SocialClass
 const socialClass = [
-  SocialClass.Servant,
-  SocialClass.Labor,
-  SocialClass.Merchant,
-  SocialClass.Artisan,
-  SocialClass.Elite,
-  SocialClass.Military,
-  SocialClass.Ecclesiastical,
-  SocialClass.Royal
+  Servant,
+  Labor,
+  Merchant,
+  Artisan,
+  Elite,
+  Military,
+  Ecclesiastical,
+  Royal
 ]
 
 
@@ -75,62 +67,117 @@ const wealth = [
 
 
 const title = [
-  {name: 'Master', tags: [ Gender.Neutral, 'Artisan', 'All' ]},
-  {name: 'Apprentice', tags: [ Gender.Neutral, 'Artisan', 'All' ]},
-  {name: 'Chamberlain', tags: [ Gender.Neutral, 'Royal', 'All' ]},
-  {name: 'Sheriff', tags: [ Gender.Neutral, 'Royal', 'All' ]},
-  {name: 'Alderman', tags: [ Gender.Neutral, 'Royal', 'All' ]},
-  {name: 'Lord Mayor', tags: [ Gender.Neutral, 'Royal', 'All' ]},
-  {name: 'Burgomaster', tags: [ Gender.Neutral, 'Royal', 'All' ]},
-  {name: 'Chancellor', tags: [ Gender.Neutral, 'Royal', 'All' ]},
-  {name: 'Governor', tags: [ Gender.Neutral, 'Royal', 'All' ]},
-  {name: 'Minister', tags: [ Gender.Neutral, 'Royal', 'All' ]},
-  {name: 'Magistrate', tags: [ Gender.Neutral, 'Royal', 'All' ]},
-  {name: 'Bishop', tags: [ Gender.Neutral, 'Ecclesiastical', 'All' ]},
-  {name: 'Curate', tags: [ Gender.Neutral, 'Ecclesiastical', 'All' ]},
-  {name: 'Vicar', tags: [ Gender.Male, 'Ecclesiastical', 'All' ]},
-  {name: 'Brother', tags: [ Gender.Male, 'Ecclesiastical', 'All' ]},
-  {name: 'Abbot', tags: [ Gender.Male, 'Ecclesiastical', 'All' ]},
-  {name: 'Prior', tags: [ Gender.Male, 'Ecclesiastical', 'All' ]},
-  {name: 'Friar', tags: [ Gender.Male, 'Ecclesiastical', 'All' ]},
-  {name: 'Lord', tags: [ Gender.Male, 'Royal', 'All' ]},
-  {name: 'King', tags: [ Gender.Male, 'Royal', 'All' ]},
-  {name: 'Prince', tags: [ Gender.Male, 'Royal', 'All' ]},
-  {name: 'Duke', tags: [ Gender.Male, 'Royal', 'All' ]},
-  {name: 'Marquis', tags: [ Gender.Male, 'Royal', 'All' ]},
-  {name: 'Earl/Count', tags: [ Gender.Male, 'Royal', 'All' ]},
-  {name: 'Baron', tags: [ Gender.Male, 'Royal', 'All' ]},
-  {name: 'Lady', tags: [ Gender.Female, 'Royal', 'All' ]},
-  {name: 'Queen', tags: [ Gender.Female, 'Royal', 'All' ]},
-  {name: 'Princess', tags: [ Gender.Female, 'Royal', 'All' ]},
-  {name: 'Duchess', tags: [ Gender.Female, 'Royal', 'All' ]},
-  {name: 'Marchioness', tags: [ Gender.Female, 'Royal', 'All' ]},
-  {name: 'Countess', tags: [ Gender.Female, 'Royal', 'All' ]},
-  {name: 'Baroness', tags: [ Gender.Female, 'Royal', 'All' ]},
-  {name: 'Sister', tags: [ Gender.Female, 'Ecclesiastical', 'All' ]},
-  {name: 'Abbess', tags: [ Gender.Female, 'Ecclesiastical', 'All' ]},
-  {name: 'Prioress', tags: [ Gender.Female, 'Ecclesiastical', 'All' ]},
+  { name: 'Master', 
+		tags: [ Neutral, Artisan, All ] },
+  { name: 'Apprentice', 
+		tags: [ Neutral, Artisan, All ] },
+  { name: 'Chamberlain', 
+		tags: [ Neutral, Royal, All ] },
+  { name: 'Sheriff', 
+		tags: [ Neutral, Royal, All ] },
+  { name: 'Alderman', 
+		tags: [ Neutral, Royal, All ] },
+  { name: 'Lord Mayor', 
+		tags: [ Neutral, Royal, All ] },
+  { name: 'Burgomaster', 
+		tags: [ Neutral, Royal, All ] },
+  { name: 'Chancellor', 
+		tags: [ Neutral, Royal, All ] },
+  { name: 'Governor', 
+		tags: [ Neutral, Royal, All ] },
+  { name: 'Minister', 
+		tags: [ Neutral, Royal, All ] },
+  { name: 'Magistrate', 
+		tags: [ Neutral, Royal, All ] },
+  { name: 'Bishop', 
+		tags: [ Neutral, Ecclesiastical, All ] },
+  { name: 'Curate', 
+		tags: [ Neutral, Ecclesiastical, All ] },
+  { name: 'Vicar', 
+		tags: [ Male, Ecclesiastical, All ] },
+  { name: 'Brother', 
+		tags: [ Male, Ecclesiastical, All ] },
+  { name: 'Abbot', 
+		tags: [ Male, Ecclesiastical, All ] },
+  { name: 'Prior', 
+		tags: [ Male, Ecclesiastical, All ] },
+  { name: 'Friar', 
+		tags: [ Male, Ecclesiastical, All ] },
+  { name: 'Lord', 
+		tags: [ Male, Royal, All ] },
+  { name: 'King', 
+		tags: [ Male, Royal, All ] },
+  { name: 'Prince', 
+		tags: [ Male, Royal, All ] },
+  { name: 'Duke', 
+		tags: [ Male, Royal, All ] },
+  { name: 'Marquis', 
+		tags: [ Male, Royal, All ] },
+  { name: 'Earl/Count', 
+		tags: [ Male, Royal, All ] },
+  { name: 'Baron', 
+		tags: [ Male, Royal, All ] },
+  { name: 'Lady', 
+		tags: [ Female, Royal, All ] },
+  { name: 'Queen', 
+		tags: [ Female, Royal, All ] },
+  { name: 'Princess', 
+		tags: [ Female, Royal, All ] },
+  { name: 'Duchess', 
+		tags: [ Female, Royal, All ] },
+  { name: 'Marchioness', 
+		tags: [ Female, Royal, All ] },
+  { name: 'Countess', 
+		tags: [ Female, Royal, All ] },
+  { name: 'Baroness', 
+		tags: [ Female, Royal, All ] },
+  { name: 'Sister', 
+		tags: [ Female, Ecclesiastical, All ] },
+  { name: 'Abbess', 
+		tags: [ Female, Ecclesiastical, All ] },
+  { name: 'Prioress', 
+		tags: [ Female, Ecclesiastical, All ] },
 ]
 
-const bTitle = [
-  'Master',
-  'Apprentice',
-  'Chamberlain',
-  'Sheriff',
-  'Alderman',
-  'Lord Mayor',
-  'Burgomaster',
-  'Chancellor',
-  'Governor',
-  'Minister',
-  'Magistrate',
+const occupation = [
+  { name: 'Gravedigger', 
+		tags: [ Labor, All ] },
+  { name: 'Plague Doctor', 
+		tags: [ Artisan, All ] },
+  { name: 'Inquisitor', 
+		tags: [ Ecclesiastical, All ] },
+  { name: 'Hangman', 
+		tags: [ Labor, All ] },
+  { name: 'Smuggler', 
+		tags: [ Labor, All ] },
+  { name: 'Tax collector', 
+		tags: [ Labor, All ] },
+  { name: 'Scrivener', 
+		tags: [ Artisan, All ] },
+  { name: 'Scribe', 
+		tags: [ Ecclesiastical, All ] },
+  { name: 'Barrel Maker', 
+		tags: [ Artisan, All ] },
+  { name: 'Cheese Maker', 
+		tags: [ Artisan, All ] },
+  { name: 'Fishmonger', 
+		tags: [ Merchant, All ] },
+  { name: 'Butcher', 
+		tags: [ Merchant, All ] },
+  { name: 'Apothecary', 
+		tags: [ Merchant, All ] },
+  { name: 'Mason', 
+		tags: [ Artisan, All ] },
+  { name: 'Carpenter', 
+		tags: [ Artisan, All ] },
+  { name: 'Weaver', 
+		tags: [ Artisan, All ] },
+  { name: 'Farmer', 
+		tags: [ Labor, All ] },
+  { name: 'Fisherman', 
+		tags: [ Labor, All ] },
 ]
 
-// export type Title = {
-//   male: string[],
-//   female: string[],
-//   neutral: string[]
-// }
 
 const demeanor = [
   'Abrasive',
@@ -201,7 +248,7 @@ const profession = [
 //   socialStatus: (character) => ({ ...character, socialStatus: getItem(socialStatus) }),
 //   wealth: (character) => ({ ...character, wealth: getItem(wealth) }),
 //   title: (character) => {
-//     const gender = character.gender || Gender.Neutral
+//     const gender = character.gender || Neutral
 //     const array = title.filter((i) => containsAll([gender], i.tags))
 //     const r = getRandom(array.length)
 //     return { ...character, title: array[r].name }
@@ -224,12 +271,14 @@ const configArray: Updater<Character>[] = [
   (obj) => ({ ...obj, gender: getItem(gender) }),
   (obj) => ({ ...obj, age: getItem(age) }),
   (obj) => ({ ...obj, socialStatus: getItem(socialStatus) }),
+  (obj) => ({ ...obj, socialClass: getItem(socialClass) }),
   (obj) => ({ ...obj, wealth: getItem(wealth) }),
 
   (obj) => {
-    const { gender = Gender.Neutral } = obj
+    const { gender = Neutral } = obj
+    const { socialClass = Labor } = obj
     const array: TaggedItem[] = title.filter(
-      (i) => containsAll([gender], i.tags))
+      (i) => containsAll([gender, socialClass], i.tags))
     return { ...obj, title: getTaggedItem(array) }
   },
   
