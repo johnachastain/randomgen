@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { getItem, getLongName, getRandom } from '../functions/functions';
+import { getItem, getRandom } from '../functions/functions';
 import { Character, Gender, SocialClass, Alignment } from '../model/Character';
 import { d_name_male, d_name_female, d_silly, d_nasty } from '../lists/deity_lists';
-
 
 export enum Generic { 
   All = 'all' 
@@ -22,10 +21,18 @@ export const containsAll = (required: string[], target: string[]) => (
   required.every((s: string) => target.includes(s))
 );
 
-const getFilteredList = (required: string[], list: TaggedItem[]) => {
+const filterTaggedList = (required: string[], list: TaggedItem[]) => {
   const array = list.filter(
     ({tags}) => containsAll(required, tags))
   return getTaggedItem(array)
+}
+
+const getConfig = (configArray: Function[]) => {
+  let result = {}
+  for (const updater of configArray) {
+    result = updater(result)
+  }
+  return result
 }
 
 const { All } = Generic
@@ -60,6 +67,8 @@ const {
 
 const socialClass = [ ...Object.values(SocialClass) ]
 
+// const { Good, Evil } = Alignment
+const alignment = [ ...Object.values(Alignment) ]
 
 const age = [
   'Child',
@@ -382,8 +391,7 @@ const getName = (gender: Gender): string => {
   return `${firstName} ${lastName}`
 }
 
-const configArray: Updater<Character>[] = [
-  
+const characterConfig: Updater<Character>[] = [
   (obj) => ({ ...obj, gender: getItem(gender) }),
 
   (obj) => {
@@ -393,38 +401,30 @@ const configArray: Updater<Character>[] = [
   },
 
   (obj) => ({ ...obj, age: getItem(age) }),
-  // (obj) => ({ ...obj, socialStatus: getItem(socialStatus) }),
   (obj) => ({ ...obj, socialClass: getItem(socialClass) }),
   (obj) => ({ ...obj, wealth: getItem(wealth) }),
 
   (obj) => {
     const { gender = Neutral, socialClass = Labor } = obj
-    const result = getFilteredList([gender, socialClass], title)
+    const result = filterTaggedList([gender, socialClass], title)
     return { ...obj, title: result }
   },
 
   (obj) => {
     const { socialClass = Labor } = obj
-    const result = getFilteredList([socialClass], occupation)
+    const result = filterTaggedList([socialClass], occupation)
     return { ...obj, occupation: result }
   },
-  
-  // (obj) => ({ ...obj, profession: getItem(profession) }),
-  (obj) => ({ ...obj, demeanor: getItem(demeanor) })
-]
 
-const getConfig = (configArray: Function[]) => {
-  let result = {}
-  for (const updater of configArray) {
-    result = updater(result)
-  }
-  return result
-}
+  (obj) => ({ ...obj, demeanor: getItem(demeanor) })
+  // (obj) => ({ ...obj, socialStatus: getItem(socialStatus) }),
+  // (obj) => ({ ...obj, profession: getItem(profession) }),
+
+]
 
 
 export const CharacterGenerator = () => {
-  const [character, setCharacter] =useState<Character>(getConfig(configArray))
-
+  const [character, setCharacter] =useState<Character>(getConfig(characterConfig))
   console.log('character', character)
 
   return (
