@@ -16,6 +16,35 @@ export const containsAll = (required: string[], target: string[]) => (
   required.every((s: string) => target.includes(s))
 );
 
+const gender = [
+  Gender.Male,
+  Gender.Female,
+  Gender.Neutral
+]
+
+export enum SocialClass { 
+  Servant = 'servant',
+  Labor = 'labor',
+  Merchant = 'merchant',
+  Artisan = 'artisan',
+  Elite = 'elite',
+  Military = 'military',
+  Ecclesiastical = 'ecclesiastical',
+  Royal = 'royal'
+}
+
+const socialClass = [
+  SocialClass.Servant,
+  SocialClass.Labor,
+  SocialClass.Merchant,
+  SocialClass.Artisan,
+  SocialClass.Elite,
+  SocialClass.Military,
+  SocialClass.Ecclesiastical,
+  SocialClass.Royal
+]
+
+
 const age = [
   'Child',
   'Adolescent',
@@ -34,6 +63,7 @@ const socialStatus =[
 ]
 
 const wealth = [
+  'in debt',
   'Destitute',
   'Impoverished',
   'Working class',
@@ -42,11 +72,7 @@ const wealth = [
   'Decadent'
 ]
 
-const gender = [
-  Gender.Male,
-  Gender.Female,
-  Gender.Neutral
-]
+
 
 const title = [
   {name: 'Master', tags: [ Gender.Neutral, 'Artisan', 'All' ]},
@@ -151,6 +177,7 @@ const profession = [
   'Military',
   'Ecclesiastical'
 ]
+
 
 
 
