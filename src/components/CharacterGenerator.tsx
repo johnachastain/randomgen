@@ -385,8 +385,44 @@ const demeanor = [
 //   'Ecclesiastical'
 // ]
 
+type Names = {
+  male: string[]
+  female: string[]
+  neutral: string[]
+}
+ const names = {
+  male: [
+    "Abercrombie",
+    "Aldus",
+    "Alfred",
+    "Algernon",
+    "Alistair",
+    "Alphonse",
+    "Ambrose",
+    "Archibald"
+  ],
+  female: [
+    "Abigail",
+    "Agatha",
+    "Althea",
+    "Beatrice",
+    "Beatrix",
+    "Bertha"
+  ],
+  neutral: [
+    "Bob",
+    "Frank",
+    "Phil"
+  ]
+}
+
+const getFromListObject = (list: Record<string, string[]>, set: string): string => 
+  (getItem(list[set as keyof typeof list]))
+
 const getName = (gender: Gender): string => {
-  const firstName  = gender === Male ? getItem(d_name_male) : getItem(d_name_female)
+  const firstName = getFromListObject(names, gender)
+  // const firstName = getItem(names[gender as keyof Names])
+  // const firstName  = gender === Male ? getItem(d_name_male) : getItem(d_name_female)
   const lastName = `${getItem(d_silly)}${getItem(d_nasty)}`
   return `${firstName} ${lastName}`
 }
@@ -425,7 +461,11 @@ const characterConfig: Updater<Character>[] = [
 
 export const CharacterGenerator = () => {
   const [character, setCharacter] =useState<Character>(getConfig(characterConfig))
-  console.log('character', character)
+  console.log('character1', getConfig(characterConfig))
+  console.log('character2', getConfig(characterConfig))
+  console.log('character3', getConfig(characterConfig))
+  console.log('character4', getConfig(characterConfig))
+  console.log('character5', getConfig(characterConfig))
 
   return (
     <div>
