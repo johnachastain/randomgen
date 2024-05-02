@@ -24,7 +24,7 @@ const { All } = Generic
 const { Male, Female, Neutral } = Gender
 const gender = [ Male, Female, Neutral ]
 
-const { Servant, Labor, Merchant, Artisan, Elite, Military, Ecclesiastical, Royal } = SocialClass
+const { Servant, Labor, Merchant, Artisan, Elite, Military, Ecclesiastical, Royal, Criminal, Administration } = SocialClass
 const socialClass = [
   Servant,
   Labor,
@@ -33,7 +33,9 @@ const socialClass = [
   Elite,
   Military,
   Ecclesiastical,
-  Royal
+  Royal, 
+  Criminal, 
+  Administration
 ]
 
 
@@ -149,11 +151,11 @@ const occupation = [
   { name: 'Hangman', 
 		tags: [ Labor, All ] },
   { name: 'Smuggler', 
-		tags: [ Labor, All ] },
+		tags: [ Criminal, All ] },
   { name: 'Tax collector', 
-		tags: [ Labor, All ] },
+		tags: [ Administration, All ] },
   { name: 'Scrivener', 
-		tags: [ Artisan, All ] },
+		tags: [ Administration, All ] },
   { name: 'Scribe', 
 		tags: [ Ecclesiastical, All ] },
   { name: 'Barrelmaker', 
@@ -177,97 +179,95 @@ const occupation = [
   { name: 'Fisherman', 
 		tags: [ Labor, All ] },
   { name: 'Armorer', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Baker', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Barrister', 
-    tags: [ Labor, All ] },
+    tags: [ Administration, All ] },
   { name: 'Basketweaver', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Barber', 
     tags: [ Labor, All ] },
   { name: 'Beekeeper', 
     tags: [ Labor, All ] },
   { name: 'Blacksmith', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Bookbinder', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Bowyer', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Brewer', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Dyer', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Embroiderer', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Engraver', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Fletcher', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Lamplighter', 
     tags: [ Labor, All ] },
   { name: 'Laundress', 
     tags: [ Labor, All ] },
   { name: 'Leatherworker', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Locksmith', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Midwife', 
-    tags: [ Labor, All ] },
+    tags: [ Female, Labor, All ] },
   { name: 'Miller', 
     tags: [ Labor, All ] },
   { name: 'Moneychanger', 
-    tags: [ Labor, All ] },
+    tags: [ Administration, All ] },
   { name: 'Needleworker', 
     tags: [ Labor, All ] },
   { name: 'Candlemaker', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Cartwright', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Chimney sweep', 
     tags: [ Labor, All ] },
   { name: 'Clerk', 
-    tags: [ Labor, All ] },
+    tags: [ Administration, All ] },
   { name: 'Clothier', 
-    tags: [ Labor, All ] },
+    tags: [ Merchant, All ] },
   { name: 'Cobbler', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Cooper', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Coppersmith', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Crier', 
     tags: [ Labor, All ] },
   { name: 'Glassblower', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Goldsmith', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Haberdasher', 
-    tags: [ Labor, All ] },
-  { name: 'Herald', 
-    tags: [ Labor, All ] },
+    tags: [ Merchant, All ] },
   { name: 'Herbalist', 
-    tags: [ Labor, All ] },
+    tags: [ Merchant, All ] },
   { name: 'Innkeeper', 
     tags: [ Labor, All ] },
   { name: 'Jailer', 
-    tags: [ Labor, All ] },
+    tags: [ Administration, All ] },
   { name: 'Jester', 
     tags: [ Labor, All ] },
   { name: 'Jeweler', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Lacemaker', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Limner', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Perfumemaker', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Porter', 
     tags: [ Labor, All ] },
   { name: 'Potter', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Ropemaker', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Sailor', 
     tags: [ Labor, All ] },
   { name: 'Seamstress', 
@@ -275,25 +275,23 @@ const occupation = [
   { name: 'Shipwright', 
     tags: [ Labor, All ] },
   { name: 'Shoemaker', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Silversmith', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Soapmaker', 
-    tags: [ Labor, All ] },
-  { name: 'Spy', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Stonecarver', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Storyteller', 
     tags: [ Labor, All ] },
   { name: 'Tailor', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Tanner', 
     tags: [ Labor, All ] },
   { name: 'Tavernkeeper', 
     tags: [ Labor, All ] },
   { name: 'Taxidermist', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Thatcher', 
     tags: [ Labor, All ] },
   { name: 'Rat catcher', 
@@ -301,13 +299,13 @@ const occupation = [
   { name: 'Vintner', 
     tags: [ Labor, All ] },
   { name: 'Wainwright', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Weaponsmith', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Wheelwright', 
-    tags: [ Labor, All ] },
+    tags: [ Artisan, All ] },
   { name: 'Woodcarver', 
-    tags: [ Labor, All ] }, 
+    tags: [ Artisan, All ] }, 
 ]
 
 const demeanor = [
@@ -356,47 +354,6 @@ const profession = [
   'Ecclesiastical'
 ]
 
-
-
-
-// export type UpdateCharacter = (character: Character) => Character
-
-// export type Config = {
-//   name: UpdateCharacter
-//   age: UpdateCharacter
-//   socialStatus: UpdateCharacter
-//   wealth: UpdateCharacter
-//   gender: UpdateCharacter
-//   title: UpdateCharacter
-//   profession: UpdateCharacter
-//   demeanor: UpdateCharacter
-// }
-
-// const config: Config = {
-//   name: (character) => ({ ...character, name: getLongName() }),
-//   gender: (character) => ({ ...character, gender: getItem(gender) }),
-//   age: (character) => ({ ...character, age: getItem(age) }),
-//   socialStatus: (character) => ({ ...character, socialStatus: getItem(socialStatus) }),
-//   wealth: (character) => ({ ...character, wealth: getItem(wealth) }),
-//   title: (character) => {
-//     const gender = character.gender || Neutral
-//     const array = title.filter((i) => containsAll([gender], i.tags))
-//     const r = getRandom(array.length)
-//     return { ...character, title: array[r].name }
-//   },
-//   profession: (character) => ({ ...character, profession: getItem(profession) }),
-//   demeanor: (character) => ({ ...character, demeanor: getItem(demeanor) })
-// }
-
-// const getCharacter = () => {
-//   let result: Character = {}
-//   for (const prop in config) {
-//     const updateCharacter = config[ prop as keyof Config ]
-//     result = updateCharacter(result)
-//   }
-//   return result
-// }
-
 const configArray: Updater<Character>[] = [
   (obj) => ({ ...obj, name: getLongName() }),
   (obj) => ({ ...obj, gender: getItem(gender) }),
@@ -412,6 +369,15 @@ const configArray: Updater<Character>[] = [
       (i) => containsAll([gender, socialClass], i.tags))
     return { ...obj, title: getTaggedItem(array) }
   },
+
+  (obj) => {
+    // const { gender = Neutral } = obj
+    const { socialClass = Labor } = obj
+    const array: TaggedItem[] = occupation.filter(
+      (i) => containsAll([socialClass], i.tags))
+    return { ...obj, occupation: getTaggedItem(array) }
+  },
+  
   
   (obj) => ({ ...obj, profession: getItem(profession) }),
   (obj) => ({ ...obj, demeanor: getItem(demeanor) })

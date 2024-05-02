@@ -28,5 +28,6 @@ export interface Character extends Being {
   socialClass?: SocialClass
   title?: string
   profession?: string
+  occupation?: string
   demeanor?: string
 }
