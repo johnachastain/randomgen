@@ -27,6 +27,9 @@ const filterTaggedList = (required: string[], list: TaggedItem[]) => {
   return getTaggedItem(array)
 }
 
+const getFromRecord= (list: Record<string, string[]>, set: string): string => 
+  (getItem(list[set as keyof typeof list]))
+
 const getConfig = (configArray: Function[]) => {
   let result = {}
   for (const updater of configArray) {
@@ -385,42 +388,19 @@ const demeanor = [
 //   'Ecclesiastical'
 // ]
 
-type Names = {
-  male: string[]
-  female: string[]
-  neutral: string[]
-}
+// type Names = {
+//   male: string[]
+//   female: string[]
+//   neutral: string[]
+// }
  const names = {
-  male: [
-    "Abercrombie",
-    "Aldus",
-    "Alfred",
-    "Algernon",
-    "Alistair",
-    "Alphonse",
-    "Ambrose",
-    "Archibald"
-  ],
-  female: [
-    "Abigail",
-    "Agatha",
-    "Althea",
-    "Beatrice",
-    "Beatrix",
-    "Bertha"
-  ],
-  neutral: [
-    "Bob",
-    "Frank",
-    "Phil"
-  ]
+  male: [ ...d_name_male ],
+  female: [...d_name_female ],
+  neutral: [...d_name_male, ...d_name_female ]
 }
-
-const getFromListObject = (list: Record<string, string[]>, set: string): string => 
-  (getItem(list[set as keyof typeof list]))
 
 const getName = (gender: Gender): string => {
-  const firstName = getFromListObject(names, gender)
+  const firstName = getFromRecord(names, gender)
   // const firstName = getItem(names[gender as keyof Names])
   // const firstName  = gender === Male ? getItem(d_name_male) : getItem(d_name_female)
   const lastName = `${getItem(d_silly)}${getItem(d_nasty)}`
