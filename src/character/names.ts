@@ -12,6 +12,34 @@ export const getName = (gender: Gender): string => {
   return `${firstName} ${lastName}`
 }
 
+export enum WordPosition {
+  Prefix = 'prefix',
+  Suffix = 'suffix',
+  Root = 'root'
+}
+
+export enum WordType {
+  Agentive = 'agentivenoun'
+}
+
+export enum NounGroup {
+  Animal = 'animal',
+  Material = 'material',
+  Anatomical = 'anatomical',
+  Weapon = 'weapon',
+  Fluid = 'fluid',
+  Color = 'color'
+}
+
+export enum VerbGroup {}
+
+export enum AdjectiveGroups {}
+
+const weightedTaggedNames = [
+  [ 'Bob', ['male', 'evil', 'royal'], 3],
+  [ 'Fred', ['male', 'good', 'artisan'], 2],
+  [ 'Phil', ['male', 'good', 'criminal'], 1],
+]
 const getNameVariant1 = (tags: string[]) => 'one'
 const getNameVariant2 = (tags: string[]) => 'two'
 const getNameVariant3 = (tags: string[]) => 'three'
