@@ -27,19 +27,26 @@ export enum NounGroup {
   Material = 'material',
   Anatomical = 'anatomical',
   Weapon = 'weapon',
+  Armor = 'armor',
   Fluid = 'fluid',
-  Color = 'color'
+  Color = 'color',
+  Weather = 'weather'
 }
 
 export enum VerbGroup {}
 
-export enum AdjectiveGroups {}
+export enum AdjectiveGroups {
+  Effect = 'effect',
+  Condition = 'condition',
+  Quality = 'quality',
+}
 
 const weightedTaggedNames = [
   [ 'Bob', ['male', 'evil', 'royal'], 3],
   [ 'Fred', ['male', 'good', 'artisan'], 2],
   [ 'Phil', ['male', 'good', 'criminal'], 1],
 ]
+
 const getNameVariant1 = (tags: string[]) => 'one'
 const getNameVariant2 = (tags: string[]) => 'two'
 const getNameVariant3 = (tags: string[]) => 'three'
