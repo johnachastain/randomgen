@@ -1,4 +1,4 @@
-import { Being } from './Being'
+import { Being } from '../model/Being'
 
 export enum Gender {
   Male = 'male',
@@ -27,6 +27,9 @@ export enum SocialClass {
 }
 
 export interface Character extends Being {
+  firstName?: string
+  lastName?: string
+  middleName?: string
   name?: string
   age?: string
   // socialStatus?: string

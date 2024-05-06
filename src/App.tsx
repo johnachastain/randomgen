@@ -1,9 +1,9 @@
 import { RecoilRoot } from "recoil";
 import './App.css'
 import { Route, Switch } from "wouter";
-import { Base } from "./Base";
-import { Geomorph } from "./Geomorph";
-import { Character } from "./Character";
+import { Base } from "./pages/Base";
+import { Geomorph } from "./pages/Geomorph";
+import { Character } from "./pages/Character";
 
 function App() {
   // test();
