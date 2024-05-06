@@ -32,12 +32,10 @@ export interface Character extends Being {
   middleName?: string
   name?: string
   age?: string
-  // socialStatus?: string
   wealth?: string
   gender?: Gender
   socialClass?: SocialClass
   title?: string
-  // profession?: string
   occupation?: string
   demeanor?: string
 }

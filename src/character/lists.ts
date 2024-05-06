@@ -1,14 +1,10 @@
 import { Gender, SocialClass, Alignment } from './Character';
 import { d_name_male, d_name_female } from '../lists/deity_lists';
-import { TaggedTuple } from '../shared/types';
-
-export enum Generic { 
-  All = 'all' 
-}
+import { Generic, TaggedTuple } from '../shared/types';
 
 export const { All } = Generic
 export const { Male, Female, Neutral } = Gender
-export const gender = [ Male, Female, Neutral ]
+export const gender = [ ...Object.values(Gender)]
 
 export const { 
   Servant, 
@@ -23,22 +19,7 @@ export const {
   Administration 
 } = SocialClass
 
-// export const socialClass = [
-//   Servant,
-//   Labor,
-//   Merchant,
-//   Artisan,
-//   Elite,
-//   Military,
-//   Ecclesiastical,
-//   Royal, 
-//   Criminal, 
-//   Administration
-// ]
-
 export const socialClass = [ ...Object.values(SocialClass) ]
-
-// export const { Good, Evil } = Alignment
 export const alignment = [ ...Object.values(Alignment) ]
 
 export const age = [
@@ -51,13 +32,6 @@ export const age = [
   'Ancient'
 ]
 
-// export const socialStatus =[
-//   'Royal',
-//   'Noble',
-//   'Guildsman',
-//   'Gentry'
-// ]
-
 export const wealth = [
   'in debt',
   'Destitute',
@@ -67,8 +41,6 @@ export const wealth = [
   'Prosperous',
   'Decadent'
 ]
-
-
 
 export const title = [
   { name: 'Master', 
@@ -430,21 +402,6 @@ export const demeanor = [
   'Sullen'
 ]
 
-// export const profession = [
-//   'Criminal',
-//   'Poor',
-//   'Merchant',
-//   'Artisan',
-//   'Elite',
-//   'Military',
-//   'Ecclesiastical'
-// ]
-
-// type Names = {
-//   male: string[]
-//   female: string[]
-//   neutral: string[]
-// }
  export const names = {
   male: [ ...d_name_male ],
   female: [...d_name_female ],

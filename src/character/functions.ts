@@ -1,4 +1,4 @@
-import { TableItem, TaggedItem, TaggedTuple } from '../shared/types';
+import { TableItem, TaggedItem, TaggedTuple, WeightedTaggedTuple } from '../shared/types';
 import { getItem, getRandom } from '../shared/functions';
 
 // Populate Objects using a config of updaters
@@ -50,6 +50,27 @@ export const filterTaggedTupleList = (required: string[], list: TaggedTuple[]) =
   const array = list.filter(
     ([_, tags]) => containsAll(required, tags))
   return getTaggedTuple(array)
+}
+
+export const getWeightedTaggedTuple = (arr: WeightedTaggedTuple[]): string => 
+  (arr[getRandom(arr.length)]?.[0])
+
+export const filterWeightedTaggedTupleList = (
+  required: string[], list: WeightedTaggedTuple[]
+) => {
+  const filtered = list.filter(
+    ([_, tags]) => containsAll(required, tags))
+
+    let sum: WeightedTaggedTuple[] = []
+
+    for (const item of filtered) {
+      const [_, __, n] = item
+      for (let i=0; i < n; i++) {
+        sum = [ ...sum, item]
+      }
+    }
+
+  return getWeightedTaggedTuple(sum)
 }
 
 // Records (keyed object of arrays)

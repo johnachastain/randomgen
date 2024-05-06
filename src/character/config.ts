@@ -24,11 +24,6 @@ export const characterConfig: Updater<Character>[] = [
     return { ...obj, title: result }
   },
 
-  // (obj) => {
-  //   const { socialClass = Labor } = obj
-  //   const result = filterTaggedList([socialClass], occupation)
-  //   return { ...obj, occupation: result }
-  // },
   (obj) => {
     const { socialClass = Labor } = obj
     const result = filterTaggedTupleList([socialClass], occupationTuple)
@@ -36,7 +31,5 @@ export const characterConfig: Updater<Character>[] = [
   },
 
   (obj) => ({ ...obj, demeanor: getItem(demeanor) })
-  // (obj) => ({ ...obj, socialStatus: getItem(socialStatus) }),
-  // (obj) => ({ ...obj, profession: getItem(profession) }),
 
 ]
