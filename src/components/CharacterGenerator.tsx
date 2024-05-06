@@ -7,13 +7,33 @@ export enum Generic {
   All = 'all' 
 }
 
+export type Updater<T> = { (obj: T): T }
+
+// tuple weighted tables
+export type TableItem = [number, Function]
+
+export const makeTable =(tuples: TableItem[], tags: string[]) => {
+  let sum: Function[] = []
+  for (const tuple  of tuples) {
+    const [range, updater] = tuple
+    for (let i=0; i < range; i++) {
+      sum = [ ...sum, updater]
+    }
+  }
+  return sum
+}
+
+export const getTableItem = (config: TableItem[], tags: string[]) => {
+  const table: Function[] = makeTable(config, tags)
+  const getter: Function = getItem(table)
+  return getter(tags)
+}
+
+// taggedItem (keyed objects)
 export type TaggedItem = { 
   name: string, 
   tags: string[] 
 }
-
-export type Updater<T> = { (obj: T): T }
-
 export const getTaggedItem = (arr: TaggedItem[]): string => 
   (arr[getRandom(arr.length)]?.name)
 
@@ -27,9 +47,24 @@ const filterTaggedList = (required: string[], list: TaggedItem[]) => {
   return getTaggedItem(array)
 }
 
+
+// taggedTuples
+export type TaggedTuple = [ string, string[] ] 
+export const getTaggedTuple = (arr: TaggedTuple[]): string => 
+  (arr[getRandom(arr.length)]?.[0])
+
+const filterTaggedTupleList = (required: string[], list: TaggedTuple[]) => {
+  const array = list.filter(
+    ([_, tags]) => containsAll(required, tags))
+  return getTaggedTuple(array)
+}
+
+// Records (keyed object of arrays)
 const getFromRecord= (list: Record<string, string[]>, set: string): string => 
   (getItem(list[set as keyof typeof list]))
 
+
+// Populate Objects using a config of updaters
 const getConfig = (configArray: Function[]) => {
   let result = {}
   for (const updater of configArray) {
@@ -173,6 +208,90 @@ const title = [
 		tags: [ Female, Ecclesiastical, All ] },
   { name: 'Prioress', 
 		tags: [ Female, Ecclesiastical, All ] },
+]
+const occupationTuple = [
+  [ 'Gravedigger', [ Labor, All ] ],
+  [ 'Plague Doctor', [ Artisan, All ] ],
+  [ 'Inquisitor', [ Ecclesiastical, All ] ],
+  [ 'Hangman', [ Labor, All ] ],
+  [ 'Smuggler', [ Criminal, All ] ],
+  [ 'Tax collector', [ Administration, All ] ],
+  [ 'Scrivener', [ Administration, All ] ],
+  [ 'Scribe', [ Ecclesiastical, All ] ],
+  [ 'Barrelmaker', [ Artisan, All ] ],
+  [ 'Cheesemaker', [ Artisan, All ] ],
+  [ 'Fishmonger', [ Merchant, All ] ],
+  [ 'Butcher', [ Merchant, All ] ],
+  [ 'Apothecary', [ Merchant, All ] ],
+  [ 'Mason', [ Artisan, All ] ],
+  [ 'Carpenter', [ Artisan, All ] ],
+  [ 'Weaver', [ Artisan, All ] ],
+  [ 'Farmer', [ Labor, All ] ],
+  [ 'Fisherman', [ Labor, All ] ],
+  [ 'Armorer', [ Artisan, All ] ],
+  [ 'Baker', [ Artisan, All ] ],
+  [ 'Barrister', [ Administration, All ] ],
+  [ 'Basketweaver', [ Artisan, All ] ],
+  [ 'Barber', [ Labor, All ] ],
+  [ 'Beekeeper', [ Labor, All ] ],
+  [ 'Blacksmith', [ Artisan, All ] ],
+  [ 'Bookbinder', [ Artisan, All ] ],
+  [ 'Bowyer', [ Artisan, All ] ],
+  [ 'Brewer', [ Artisan, All ] ],
+  [ 'Dyer', [ Artisan, All ] ],
+  [ 'Embroiderer', [ Artisan, All ] ],
+  [ 'Engraver', [ Artisan, All ] ],
+  [ 'Fletcher', [ Artisan, All ] ],
+  [ 'Lamplighter', [ Labor, All ] ],
+  [ 'Laundress', [ Labor, All ] ],
+  [ 'Leatherworker', [ Artisan, All ] ],
+  [ 'Locksmith', [ Artisan, All ] ],
+  [ 'Midwife', [ Female, Labor, All ] ],
+  [ 'Miller', [ Labor, All ] ],
+  [ 'Moneychanger', [ Administration, All ] ],
+  [ 'Needleworker', [ Labor, All ] ],
+  [ 'Candlemaker', [ Artisan, All ] ],
+  [ 'Cartwright', [ Artisan, All ] ],
+  [ 'Chimney sweep', [ Labor, All ] ],
+  [ 'Clerk', [ Administration, All ] ],
+  [ 'Clothier', [ Merchant, All ] ],
+  [ 'Cobbler', [ Artisan, All ] ],
+  [ 'Cooper', [ Artisan, All ] ],
+  [ 'Coppersmith', [ Artisan, All ] ],
+  [ 'Crier', [ Labor, All ] ],
+  [ 'Glassblower', [ Artisan, All ] ],
+  [ 'Goldsmith', [ Artisan, All ] ],
+  [ 'Haberdasher', [ Merchant, All ] ],
+  [ 'Herbalist', [ Merchant, All ] ],
+  [ 'Innkeeper', [ Labor, All ] ],
+  [ 'Jailer', [ Administration, All ] ],
+  [ 'Jester', [ Labor, All ] ],
+  [ 'Jeweler', [ Artisan, All ] ],
+  [ 'Lacemaker', [ Artisan, All ] ],
+  [ 'Limner', [ Artisan, All ] ],
+  [ 'Perfumemaker', [ Artisan, All ] ],
+  [ 'Porter', [ Labor, All ] ],
+  [ 'Potter', [ Artisan, All ] ],
+  [ 'Ropemaker', [ Artisan, All ] ],
+  [ 'Sailor', [ Labor, All ] ],
+  [ 'Seamstress', [ Labor, All ] ],
+  [ 'Shipwright', [ Labor, All ] ],
+  [ 'Shoemaker', [ Artisan, All ] ],
+  [ 'Silversmith', [ Artisan, All ] ],
+  [ 'Soapmaker', [ Artisan, All ] ],
+  [ 'Stonecarver', [ Artisan, All ] ],
+  [ 'Storyteller', [ Labor, All ] ],
+  [ 'Tailor', [ Artisan, All ] ],
+  [ 'Tanner', [ Labor, All ] ],
+  [ 'Tavernkeeper', [ Labor, All ] ],
+  [ 'Taxidermist', [ Artisan, All ] ],
+  [ 'Thatcher', [ Labor, All ] ],
+  [ 'Rat catcher', [ Labor, All ] ],
+  [ 'Vintner', [ Labor, All ] ],
+  [ 'Wainwright', [ Artisan, All ] ],
+  [ 'Weaponsmith', [ Artisan, All ] ],
+  [ 'Wheelwright', [ Artisan, All ] ],
+  [ 'Woodcarver', [ Artisan, All ] ], 
 ]
 
 const occupation = [
@@ -438,14 +557,24 @@ const characterConfig: Updater<Character>[] = [
 
 ]
 
+const getNameVariant1 = (tags: string[]) => 'one'
+const getNameVariant2 = (tags: string[]) => 'two'
+const getNameVariant3 = (tags: string[]) => 'three'
+
+const tableConfig: TableItem[] = [
+  [1, (tags: string[]) => getNameVariant1(tags)],
+  [2, (tags: string[]) => getNameVariant2(tags)],
+  [3, (tags: string[]) => getNameVariant3(tags)]
+]
+
+
+
 
 export const CharacterGenerator = () => {
   const [character, setCharacter] =useState<Character>(getConfig(characterConfig))
-  console.log('character1', getConfig(characterConfig))
-  console.log('character2', getConfig(characterConfig))
-  console.log('character3', getConfig(characterConfig))
-  console.log('character4', getConfig(characterConfig))
-  console.log('character5', getConfig(characterConfig))
+  // console.log('character1', getConfig(characterConfig))
+  console.log(makeTable(tableConfig, []))
+  console.log(getTableItem(tableConfig, []))
 
   return (
     <div>
