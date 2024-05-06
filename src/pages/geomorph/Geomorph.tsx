@@ -1,6 +1,6 @@
-import { Header } from './components/Header'
-import { Footer } from './components/Footer'
-import { GeomorphGenerator } from "./components/GeomorphGenerator";
+import { Header } from '../../components/Header'
+import { Footer } from '../../components/Footer'
+import { GeomorphGenerator } from "./GeomorphGenerator";
 
 
 export const Geomorph = () => {

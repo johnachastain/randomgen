@@ -1,9 +1,9 @@
 import { useMemo, useState, useCallback, useEffect } from 'react';
-import { getNewGrid } from '../functions/geomorphs';
-import { GridItem } from '../model/Geomorph';
+import { getNewGrid } from '../../geomorph/geomorphs';
+import { GridItem } from '../../geomorph/Geomorph';
 import { MapItem } from './MapItem';
 import { useRecoilState } from "recoil";
-import { MapGridState, MapRowsState, MapColumnsState } from "../state/recoil_state";
+import { MapGridState, MapRowsState, MapColumnsState } from "../../state/recoil_state";
 
 export type SelectProps = {
   name: string

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Character } from '../character/Character';
-import { getConfig, getTableItem, makeTable } from '../character/functions';
-import { characterConfig } from '../character/config';
-import { tableConfig } from '../character/names';
+import { Character } from '../../character/Character';
+import { getConfig, getTableItem, makeTable } from '../../character/functions';
+import { characterConfig } from '../../character/config';
+import { tableConfig } from '../../character/names';
 
 export const CharacterGenerator = () => {
   const [character, setCharacter] =useState<Character>(getConfig(characterConfig))

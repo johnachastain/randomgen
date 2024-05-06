@@ -1,8 +1,8 @@
-import { Header } from './components/Header'
-import { Footer } from './components/Footer'
-import { BaseGenerator } from "./components/BaseGenerator";
-import { BaseSelector } from "./components/BaseSelector";
-import { BaseDeselector } from "./components/BaseDeselector";
+import { Header } from '../../components/Header'
+import { Footer } from '../../components/Footer'
+import { BaseGenerator } from "./BaseGenerator";
+import { BaseSelector } from "./BaseSelector";
+import { BaseDeselector } from "./BaseDeselector";
 
 export const Base = () => {
   return (

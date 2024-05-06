@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { GridItem } from "../model/Geomorph";
+import { GridItem } from "../geomorph/Geomorph";
 
 export type SyntaxMap = {
   name: string,

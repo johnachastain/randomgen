@@ -1,7 +1,7 @@
-import { Select } from './Select'
+import { Select } from '../../components/Select'
 import { useRecoilState } from "recoil";
-import { all, adjective } from '../data/listOptions'
-import { BaseTypeState, BaseAdjState, BaseCountState } from "../state/recoil_state"
+import { all, adjective } from '../../components/listOptions'
+import { BaseTypeState, BaseAdjState, BaseCountState } from "../../state/recoil_state"
 
 export const BaseSelector = () => {
   const [Type, setType] = useRecoilState(BaseTypeState)

@@ -1,4 +1,4 @@
-import { Edge, Edges, Geomorph, GeomorphTag } from "../model/Geomorph";
+import { Edge, Edges, Geomorph, GeomorphTag } from "../geomorph/Geomorph";
 
 export const geomorphs: Geomorph[] = [
   {	key: "",

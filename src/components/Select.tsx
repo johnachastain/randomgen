@@ -1,4 +1,4 @@
-import { ListOption } from '../data/listOptions'
+import { ListOption } from './listOptions'
 
 export type SelectProps = {
   name: string

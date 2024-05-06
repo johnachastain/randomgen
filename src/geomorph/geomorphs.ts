@@ -1,4 +1,4 @@
-import { GridItem, Edges} from "../model/Geomorph";
+import { GridItem, Edges} from "./Geomorph";
 import { geomorphs } from '../lists/geomorphConfig'
 
 const  getRandom = (n: number):number =>  Math.floor(Math.random()*n);

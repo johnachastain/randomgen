@@ -1,8 +1,8 @@
 import { useMemo, useEffect } from 'react';
 import { useRecoilValue, useRecoilState } from "recoil";
-import { BaseListState, BaseTypeState, BaseAdjState, BaseCountState, BaseOutputState, SyntaxMap } from "../state/recoil_state";
-import { getSyntaxList } from '../functions/functions'
-import { ListItem } from "./ListItem";
+import { BaseListState, BaseTypeState, BaseAdjState, BaseCountState, BaseOutputState, SyntaxMap } from "../../state/recoil_state";
+import { getSyntaxList } from '../../functions/functions'
+import { ListItem } from "../../components/ListItem";
 
 export type SelectProps = {
   name: string

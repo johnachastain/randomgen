@@ -1,5 +1,5 @@
 
-import { CharacterGenerator } from "./components/CharacterGenerator";
+import { CharacterGenerator } from "./CharacterGenerator";
 
 
 export const Character = () => {

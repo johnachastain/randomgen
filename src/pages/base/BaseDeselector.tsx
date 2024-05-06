@@ -1,7 +1,7 @@
 
 import { useCallback } from 'react';
 import { useRecoilState } from "recoil";
-import { BaseOutputState } from "../state/recoil_state";
+import { BaseOutputState } from "../../state/recoil_state";
 
 export const BaseDeselector = () => {
   const [Output, setOutput] = useRecoilState(BaseOutputState)

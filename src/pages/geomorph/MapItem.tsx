@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
-import { GridItem } from '../model/Geomorph';
+import { GridItem } from '../../geomorph/Geomorph';
 import {createUseStyles} from 'react-jss'
-import { Edge, Edges } from "../model/Geomorph";
-import { updateSelf } from '../functions/geomorphs';
-import { MapGridState, MapRowsState, MapColumnsState } from "../state/recoil_state";
+import { Edge, Edges } from "../../geomorph/Geomorph";
+import { updateSelf } from '../../geomorph/geomorphs';
+import { MapGridState, MapRowsState, MapColumnsState } from "../../state/recoil_state";
 import { useRecoilValue, useRecoilState } from "recoil";
 
 const useStyles = createUseStyles({
