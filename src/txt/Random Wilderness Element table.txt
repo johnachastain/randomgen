@@ -1,0 +1,144 @@
+var possessive =
+["Golem's", "Fidget's", "King's", "Lord's", "Duke's", "Sorceror's", "Archer's", "Fletcher's", "Monk's", "Rogue's", "Hermit's", "Fool's", "Jester's", "Druid's", "Martyr's", "Maggot's"];
+
+
+var color =
+["Azure", "Cobalt ", "Verdigris", "Pale", "Dark", "Dim", "Umber", "Amber", "Burgundy", "Crimson", "Ocher", "Rainbow", "Magenta", "Cyan", "Gray", "Black", "White", "Red", "Blue", "Green", "Orange", "Violet", "Yellow", "Sepia", "Cerulean", "Alizerin", "Ebon", "Veridian", "Dun"];
+
+var emotive = [emotive_good, emotive_neutral, emotive_evil];
+
+var emotive_evil =
+["Creepy", "Vile", "Cursed", "Toxic", "Noxious", "Putrid", "Pitch Black", "Desecrated", "Aweful", "Demonic", "Infernal", "Dire", "Grim", "Rancid", "Foul", "Dreary", "Abyssal", "Corrupted", "Contaminated", "Diabolic", "Cruel", "Wretched", "Fetid", "Unnatural", "Invested", "Sinister", "Suspicious", "Defiled", "Insidious", "Blackflame", "Dismal", "Gloomy", "Murky"];
+
+
+var emotive_good = 
+["Celestial", "Holy", "Sacred", "Consecrated", "Pure", "Great", "Angelic", "Regal", "Heraldic", "Imperial", "Royal", "Blessed", "Ancestral", "Mystic", "Tranquil"];
+
+
+var emotive_neutral =
+["Weird", "Mysterious", "Cryptic", "Lunar", "Elder", "Fey", "Eldritch", "Lonely", "Strange", "Wonderous", "Arcane", "Enchanted", "Eerie", "Quiet", "Obscure", "Disenchanted", "Ingenious"];
+
+
+var material =
+["Alabaster", "Brass", "Obsidian", "Bone", "Copper", "Emerald", "Iron", "Jade", "Onyx", "Ruby", "Silver", "Dung", "Sand", "Salt", "Glass", "Topaz", "Crystal", "Brimstone", "Sulpher", "Brine", "Mithril", "Sapphire", "Platinum", "Bronze", "Amethyst", "Garnet", "Coral", "Beryl", "Lapis", "Ivory", "Turquoise", "Ambergris", "Steel", "Fungal", "Copper", "Gold", "Oaken", "Mud", "Pitch", "Sludge", "Cedar", "Parchment", "Woven", "Silk", "Wax", "Brick", "Granite", "Marble", "Ash", "Thatch", "Tar", "Porcelain", "Leather", "Wooden", "Lead", "Opal", "Flint", "Flowstone", "Limestone", "Sandstone", "Slag", "Shale", "Coal", "Basalt", "Plaster", "Concrete", "Redwood", "Mahogany", "Clay", "Straw", "Igneous", "Tephra", "Charcoal", "Lotus", "Alloy", "Papyrus", "Greenstone"];
+
+var condition = [condition_excellent, condition_broken, condition_misc];
+
+var condition_misc = 
+["Dusty", "Lost", "Mottled", "Ancient", "Bald", "Hollow", "Balanced", "Forgotten", "Abandoned", "Jagged", "Dull", "Viscous", "Cloudy", "Greasy", "Unfinished", "Renovated", "Repaired", "Foggy", "Speckled", "Wrinkled", "Veiled", "Rebuilt", "Mossy", "Slippery", "Drifting", "Looming", "Lurking", "Remote", "Dry", "Squirming", "False ", "Barbed", "Shrouded", "Thermal", "Crested", "Spined", "Spiked", "Serrated", "Scaled", "Shallow", "Forsaken", "Dormant", "Nocturnal", "Cyclopean"];
+
+
+var condition_excellent =
+["Fine", "Grand", "Pristine", "Ornate", "Engraved", "Warded", "Sturdy", "Bright", "Concentric", "Terraced", "Geometric", "Gilded", "Sealed"];
+
+
+var condition_broken = 
+["Shattered", "Broken", "Fallen", "Crumbling", "Flawed", "Faulty", "Splintered", "Chipped", "Worn", "Collapsed", "Scorched", "Unstable", "Decayed", "Defaced", "Weathered", "Warped", "Rotting", "Rusty", "Sunken", "Tangled", "Twisted", "Tarnished", "Sinking", "Smoldering", "Flooded", "Pilfered", "Odious", "Moldy", "Eroded", "Rusting", "Overgrown", "Leaking", "Drained"];
+
+
+var effect = 
+["Glowing", "Shimmering", "Hidden", "Secret", "Invisible", "Ethereal", "Floating", "Levatating", "Prismatic", "Wandering", "Singing", "Endless", "Drifting", "Blinking", "Jumping", "Radiant", "Giant", "Howling", "Screaming", "Chromatic", "Burning", "Blazing", "Charged", "Fiery", "Electric", "Acidic", "Poison", "Spinning", "Secure", "Locked", "Inverted", "Whispering", "Corrosive", "Frozen", "Colossal", "Cursed", "Haunted", "Dancing", "Withering", "Creeping", "Magnetic", "Albino", "Luminous", "Molten", "Polluted", "Irridesscent", "Hovering", "Phantasmal", "Jeweled", "Trapped", "Voltaic", "Psionic", "Masterwork", "Temporal", "Ghostly", "Shrinking", "Bottomless", "Blinding", "Caustic", "Boiling", "Primordial", "Eternal", "Animated", "Spectral", "Shifting", "Hypnotic", "Explosive", "Blurry", "Shrunken", "Whirling", "Flickering", "Spiraling", "Concealed"];
+
+
+var objects =
+["Flame", "Shadow", "Fire", "Skull", "Moon", "Fang", "Lantern", "Slime", "Leaf", "Talon", "Void"];
+
+
+var creature =
+["Goblin", "Spider", "Gargoyle", "Golem", "Raven", "Troll", "Dragon", "Frog", "Kobold", "Rat", "Cyclops", "Skeleton", "Imp", "Wyrm", "Spore", "Serpent", "Wyrm", "Demon"];
+
+
+var quality_prefix = 
+["Muck", "Steam", "Null", "Smog", "Blood", "Clockwork", "Ice"];
+
+
+
+
+
+
+
+var construction = [construction_fortification, construction_religious, construction_funerary, construction_artifact, construction_underground, construction_shelter, construction_mechanical, construction_security, construction_misc, construction_freshwater];
+
+var construction_fortification =
+["Castle", "Citadel", "Fortress", "Stronghold", "Tower", "Trench", "Outpost", "Encampment", "Minefield", "Keep", "Gate", "Wall", "Barrier"];
+
+
+var construction_religious =
+["Monastary", "Temple", "Shrine", "Sanctuary", "Reliquary", "Abbey", "Cathedral", "Prayer Wheel", "Alter", "Ziggarut"];
+
+
+var construction_funerary =
+["Morgue", "Mortuary", "Mausoleum", "Graveyard", "Crypt", "Tomb", "Mound", "Barrow", "Pyramid"];
+
+
+var construction_artifact =
+["Obelisk", "Statue", "Tome", "Monolith", "Guardian", "Forge", "Bubble", "Cube", "Helix", "Dome", "Vortex", "Spiral", "Totem", "Apparatus", "Furnace", "Circle", "Stele", "Tablet", "Visage", "Arch", "Sphere", "Box", "Puzzle", "Cauldron", "Fountain", "Grid", "Matrix", "Orb", "Shard", "Piller", "Relic", "Anvil", "Throne"];
+
+
+var construction_underground =
+["Burrow", "Dungeon", "Tunnel", "Catacombs", "Sewer", "Mine", "Pit", "Maze"];
+
+
+
+var construction_shelter =
+["Manor", "Palace", "Hall", "City", "Hive", "Ruin", "Library"];
+
+
+var construction_mechanical = 
+["Observatory", "Windmill", "Aquaduct", "Lighthouse", "Foundry"];
+
+
+var construction_security =
+["Prison", "Cage", "Vault", "Cache", "Treasury"];
+
+
+var construction_misc =
+["Bridge", "Stairway", "Road"];
+
+
+var construction_freshwater = 
+["Well", "Cistern", "Dam"];
+
+
+var natural_misc = 
+["Barrens", "Wastes", "Desert", "Hills", "Island", "Stone", "Rock", "Tundra", "Moor", "Plains", "Dunes", "Volcano", "Glacier"];
+
+
+var natural_saltwater =
+["Sea", "Reef", "Bay", "Ocean", "Whirlpool];
+
+
+var natural_woodlands =
+["Glade", "Grove", "Meadow", "Thicket", "Briar", "Woods", "Forest", "Garden", "Tree"];
+
+
+var "natural_marshes =
+["Swamp", "Jungle", "Bog", "Marsh", "Quagmire", "Mire", "Fen"];
+
+
+var natural_underground =
+["Grotto", "Sinkhole", "Cavern", "Cave"];
+
+
+var natural_depression =
+["Chasm", "Fault", "Ravine", "Rift", "Gully", "Gorge", "Canyon", "Fissure", "Crater", "Cliff", "Valley"];
+
+
+var natural_freshwater" =
+["River", "Spring", "Falls", "Creek", "Stream", "Geyser", "Pool", "Lake", "Pond", "Puddle", "Basin"];
+
+
+var natural_highlands" =
+["Mesa", "Spire", "Summit", "Plateau", "Peak", "Pinnacle", "Mountains"];
+
+
+
+var suffix =
+["of Runes", "of Swords", "of Storms", "of Kings", "of Thorns", "of the Sphinx", "of the Moon", "of the Sun", "of Tears", "of Steam", "of the Shroud", "of the Cloak", "of Glyphs", "of the Orb", "of the Eye", "of the Hand", "of the Stars", "of the Silver Chord", "of the Talisman", "of Pentacles", "of Gravity", "of Discord", "of Spikes", "of the Leech", "of Blight", "of Hate", "of Malice", "of Ire", "of Carnage", "of Envy", "of Truth", "of Knowledge", "of the Glacier", "of the Rose", "of Gore", "of the Mind", "of Healing", "of Strength", "of Wisdom", "of Might", "of Remedy", "of Memory", "of Mana", "of Life", "of Lore", "of Venom", "of Silence", "of the Void", "of Dread", "of Regeneration", "of Summoning", "of Lies", "of Weakness", "of Whispers", "of Sleep", "of Fog", "of Jars", "of Urns", "of Woe", "of the Blind", "of Mercy", "of Perception", "of Visions", "of the Sphere", "of Gems", "of Protection", "of Junk", "of Greed", "of Balance", "of Corpses", "of the Egg", "of Candles", "of Lanterns", "of Lens", "of the Shield", "of Disruption", "of Stench", "of Magnetism", "of Chains"];
+
+var suffix_river =
+["flow", "water"];
+
+
+var suffix_mountain =
+["wall", "stone"];
