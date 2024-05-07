@@ -1,0 +1,294 @@
+
+Strange Syllables 
+
+Table 5-2: Strange Syllables 
+Harsh  
+D% 1  2  3  4  5  6  7  8  9  0  
+10 Ad  Ak  Ar  Ax  Bact  Chog  Chud  Dar  Derg  Dir  
+20 Dra  Drix  Dutt  Erd  Gid  Glak  Gna  Gner  Gnild  Gog  
+30 Grakk  Grux  Guz  Hatr  Hauk  Hdra  Hex  Hust  Ig  Jask  
+40 Jax  Jeg  Ka  Kag  Kank  Khur  Klut  Kolch  Kon  Kor  
+50 Kosk  Kra  Krag  Kru  Lak  Lat  Lig  Lut  Makt  Mlok  
+60 Mulk  Naax  Nabd  Nek  Nex  Nid  Nox  Nub  Nud  Nux  
+70 Ok  Org  Osk  Pec  Pent  Plag  Pyx  Rek  Sark  Ska  
+80 Skeg  Skek  Skut  Strak  Sut  Szat  Tchad  Telg  Ter  Thauc  
+90 Tog  Tok  Tor  Urg  Usk  Ust  Ux  Vax  Vekk  Vog  
+00 Vurg  Xag  Xeg  Xug  Yawg  Yed  Zet  Zixt  Zok  Zuk  
+Neutral  
+D% 1  2  3  4  5  6  7  8  9  0  
+10 Ald  Arn  Asth  Ba  Baad  Bal  Banth  Bhur  Bol  Chun  
+20 Del  Din  Djal  Dloth  Dole  Dom  Dor  Drul  Duhl  Fen  
+30 Fer  Fith  Flar  Fren  Gaw  Ghaz  Gho  Golm  Gren  Han  
+40 Harj  Harl  Harn  Hath  Haz  Henj  Hsar  Ilb  Irb  Jad  
+50 Jos  Kan  Kiz  Kho  Krell  Kull  Mar  Mox  Na  Nal  
+60 Nath  Nau  Naz  Neb  Nen  Nind  Nuth  Ob  Orn  Pand  
+70 Pulm  Ran  Saad  Sharn  Sheb  Shenx  Shup  Silch  Snal  Taw  
+80 Teh  Tev  Thad  Thang  Tild  Tine  Treen  Trell  Trogh  Trilt  
+90 Trul  Tsanth  Tscho  Tsith  Tu  Tul  Ur  Weft  Weng  Xal  
+00 Xin  Xun  Yahb  Yan  Yest  Yos  Za  Zilx  Zon  Zor  
+Smooth  
+D% 1  2  3  4  5  6  7  8  9  0  
+10 Am  Az  Eesh  Ell  Erm  Esh  Hoom  Hu  Ith  Izz  
+20 Leng  Lesh  Lim  Lith  Lomb  Loal  Loor  Lor  Lull  Mai  
+30 Mal  Mo  Mong  Mor  Morm  Moth  Moy  Mu  Mul  Mung  
+40 Murr  Nam  Neesh  Om  Ong  Oob  Oom  Oor  Ooth  Orth  
+50 Oth  Phal  Phol  Rhan  Rohm  Ru  Ruum  Ruz  Sarm  Sha  
+60 Shai  Shan  Shar  Shim  Sho  Shol  Shoth  Sile  Smuu  Soom  
+70 Soor  Su  Suun  Syth  Thaa  Thal  Thay  Theem  Thir  Thom  
+80 Thule  Thuu  Um  Uth  Vehm  Vesh  Vho  Vil  Vith  Vooz  
+90 Voth  Voum  Vur  Wush  Xool  Yah  Yath  Ye  Yi  Yoh  
+00 Yom  Yoth  Yu  Zem  Zha  Zhai  Zil  Zo  Zoi  Zuul  
+Various  
+D% 1  2  3  4  5  6  7  8  9  0  
+10 An  Asf  Atht  Bau  Bel  Besh  Boa  Chiv  Dal  Darth  
+20 Dith  Dos  Drau  Drax  Dro  Elb  Faer  Faerl  Ferz  Flaj  
+30 Foum  Ful  Fuln  Gath  Gen  Ghi  Ghul  Goch  Gul  Ight  
+40 Inth  Jabb  Jal  Jiv  Karg  Khal  Koh  Kraa  Kyor  Larn  
+50 Leil  Lek  Lerr  Leth  Lil  Liv  List  Lol  Luss  Luth  
+60 Misk  Mour  Myrrh  Nlaa  Nluu  Oast  Pan  Pancz  Pav  Pertz  
+70 Quin  Rath  Reen  Rew  Rorn  Sarn  Sind  Skex  Slaur  Snik  
+80 Sund  Tal  Tam  Tau  Tende  Thig  Trip  Tsai  Ul  Vaed  
+90 Val  Vel  Veld  Vitze  Vos  Vree  Wyx  Xan  Xem  Xin  
+00 Xirth  Yimp  Yisb  Yisg  Yorn  Yss  Zent  Zhar  Zorr  Zuze  
+
+Manlike Races 
+
+Vile and Crude 
+
+Table 5-3: Vile & Crude  
+Small (Goblins in d20, Trollkin in the LA game)  
+D%  1  2  3  4  5  6  7  8  9  0  
+10  ach  adz  ak  ark  az  balg  bilg  blid  blig  blok  
+20  blot  bolg  bot  bug  burk  dokh  drik  driz  duf  flug  
+30  ga  gad  gag  gah  gak  gar  gat  gaz  ghag  ghak  
+40  git  glag  glak  glat  glig  gliz  glok  gnat  gog  grak  
+50  grat  guk  hig  irk  kak  khad  krig  lag  lak  lig  
+60  likk  loz  luk  mak  maz  miz  mub  nad  nag  naz  
+70  nig  nikk  nogg  nok  nukk  rag  rak  rat  rok  shrig  
+80  shuk  skrag  skug  slai  slig  slog  sna  snag  snark  snat  
+90  snig  snik  snit  sog  spik  stogg  tog  urf  vark  yad  
+00  yagg  yak  yark  yarp  yig  yip  zat  zib  zit  ziz  
+Medium (Orcs)  
+D%  1  2  3  4  5  6  7  8  9  0  
+10  ag  aug  bad  bag  bakh  bash  baz  blag  brag  brog  
+20  bruz  dag  dakk  darg  dob  dog  drab  dug  dur  gash  
+30  ghaz  glakh  glaz  glob  glol  gluf  glur  gnarl  gnash  gnub  
+40  gob  gokh  gol  golk  gor  grakh  grash  grath  graz  grot  
+50  grub  grud  gud  gut  hag  hakk  hrat  hrog  hrug  khag  
+60  khar  krag  krud  lakh  lash  lob  lub  lud  luf  luk  
+70  molk  muk  muz  nar  ogg  olg  rag  rash  rogg  rorg  
+80  rot  rud  ruft  rug  rut  shad  shag  shak  shaz  shog  
+90  skar  skulg  slur  snar  snorl  snub  snurr  sod  stulg  thak  
+00  trog  ug  umsh  ung  uth  yakh  yash  yob  zahk  zog  
+
+Large (Ogres) 
+D%  1  2  3  4  5  6  7  8  9  0  
+10  argh  barsh  bog  burz  dof  drok  drub  drug  dub  dug  
+20  dul  dursh  dush  duz  faug  fug  ghakh  ghar  ghash  ghol  
+30  ghor  ghukk  ghul  glub  glud  glug  gluz  gom  grad  grash  
+40  grob  grogg  grok  grol  gru  gruf  gruk  grul  grum  grumf  
+50  grut  gruz  guhl  gulv  hai  hrung  hur  hurg  kai  klob  
+60  krod  kug  kulk  kur  lorg  lug  lukh  lum  lurz  lush  
+70  luz  makh  maug  molg  mud  mug  mul  murk  muzd  nakh  
+80  narg  obb  rolb  rukh  ruz  sharg  shruf  shud  shug  shur  
+90  shuz  slub  slud  slug  snad  snog  thrag  thulk  thurk  trug  
+00  ulg  ur  urd  urgh  urkh  uz  yug  yur  zud  zug  
+
+Table 5-4: Primitive 
+D%  1  2  3  4  5  6  7  8  9  0  
+10  ahg  baod  beegh  bohr  bul  buli  burh  buri  chah  dhak  
+20  digri  dum  eghi  ehm  faogh  feehm  ghad  ghah  gham  ghan  
+30  ghat  ghaw  ghee  ghish  ghug  giree  gonkh  goun  goush  guh  
+40  gunri  hah  hani  haogh  hatoo  heghi  heh  hoo  houm  hree  
+50  ig  kham  khan  khaz  khee  khem  khuri  logh  lugh  maoh  
+60  meh  mogh  mouh  mugh  naoh  naroo  nham  nuh  ob  oli  
+70  orf  ough  ouh  peh  pogh  pugh  puh  quagi  rahoo  rhoo  
+80  rifoo  ronkh  rouk  saom  saori  shehi  shlo  shom  shour  shul  
+90  snaoh  suhi  suth  teb  thom  toudh  tregh  tuhli  ub  urush  
+00  ush  vuh  wah  wuh  yaum  yauth  yeeh  yih  yuh  zham  
+
+Doughty and Homely Homely 
+
+Table 5-5: Doughty & Homely 
+
+D 1 2 3 Male Fem 
+Austri, Bafur, Berling, Bifur, Bombor, Brokk, Dain, Delling,01 bal durn na bor bis Dolgthvari, Dori, Draupnir, Dufr, Duneyr, Durathror, Durin,02 bord from nor din da Dvalin, Eikinskjaudi, Eitri, Fal, Fili, Fith, Fjalar, Frosti, Fundin,03 born fror nord in dis Ginnar, Gloin, Grerr, Har, Haur, Hornbori, Ingi, Jari, Kili, Lit, Loni,04 brim fuld orm in dis Mjodvitnir, Moin, Nain, Nali, Nar, Nibelung, Nidi, Nipingr, Nordri,05 brod fund skand in dis Nyi, Nyr, Oinn, Ori, Radsuithr, Radsvid, Regin, Rekk, Sjarr,06 brokk gim skond ir dis Skandar, Skirfir, Sudri, Thekkr, Thorin, Thror, Thrurinn, Veigur,07 brom glo storn li ga Vestri, Vig, Virvir,Vithur,Yingi.
+08 bru gond strom li hild 09 bur gord stur lin is 
+
+Fair and Noble
+
+10 burl gorm sturl nir is The lios alfar, or light elves, of Norse myth appear in various
+11 da grad sund or lif game systems as elves, alfs, ilfs, wylfs, and so on. For the fair
+12 dal grim thor ri lind folk, we use mostly clear, fluid, and clean sounds to produce
+13 dolg grod thorn ri lis refined, pleasant names. The table below lets you generate
+14 dor grom thra rin na names for two similar communities (races, clans) of such beings.
+15 dorm guld thro rok nis There are two sets of prefixes, and males and females have
+16 dral gund throl ror ris distinct suffixes. If you wish, use one set (A or B) of 40 prefixes
+17 drim gur thror rur rith on the table for a particular group, perhaps for high and wood
+18 drom hord thru vi run elves, or ilfs and wylfs.
+19 dur horn thrur vir run 
+20 durm hra thund vor vis To generate an elf name, choose a prefix + middle + suffix, or (1 in 6) prefix + suffix
+
+Table 5-6: Fair & Noble 
+Table 5-7: Small & Spry 
+
+D  A1  A2  B1  B2  Mid  Male  Fem  D  1  2  3  Male  Fem  
+01  an  im  aeg  lith  ad  ad  edel  01  bris  iphil  opal  bik  dee  
+02  ar  in  ael  maeg  al  dan  el  02  cryl  ispel  oris  brix  kiss  
+03  cal  ir  aer  mind  am  del  eth  03  elsi  istle  orif  frell  la  
+04  car  ist  aes  mith  an  dil  ian  04  ember  jat  peri  fret  liss  
+05  cel  lar  aeth  nith  ar  dir  iel  05  esk  jost  sarm  kin  mee  
+06  cir  lir  bel  rael  as  fal  iel  06  feris  jus  sprin  mist  niss  
+07  clar  lor  ber  rind  eb  ion  ien  07  frimi  lirra  stith  mit  nyx  
+08  el  mar  cael  saer  ed  ion  loth  08  gan  mali  tansi  rix  ree  
+09  elb  mel  caer  sar  el  lad  mir  09  glink  mink  tirra  tross  riss  
+10  er  mer  cris  seld  em  las  rial  10  hal  mirra  trump  twik  sa  
+11  erl  mir  ear  ser  en  lin  rian  11  hel  mistle  whis  win  tiss  
+12  est  nim  elth  sil  er  nar  riel  12  hist  ninka  zando  zisk  ynx  
+13  far  nin  eol  silm  es  or  riel  
+14  fin  nir  faer  sind  ev  orn  rien  
+15  gal  ral  fean  thael  il  ras  ril  Nymphs and Sirens  
+16  gan  ran  find  thaer  in  rior  ro�l  Nymphs, nature spirits of sundry sorts in the form of  
+17  gar  rel  ith  thal  ir  rod  sil  comely young women, are frequent in Greek myth. Sirens  
+18  gel  ril  laeg  thel  ol  rond  w�  looked nice too but used their sweet song to lure sailors to  
+19  gil  rin  lend  ther  thal  ros  wen  shipwreck. Most female Ancient Greek names can be used  
+20  ilm  rim  lind  thir  thon  thir  wen  for either; a few sample names from myth are given for  
+quick reference.  
+
+
+
+
+Table 5-8: Sinister Table 5-9: Nasty 
+D  A1  A2  B1  B2  Mid  Male  Fem  D  1  2  3  Male  Fem  
+01  bal  myr  bur  olg  dyl  ald  bra  01  aag  karg  ulthu  arag  anil  
+02  ber  ne  chor  on  el  eld  dra  02  alur  khark  urz  bru  bau  
+03  char  nel  col  or  en  id  dril  03  arak  krau  uti  drul  diu  
+04  de  nil  dol  org  er  ild  ene  04  az  kriv  uznid  inu  dusla  
+05  div  no  dor  oth  id  ird  hel  05  azik  kuaz  virn  lank  giu  
+06  dri  nyl  drom  pan  il  lim  ia  06  bral  kudu  vlaaj  lun  ija  
+07  dul  rel  dur  pel  is  naz  il  07  braz  luri  vlag  lurr  izil  
+08  eil  rha  en  por  lav  nid  iln  08  bruh  mulk  vlash  lurug  jiul  
+09  ek  ru  er  sek  len  nil  ira  09  draan  nau  vluk  nal  lihyl  
+10  im  sab  gon  sol  lev  nim  istra  10  drulg  nid  vluzak  rul  lin  
+11  ins  sin  gul  sun  lin  red  ith  11  guz  ninj  vraz  ruzuk  lyrr  
+12  ist  sul  jend  ten  liv  rid  iza  12  haug  nul  vulk  salk  nalu  
+13  jeg  sus  kil  thal  pel  rim  lin  13  idru  nym  xau  sul  rhyl  
+14  jer  tel  lul  tor  pir  riv  na  14  jhaal  ranag  xid  suruk  rula  
+15  jys  tul  mab  torm  ra  ul  ra  15  jid  rilthu  xul  ull  skiu  
+16  lil  ver  maz  vek  ral  uld  rin  16  jiu  ruk  xuraj  undak  sula  
+17  mar  vil  mol  vol  ril  vid  sil  17  jur  rulk  zauv  uvik  ulla  
+18  mer  vir  nor  vor  rin  vim  tra  18  jurg  ruz  zug  xulg  xhiu  
+19  mez  vril  noth  yel  sin  vir  vra  19  jurz  saag  zuldu  zu  zihyl  
+20  mor  yas  ol  yol  syl  viz  vril  20  kaaz  skaur  zuv  zuk  ziu  
+
+
+Malevolent
+ 
+Soft & Spongy 
+
+D%  1  2  3  4  5  6  7  8  9  0  
+10  alu  alz  avu  azaz  baph  baz  cha  fraz  garl  garu  
+20  gla  hra  mal  nahu  nal  nasu  paz  raz  tha  thalu  
+30  bre  dre  gel  gle  gre  hez  rez  rezu  tze  gzi  
+40  hriz  hzi  idrau  itha  ixu  lilu  riz  yil  dromu  gro  
+50  lol  moz  olth  oxu  sco  tho  bu  bul  buz  chru  
+60  dru  ghu  gura  guz  hruz  huz  kul  lurhz  muz  ru  
+70  shu  ssu  szul  thu  ulchru  utu  vul  zu  zul  baal  
+80  ghaa  kraa  phaal  raal  saa  bial  oazo  soaz  ruaz  gya  
+90  yaa  bael  nee  ziel  yee  aiaz  shai  reoz  duoi  drau  
+00  ghau  glau  mau  sau  tzau  iuz  juu  rhuu  vuul  zuu  
+
+Dull & Heavy 
+
+D% 1 2 3 4 5 6 7 8 9 0 10 agh alg barg chag ghad glab grag hrag kag kwarg 20 mag nalb sag tharg brelg dergh dregh drelb felg heg 30 kleg igg rigg blog drog grolb kolg krolg lolg mog 40 morg nog obb ogg olb rogg strog thog trob tzolg 50 vogt bub bulg druj durg frub fulg gub hrud hurg 60 jub julb nud nug nulb rung shub stug sug szug 70 trulg ulb urb vub vulb xub zub zug zugt aab 80 aag glaag haag naag raag boaj moab uag leegh yeb 90 yeeg aig yibb iog droog nyog aug baug daurg draug 00 gaub laug maug naug raug saug thaug iub iug ruug 
+Sharp & Spiky 
+
+D%  1  2  3  4  5  6  7  8  9  0  
+10  ach  akk  ash  azt  bahor  bar  bas  brax  charn  dak  
+20  hrax  lach  lazt  mat  nam  nazt  ralk  rhast  sark  slarv  
+30  tash  thak  thalur  thalk  vach  vap  dek  ech  fesh  gek  
+40  hrek  lech  met  ner  ter  blik  gith  igm  inax  irsch  
+50  kir  lis  lisk  lith  nilv  nirr  tlizit  bor  chon  goch  
+60  gor  goth  hoth  khor  kos  loch  lok  loth  moch  moth  
+70  noc  och  oth  rolk  roth  sot  soth  vrok  dun  gur  
+80  hun  luth  muth  nur  rutt  sut  sutt  szut  tur  urt  
+90  utuk  uzt  krych  nyth  slyth  gaan  xaas  boak  ruaak  yalm  
+00  haerx  iex  draum  gaur  glaur  rauk  saur  duum  nuur  ruun  
+
+
+Table 5-12: Empyreal 
+D1 2 3 4 5 6 Male Fem 
+01 adan asan jasan palant sarnat valmar al el 02 adrast asarn jasarm palor solar valnar an en 03 alant astar javral raman talan valnor ar er 04 amad atar kalad ranal talar valon as es 05 aman atlan kalar ranar talas valor at et 06 amar avar kalas rasan talon vanar ath eth 07 amars avlant kalast ravan taran varal ath eth 08 amart avral kasal samar taval varam ath eth 09 ansam jalan katarn saran valant varan anth enth 10 arad jalkar kaval sarat valar varat athal eleth 11 aram jaran klaron sardan valdor vardar athar ereth 12 aran jasal palad sardar valkar voltar athas eseth 
+
+
+Animal-like Creatures 
+
+Mammals 
+
+Apes: bah, beh, boh, bou, buhn, dah, deh, dih, dou, duhm, eehm, engah, fou, gah, goh, gohm, guhn, gwah, hahn, hou, hwah, huh, jou, juh, kah, keh, keng, kihm, koh, kong, kreeh, lah, leh, mah, moh, mohm, muh, nah, nang, neh, nih, noh, nou, nyoh, ogh, ououh, roh, sah, sahm, soh, tah, tahm, toh, ugh, ungoh, wah, wuhn, yah, yoh, zeh, zih 
+
+Rats: heek, histh, hisvit, ikit, itch, kree, kwee, kweev, kwik, neek, neekit, risik, skee, skiv, skree, skreek, skreelk, skrit, skriv, skwee, sneek, sneetch, snik, snikit, snitch, tchee, tchirik, weesk, wisth, wreek
+
+Squirrels: cheekk, chisk, chreej, eep, kishik, kreej, kwirrik, reep, thrisk, thriss 
+
+Dogs: ahou, auw, bow, garoo, growl, gruff, gruwl, gurr, haroou, howgh, hraugh, hrahou, hroou, hruff, hrusk, kaiyah, kurr, laroou, lhaoouh, mutt, roagh, rriur, ruff, turr, tyke, whelp, yahoou, yaup, yelp, yiee, yike, yipe, yowh, yurr 
+
+Hyenas: bree, breekah, cachinn, chikaha, chree, eehya, eengi, eheh, ghee, gheu, ghnee, ghree, grigri, hee, hyee, ihih, jheer, nyaha, snreeh, yeenh 
+
+Cats: hrish, lirr, liss, lith, lyau, mau, meer, mew, miah, miau, mihr, mirhl, mirr, miu, purrh, saf, sash, serr, sfee, shah, sharr, shau, shee, sheer, shim, shurr, siyth, slif, swish, syau 
+
+Great cats: gharrh, gher, grihm, guarrh, hleogh, hrargh, hroarr, hrugh, hruhr, hurrh, mhuurr, parrn, rhauhl, rrowrr, sabor, shaor, shargh, sheethah, taigh, thurr 
+
+Horses: bree, brhou, bwihi, gnayah, hbraa, hihn, hnai, hnee, hneh, hniwhi, hnuy, houyhn, hree, hrihih, huhnim, hwin, ilhya, maiah, mhee, mhneh, mhwin, nhiwin, nyahey, nyihih, yhehi 
+
+Pigs: borcht, borgha, bucht, ghreeh, glutth, gris, gruh, grunkh, hirkh, hirkha, hoinh, hoinkh, hortha, hrigh, hrogh, hrugh, huerg, hurnk, huunh, hween, mucht, oighn, pachn, pharho, pohr, shoat, snorgh, soueeh, squeeh, stoink, tuskh 
+
+Arthropods 
+
+Crustaceans: blak, blik, bluk, dikuk, karch, klakk, klatt, klik, kluk, klutt, kack, krak, krik, krub, kruk, krunk, kulch, kurch, kwik, kwuk, schrab, schrib, schruk, tchelk, tchub, tchuk, tchulk, tchunk, tchutt, tunch 
+
+Spiders: grik, irrtt, kilss, kob, krig, krik, krip, ksob, lob, nik, sich, skik, skrik, snik, stig, spiv, stich, tchik, tigik, tik, vib, vip, vob, vrig, wib, wik, wiv, yib, yig, yob 
+
+Insects: chirr, chirrk, hrikk, kikeek, kirrik, kizz, kree, kreex, krekk, krich, kutch, kzirr, rikik, rritz, rrizzch, shikirr, skeetz, skirr, skisk, skrak, skrix, skut, strid, strix, tchik, thrih, thrix, tzirch, tzuk, tzurr 
+
+Molluscs 
+
+Octopus: chlugh, gohlb, ghoch, ghoth, globb, gloth, grish, grush, mieuch, mnelsh, ogh, ough, phlem, phlish, shgor, shob, shog, shulb, slough, squelgh, yaagth, yoch, yog 
+
+Squid: ghagh, ghuch, glash, glup, glush, guth, lagh, lulgh, mauh, mlulgh, shluh, shubb, shug, shul, shum, shuph, slaugh, sluagh, slud, sluph, snulg, ubb, yug 
+
+Slugs: ghish, gluh, gluig, glung, milgh, milsh, phlid, phlith, shabh, shelzh, shig, sith, slaa, slig, slithe, sphid, squilg, squirsh, yilg, yish, yizh, zilgh 
+
+Birds (by sound) 
+
+Cries: breeer, eew, fee-bree, fieew, ih-ieee, ih-iii, kee-arr, kee-yer, keeerrr, kraaa, krr-eek, krrreeep, meeyah, peerr, peew, skweeurr, stree, strii, tzah-wiii, weeeerr, wha-whii 
+
+Croaks: awoik, honk, hroank, kau-kau, kaw, kek, kluck, kraark, krarr, kroak, kronk, kwaa, oikaa, tcheck, tseck, tzuk, whaw, yenk 
+
+Tweets: dee-dee, jeef, kil-dee, klee-ip, klee-it, klee-klee, kleet, li-kwee, pee, peea-wee, peet-see, tee-ho, tee-whee, tee-you, teee-ur, tew, tew-whee, towhee, tseet, twee, tweet, wheep, wreet, zweet 
+
+Chirps: a-a, a-oh, che-wink, chi-chi, chip, chirrup, chuh, chuhli, dri-drop, ikka-chi, kidick, piri-piro, trill, wheeo-chchi, whit-whit, wik.wik 
+
+Hoots: hoo, hooho, hoohooo, hooroo, hoot, hru, koo-ah, koo-koo, mwah, pwah, ruru, tiroo, too-loo, toowit, tuwu, twoah, twoo, whill, whipoor, whoo, whoo-ah 
+
+Fish 
+
+Fish: bilp, blib, blip, bloolgh, blub, blup, boolp, dilp, dool, floop, ghool, gloogh, glob, glop, glub, gluup, googh, guulgh, ool, plop, polgh, poolp, quilp, quolp, sblop, shib, shup, thilp, thlup, thoop 
+
+Sharks: arllg, aurch, ferllch, frach, fragh, frauch, frrechk, grach, grallch, grech, grellch, gruch, grullch, kaurch, rauch, rechk, shkurr, shralk, shregk, shrrukk 
+
+Eels: lool, mool, ooz, silv, slee, sleem, sleez, sliv, sliz, sloov, smee, sneel, snilv, snool, sool, szee, szoo, veez, vlee, vliz, vloo, vool, voolm, vooz, zeev, zilv, zliv, zloo, zool, zoov
+
+Reptiles 
+
+Turtles: haash, heem, ihxaan, inixh, kahxtu, kam, kiul, mahz, mierz, mursh, reehm, scux, shai, shar, sheel, siul, skeen, slaxas, strai, suliz, sxur, taish, tur, tzenx, tzesh, tzuhan, tzur, xeem, xhan, xurelz 
+
+Lizards: ahsk, anakh, ikhsar, inkh, isith, izkur, kar, kisz, krah, krizil, lirisk, liszth, rah, rahk, rahn, rahst, rahz, rausz, salar, sar, sard, sarn, skurr, skih, slith, sliz, surt, szaur, zahsu, zar, zark, zilakh 
+
+Snakes: aassp, hish, hisstah, issah, issh, kaa, kepesh, nepthiss, ness, nissp, peshep, shaash, shaah, shaass, shissk, ssaan, ssaath, ssaah, ssashen, ssep, sseth, ssin, ssipth, ssnaah, ssnepth, vaass, vaathiss, viss, vissp, yaash, yiss 
+
+Amphibians 
+
+Frogs: bhirr, bhurr, bi-bugh, braarp, breek, brekk, brepp, brib, bripp, broo�kk, brrarp, bruurk, bulph, kek-kek, khroap, ko�rk, ko�x, krekkek, phe�rp, pribbit, phrip-pip, ribbit
+
+Toads: boag, bolg, brolg, gaarlb, goag, goalb, golg, goln, graal, roalb, roalg, rolg, rolv, slaag, slaan, slaar, slaav, sloag, slorg, slorv, soag, vaarg, vlaar, vlaaz, voag, volg, vraag, vraal, vrog, vrol 
