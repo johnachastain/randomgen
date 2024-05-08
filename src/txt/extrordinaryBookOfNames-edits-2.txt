@@ -4415,16 +4415,19 @@ Female Common:
 
 Norse 
 
-Common: Bj�rn",
-"Einarr,Gr�mr",
+Common: 
+"Bj�rn",
+"Einarr",
+"Gr�mr",
 "Helgi",
 "Ketill",
 "Ragnarr,Thorbj�rn",
 "Thorgeirr,Th�rir,Thorkell",
 "Thorsteinn",
-"Th�rthr 
+"Th�rthr"
 
-Standard: �lfr",
+Standard: 
+"�lfr",
 "�n,Ari,Arinbj�rn",
 "�rm�thr,Arnbj�rn,Arngeirr,Arngr�mr,Arnljotr,Arnm�thr,Arn�rr,Arnr�thr",
 "�sbj�rn",
@@ -4684,11 +4687,12 @@ Standard: �lfr",
 "V�brandr,V�gestr,V�mundr,Vestarr,Vestmathr",
 "V�thormr",
 "V�fill",
-"Vigf�ss 
+"Vigf�ss"
 
 Female Personal Names 
 
-Common: Guthr�n",
+Common: 
+"Guthr�n",
 "Helga",
 "J�runn",
 "Th�ra",
@@ -4701,7 +4705,8 @@ Common: Guthr�n",
 "Vigd�s",
 "Yngvildr 
 
-Standard:Aase",
+Standard:
+"Aase",
 "�gileif,Ad�s",
 "�g�rthr,Ald�s",
 "�lfd�s",
@@ -4951,13 +4956,14 @@ Standard:Aase",
 "V�laug",
 "V�ny,Vigd�s",
 "Vilborg",
-"Vilgerthr,Yngvildr,Yrr 
+"Vilgerthr,Yngvildr,Yrr"
 
 Norwegian 
 
 Male Personal Names 
 
-Common:Anders",
+Common:
+"Anders",
 "Arne",
 "Bj�rn",
 "Erik",
@@ -4976,9 +4982,10 @@ Common:Anders",
 "Svein",
 "Terje",
 "Thomas",
-"Tor 
+"Tor"
 
-Standard: Adrian,Aleksander,Alexander,Alf",
+Standard: 
+"Adrian,Aleksander,Alexander,Alf",
 "Alfred,Anders",
 "Andre",
 "Andreas,Arild",
@@ -5125,11 +5132,12 @@ Standard: Adrian,Aleksander,Alexander,Alf",
 "Vegard",
 "Vetle",
 "Vidar",
-"William 
+"William"
 
 Female Personal Names 
 
-Common:Anne",
+Common:
+"Anne",
 "Astrid",
 "Berit",
 "Bj�rg",
@@ -5148,7 +5156,8 @@ Common:Anne",
 "Randi",
 "Solveig 
 
-Standard: Aase",
+Standard: 
+"Aase",
 "Agnes",
 "Amalie",
 "Amanda",
@@ -5321,7 +5330,8 @@ Standard: Aase",
 
 Medieval Norwegian 
 
-Male Common:Anders,Andreas",
+Male Common:
+"Anders,Andreas",
 "Erik",
 "Hans",
 "Henrik",
@@ -5341,7 +5351,8 @@ Male Common:Anders,Andreas",
 "Peder",
 "Petter 
 
-Female Common:Anne",
+Female Common:
+"Anne",
 "Berte",
 "Dorte",
 "Elen",
@@ -5366,7 +5377,8 @@ Polish
 
 Male Personal Names 
 
-Common:Adam,Andrzej",
+Common:
+"Adam,Andrzej",
 "Jan",
 "Jerzy",
 "Kazimierz",
@@ -5378,7 +5390,8 @@ Common:Adam,Andrzej",
 "Tadeusz",
 "Tomasz 
 
-Standard:Adalbert",
+Standard:"
+Adalbert",
 "Adam,Albert",
 "Albrycht",
 "Aleksander,Aleksy,Alfons",
@@ -5526,11 +5539,12 @@ Standard:Adalbert",
 "Wojciech",
 "Zachariasz",
 "Zenon",
-"Zygmunt 
+"Zygmunt"
 
 Female Personal Names 
 
-Common:Ann�",
+Common:
+"Ann�",
 "Beat�",
 "Edyt�",
 "Elzbiet�",
@@ -5541,9 +5555,10 @@ Common:Ann�",
 "Krystyn�",
 "Marja",
 "Urszul�",
-"Zofja 
+"Zofja"
 
-Standard:Adel�",
+Standard:
+"Adel�",
 "Agat�",
 "Agnieszk�",
 "Alesk�",
@@ -5675,11 +5690,12 @@ Standard:Adel�",
 "Wladyslaw�",
 "Zofja",
 "Zuzann�",
-"Zyt� 
+"Zyt�"
 
 Medieval Polish 
 
-Male Common:Aleksander",
+Male Common:
+"Aleksander",
 "Fryderyk",
 "Henryk",
 "Jakub",
@@ -5690,9 +5706,10 @@ Male Common:Aleksander",
 "M�ty�s",
 "Tymoteusz",
 "Wilhelm",
-"Wincenty 
+"Wincenty"
 
-Female Common:Agnieszk�,Ann�",
+Female Common:
+"Agnieszk�,Ann�",
 "Barbar�",
 "Dorot�",
 "Giertrud�",
@@ -5702,13 +5719,14 @@ Female Common:Agnieszk�,Ann�",
 "Rozalj�",
 "Stefani�",
 "Weronik�",
-"Zofja 
+"Zofja"
 
 Portuguese 
 
 Male Personal Names 
 
-Common:Ant�nio",
+Common:
+"Ant�nio",
 "Domingos",
 "F�lix",
 "Fernando",
@@ -5719,7 +5737,8 @@ Common:Ant�nio",
 "Luis",
 "Tom�s 
 
-Standard:Ab�lio,Ad�o",
+Standard:
+"Ab�lio,Ad�o",
 "Adri�o",
 "Afonso",
 "Al�o",
@@ -5902,11 +5921,12 @@ Standard:Ab�lio,Ad�o",
 "Xadreque",
 "Xavier",
 "Zacarias",
-"Zuesef 
+"Zuesef"
 
 Female Personal Names 
 
-Common:Ana",
+Common:
+"Ana",
 "Branca",
 "Catarina",
 "Filipa",
@@ -5915,9 +5935,10 @@ Common:Ana",
 "Leonor",
 "Lu�sa",
 "Marisa",
-"Teresa 
+"Teresa"
 
-Standard: Adelina,Adriana",
+Standard: 
+"Adelina,Adriana",
 "Agueda",
 "Albertina",
 "Alexandra,Aliuska",
@@ -6038,11 +6059,12 @@ Standard: Adelina,Adriana",
 "Veronica",
 "Visita�ao",
 "Vitoria",
-"Zara 
+"Zara"
 
 Medieval Portuguese 
 
-Male Common:Afonso",
+Male Common:
+"Afonso",
 "Alvaro",
 "Fernam",
 "Gomez",
@@ -6053,9 +6075,10 @@ Male Common:Afonso",
 "Pedro",
 "Rodrigo",
 "Rui",
-"Vaasco 
+"Vaasco"
 
-Female Common:Aldon�a",
+Female Common:
+"Aldon�a",
 "Biringeira",
 "Branca",
 "Briatiz",
@@ -6066,13 +6089,14 @@ Female Common:Aldon�a",
 "Lianor",
 "Maria",
 "Tareija",
-"Violante 
+"Violante"
 
 Russian 
 
 Male Personal Names 
  
-Common:Aleksandr,Alexei",
+Common:
+"Aleksandr,Alexei",
 "Andrei",
 "Boris",
 "Denis",
@@ -6088,9 +6112,10 @@ Common:Aleksandr,Alexei",
 "Oleg",
 "Sergei",
 "Vasili",
-"Vladimir,Vladislav,Yuri 
+"Vladimir,Vladislav,Yuri"
 
-Some diminutives:Alexei (Alyosha",
+Some diminutives:
+"Alexei (Alyosha",
 "Alyusha",
 "Lyosha)",
 "Ivan (Vanya",
@@ -6105,9 +6130,10 @@ Some diminutives:Alexei (Alyosha",
 "Seryoga)",
 "Vladislav (Vlad",
 "Vladik",
-"Slava) 
+"Slava)"
 
-Standard: Adam,Adrian,Afanasi,Agafon",
+Standard: 
+"Adam,Adrian,Afanasi,Agafon",
 "Akim,Aldokim",
 "Aleksandr,Alexei",
 "Anan,Anatoli",
@@ -6262,11 +6288,12 @@ Standard: Adam,Adrian,Afanasi,Agafon",
 "Yuri",
 "Zakhar",
 "Zavid",
-"Zinovii 
+"Zinovii"
 
 Female Personal Names 
 
-Common: Alexandra",
+Common: 
+"Alexandra",
 "Alina",
 "Anya",
 "Ekaterina",
@@ -6285,9 +6312,10 @@ Common: Alexandra",
 "Tamara",
 "Tatyana",
 "Valentina",
-"Vera 
+"Vera"
 
-Some diminutives:Alexandra (Sasha",
+Some diminutives:
+"Alexandra (Sasha",
 "Shura",
 "Sashenka",
 "Shurochka)",
@@ -6303,9 +6331,10 @@ Some diminutives:Alexandra (Sasha",
 "Nadechka)",
 "Valentina (Valya",
 "Valechka",
-"Valyusha) 
+"Valyusha)"
 
-Standard: Agafia,Agafya",
+Standard: 
+"Agafia,Agafya",
 "Agata",
 "Aglaya",
 "Agnessa",
@@ -6445,11 +6474,12 @@ Standard: Agafia,Agafya",
 "Zina",
 "Zinaida",
 "Zinovia",
-"Zoya 
+"Zoya"
 
 Patronymics 
 
-Common: Egorov",
+Common: 
+"Egorov",
 "Fedorov",
 "Grigorev",
 "Ivanov",
@@ -6469,7 +6499,8 @@ Common: Egorov",
 "Vasilev",
 "Volkv,Yakovlev 
 
-Standard: Abramtsov,Akimov",
+Standard: 
+"Abramtsov,Akimov",
 "Aksenov,Aleev",
 "Aleksandrov",
 "Alekseev,Alyoshka",
@@ -6725,13 +6756,14 @@ Standard: Abramtsov,Akimov",
 "Zinoviev",
 "Zmiev",
 "Zotov",
-"Zubov 
+"Zubov"
 
 Medieval Russian 
 
 Male Personal Names 
 
-Common: Fedor",
+Common: 
+"Fedor",
 "Foma",
 "Georgii",
 "Grigorii",
@@ -6740,9 +6772,10 @@ Common: Fedor",
 "Mixail",
 "Oleg",
 "Stepan",
-"Vasilii 
+"Vasilii"
 
-Standard:Aleksandr,Aleksei",
+Standard:
+"Aleksandr,Aleksei",
 "Andrei",
 "Anton",
 "Bolda",
@@ -6817,11 +6850,12 @@ Standard:Aleksandr,Aleksei",
 "Zaxarii",
 "Zhiroslav",
 "Zhiznobud",
-"Zub 
+"Zub"
 
 Female Personal Names 
 
-Common:Anastasiia",
+Common:
+"Anastasiia",
 "Domna",
 "Ekaterina",
 "Fetiniia",
@@ -6830,9 +6864,10 @@ Common:Anastasiia",
 "Mariia",
 "Marina",
 "Nedelika",
-"Tatiana 
+"Tatiana"
 
-Standard:Afimiia,Akilina",
+Standard:
+"Afimiia,Akilina",
 "Akulina",
 "Alena",
 "Anastasiia,Anna,Antonidka",
@@ -6885,13 +6920,14 @@ Standard:Afimiia,Akilina",
 "Tanka",
 "Tatiana",
 "Uliiana",
-"Varvara 
+"Varvara"
 
 Spanish 
 
 Male Personal Names 
 
-Common:Alfonso",
+Common:
+"Alfonso",
 "Ant�nio",
 "Bernardo",
 "Carlos",
@@ -6910,9 +6946,10 @@ Common:Alfonso",
 "P�p�",
 "Ram�n",
 "Ra�l",
-"Tom�s 
+"Tom�s"
 
-Standard:Ad�n",
+Standard:
+"Ad�n",
 "Adolfo",
 "Adri�n",
 "Agust�n",
@@ -7139,11 +7176,12 @@ Standard:Ad�n",
 "Vincente",
 "Vittorrio",
 "Xim�nez",
-"Y��es 
+"Y��es"
 
 Female Personal Names 
 
-Common:Ana",
+Common:
+"Ana",
 "Bonita",
 "Carmena",
 "Dolores",
@@ -7162,9 +7200,10 @@ Common:Ana",
 "Petra",
 "Ramona",
 "Rosa",
-"Teresa 
+"Teresa"
 
-Standard:Adelita",
+Standard:
+"Adelita",
 "�gueda",
 "Aldonza",
 "Alejandra",
@@ -7388,12 +7427,13 @@ Standard:Adelita",
 "Ximena",
 "Xiomara,Yn�s,Yn�z",
 "Zahira",
-"Zita 
+"Zita"
 
 Medieval Spanish 
 
 Male Personal Names 
-Common:Alonso",
+Common:
+"Alonso",
 "Diego",
 "Ferando",
 "Francisco",
@@ -7402,9 +7442,10 @@ Common:Alonso",
 "Juan",
 "Martin",
 "Pedro",
-"Rodrigo 
+"Rodrigo"
 
-Spanish: Adulfo",
+Spanish: 
+"Adulfo",
 "Aguil�",
 "Agustin",
 "Alexandre",
@@ -7539,11 +7580,12 @@ Spanish: Adulfo",
 "Tomas",
 "Velazquo",
 "Vigala",
-"Vincomal 
+"Vincomal"
 
 Female Personal Names 
 
-Common: Beatriz",
+Common: 
+"eatriz",
 "Catalina",
 "Francisca",
 "I�es",
@@ -7552,9 +7594,10 @@ Common: Beatriz",
 "Leonor",
 "Mar�a",
 "Onneca",
-"Urraca 
+"Urraca"
 
-Spanish: Agata",
+Spanish: 
+"Agata",
 "Aldon�a",
 "Aldonza",
 "Almodis",
@@ -7650,13 +7693,14 @@ Basque: Acibella",
 "Teresa",
 "Toda",
 "Tota",
-"Urraca 
+"Urraca"
 
 Arabic 
 
 Male Personal Names 
 
-Common:Abbas",
+Common:
+"Abbas",
 "Ali",
 "Farrukh",
 "Hafiz",
@@ -7665,9 +7709,10 @@ Common:Abbas",
 "Khalid",
 "Malik",
 "Mohammed",
-"Rashid 
+"Rashid"
 
-Standard:Aaftab",
+Standard:
+"Aaftab",
 "Abbas,Abu",
 "Ajmal,Akar,Ali",
 "Anjum",
@@ -7826,8 +7871,7 @@ Standard:Aaftab",
 "Tanweer,Tarafa",
 "Tariq",
 "Tashfin",
-"
-Taufiq",
+"Taufiq",
 "Thamar",
 "Ubaida",
 "Umar",
@@ -7946,11 +7990,12 @@ Taufiq",
 "Yazdan",
 "Zaahir",
 "Zakki",
-"Zarif 
+"Zarif"
 
 Female Personal Names 
 
-Common: Aminah",
+Common: 
+"Aminah",
 "Ayesha",
 "Basimah",
 "Farah",
@@ -7959,9 +8004,10 @@ Common: Aminah",
 "Kamilah",
 "Malikah",
 "Salma",
-"Yasmin 
+"Yasmin"
 
-Standard: Aatifa",
+Standard: 
+"Aatifa",
 "Abdah",
 "Abla",
 "Afa�f",
@@ -8124,9 +8170,10 @@ Standard: Aatifa",
 "Zuhair",
 "Zuhayr",
 "Zuhra",
-"Zulaikha 
+"Zulaikha"
 
-Bynames: Aadila",
+Bynames: 
+"Aadila",
 "Agda",
 "Aisha",
 "Akasma",
@@ -8252,11 +8299,12 @@ Bynames: Aadila",
 "Zarifa",
 "Zarqaa",
 "Zerdali",
-"Zora 
+"Zora"
 
 Bynames 
 
-Beasts: al-Arnabah",
+Beasts: 
+"al-Arnabah",
 "al-Baabar",
 "al-Bulbul",
 "al-Fahd",
@@ -8267,9 +8315,10 @@ Beasts: al-Arnabah",
 "al-Qut",
 "al-Tair",
 "al-Zarzur",
-"el-Hiri 
+"el-Hiri"
 
-Occupations: al-Aghani",
+Occupations: 
+"al-Aghani",
 "al-Darazi",
 "al-Hadi",
 "al-Junaid",
@@ -8281,9 +8330,10 @@ Occupations: al-Aghani",
 "al-Saffaah",
 "al-Saffar",
 "udh-Dhahab",
-"ul-Jawahir 
+"ul-Jawahir"
 
-Qualities: al�Em",
+Qualities: 
+"al�Em",
 "al-Ashra",
 "al-Bayan",
 "al-Habib",
@@ -8300,9 +8350,10 @@ Qualities: al�Em",
 "al-Mira",
 "al-Najmi",
 "al-Reyhan",
-"al-Shidda 
+"al-Shidda"
 
-Female: al-Asilah",
+Female: 
+"al-Asilah",
 "Al-Bakiyah",
 "al-Gharibah",
 "al-Ja�iah",
@@ -8317,11 +8368,12 @@ Female: al-Asilah",
 "at-Tih",
 "Bedr-el-Budr",
 "Dur-re-Shahwar",
-"Zoebd-el-Khematin 
+"Zoebd-el-Khematin"
 
 Religious Epithets 
 
-Attribute:adh-Dhaar",
+Attribute:
+"adh-Dhaar",
 "al-�Adil",
 "al-�Afuw",
 "al-�Azim",
@@ -8438,13 +8490,14 @@ Attribute:adh-Dhaar",
 "Sal-ad-Din",
 "Seif.al-Din",
 "Shams-ud-Din",
-"Taqi-ud-Din 
+"Taqi-ud-Din" 
 
 Greek 
 
 Male Personal Names 
 
-Common:Athanasios",
+Common:
+"Athanasios",
 "Demetrios",
 "Dimitrios",
 "George",
@@ -8453,9 +8506,10 @@ Common:Athanasios",
 "Ioannis",
 "John",
 "Nicolas",
-"Nikolaos
+"Nikolaos"
 
-Standard:Achilles",
+Standard:
+"Achilles",
 "Adam",
 "Adonis",
 "Agapios",
@@ -8601,11 +8655,12 @@ Standard:Achilles",
 "Yiannis",
 "Yiorgos",
 "Yorgos",
-"Zenobios 
+"Zenobios"
 
 Female Personal Names 
 
-Common:Anna",
+Common:
+"Anna",
 "Berenike",
 "Charis",
 "Elena",
@@ -8614,9 +8669,10 @@ Common:Anna",
 "Nikola",
 "Penelope",
 "Sofi",
-"Zo� 
+"Zo�"
 
-Standard:Adonia,Agalia",
+Standard:
+"Adonia,Agalia",
 "Agatha",
 "Agathe",
 "Agathi",
@@ -8641,9 +8697,7 @@ Standard:Adonia,Agalia",
 "Ariadne",
 "Ariane",
 "Artemisia",
-"
-
-Astrea",
+"Astrea",
 "Atalanta",
 "Atalante",
 "Athena,Atlanta",
@@ -8759,14 +8813,15 @@ Astrea",
 "Xylia",
 "Xylina",
 "Zephyra",
-"Zo� 
+"Zo�"
 
 
 Ancient Greek (Hellenic) 
 
 Male Personal Names 
 
-Common:Alexandros",
+Common:
+"Alexandros",
 "Aphrodisios",
 "Apollodoros",
 "Apollonios",
@@ -8785,9 +8840,10 @@ Common:Alexandros",
 "Philon",
 "Theodoros",
 "Theophilos",
-"Zosimos 
+"Zosimos"
 
-Standard: Admetos",
+Standard: 
+"Admetos",
 "Adrastos",
 "Aegeos",
 "Aegisthes",
@@ -9476,10 +9532,11 @@ Standard: Admetos",
 "Zeuxis",
 "Zoilos",
 "Zopyros",
-"Zosimos 
+"Zosimos"
 
 Female Personal Names 
-Common: Aphrodisia",
+Common: 
+"Aphrodisia",
 "Aristonike",
 "Arkhestrate",
 "Arkhippe",
@@ -9499,9 +9556,10 @@ Common: Aphrodisia",
 "Phile",
 "Phila",
 "Philoumene",
-"Sostrate 
+"Sostrate"
 
-Standard: Adea",
+Standard: 
+"Adea",
 "Admete",
 "Adrastea",
 "A�don",
@@ -9993,13 +10051,14 @@ Standard: Adea",
 "Zopoura",
 "Zopura",
 "Zosima",
-"Zosime 
+"Zosime"
 
 Italian 
 
 Male Personal Names 
 
-Common:Aldo,Alessandro",
+Common:
+"Aldo,Alessandro",
 "Alfredo,Angelo",
 "Antonio,Arturo",
 "Bruno",
@@ -10015,9 +10074,10 @@ Common:Aldo,Alessandro",
 "Mauro",
 "Paolo",
 "Pasquale",
-"Roberto 
+"Roberto"
 
-Standard:Achilleo",
+Standard:
+"Achilleo",
 "Adamo",
 "Adriano",
 "Agostino",
@@ -10297,11 +10357,12 @@ Standard:Achilleo",
 "Vitale",
 "Vito",
 "Viviano",
-"Xaverio 
+"Xaverio"
 
 Female Personal Names 
 
-Common:Alessandra",
+Common:
+"Alessandra",
 "Anna",
 "Beatrice",
 "Caterina",
@@ -10320,9 +10381,10 @@ Common:Alessandra",
 "Paola",
 "Rosa",
 "Silvia",
-"Tullia 
+"Tullia"
 
-Standard:Ada",
+Standard:
+"Ada",
 "Adalgisa",
 "Addolorata",
 "Adriana",
@@ -10584,13 +10646,14 @@ Standard:Ada",
 "Vittoria",
 "Viviana",
 "Zaira",
-"Zita 
+"Zita"
 
 Medieval Italian 
  
 Male Personal Names 
 
-Common:Andrea",
+Common:
+"Andrea",
 "Antonio",
 "Bartolomeo",
 "Bernardo",
@@ -10601,9 +10664,10 @@ Common:Andrea",
 "Guido",
 "Iacopo",
 "Piero",
-"Ugo 
+"Ugo"
 
-Standard:Agnello",
+Standard:
+"Agnello",
 "Agostino",
 "Aiuto",
 "Alamanno",
@@ -10849,11 +10913,12 @@ Standard:Agnello",
 "Villano",
 "Vincenzo",
 "Vitale",
-"Viviano 
+"Viviano"
 
 Female Personal Names 
 
-Common:Amata",
+Common:
+"Amata",
 "Antonia",
 "Benvenuta",
 "Berta",
@@ -10866,7 +10931,8 @@ Common:Amata",
 "Rosana",
 "Verde 
 
-Standard:Acon�ata",
+Standard:
+"Acon�ata",
 "Adelagia",
 "Adelasia",
 "Adeleta",
@@ -11113,13 +11179,14 @@ Standard:Acon�ata",
 "Vivola",
 "Y�a",
 "Ymilia",
-"Ysabella 
+"Ysabella"
 
 Roman 
 
 Male Names 
 
-Praenomina Common:Aulus",
+Praenomina Common:
+"Aulus",
 "Decimus",
 "Gaius",
 "Gnaeus",
@@ -11128,8 +11195,10 @@ Praenomina Common:Aulus",
 "Publius",
 "Quintus",
 "Tiberius",
-"Titus 
-Standard:Appius",
+"Titus"
+
+Standard:
+"Appius",
 "Aulus",
 "Caeso",
 "Decimus",
@@ -11147,9 +11216,10 @@ Standard:Appius",
 "Sextus",
 "Spurius",
 "Tiberius",
-"Titus 
+"Titus"
 
-Nomina Common:Aemilius",
+Nomina Common:
+"Aemilius",
 "Aurelius",
 "Cornelius",
 "Domitius",
@@ -11160,7 +11230,8 @@ Nomina Common:Aemilius",
 "Livius",
 "Valerius 
 
-Standard:Accius",
+Standard:
+"Accius",
 "Acerronius,Acilius",
 "Aelius,Aemilius",
 "Afinius",
@@ -11390,9 +11461,10 @@ Standard:Accius",
 "Volturcius",
 "Volumnius",
 "Volusenus",
-"Volusius 
+"Volusius"
 
-Cognomina Common: Faustus",
+Cognomina Common: 
+"Faustus",
 "Felix",
 "Fortunatus",
 "Maximus",
@@ -11401,9 +11473,10 @@ Cognomina Common: Faustus",
 "Sabinus",
 "Saturninus",
 "Severus",
-"Victor 
+"Victor"
 
-Ordinal: Primus",
+Ordinal:
+"Primus",
 "Secundus",
 "Tertius",
 "Quartus",
@@ -11783,7 +11856,7 @@ Standard: Achaicus",
 "Vitulus",
 "Volero",
 "Volesus",
-"Vulso 
+"Vulso"
 
 Jewish 
 
