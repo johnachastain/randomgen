@@ -1,22 +1,43 @@
 import { Gender } from '../character/Character';
 import { d_silly, d_nasty } from './names_lists';
-import { TableItem  } from '../shared/types';
-import { names } from '../character/lists';
+import { TableItem, TaggedItem  } from '../shared/types';
+import { All, Neutral, names } from '../character/lists';
 import { getItem } from '../shared/functions';
-import { getFromRecord } from './functions';
-
-
-export const getName = (gender: Gender): string => {
-  const firstName = getFromRecord(names, gender)
-  const lastName = `${getItem(d_silly)}${getItem(d_nasty)}`
-  return `${firstName} ${lastName}`
-}
+import { filterTaggedList, getFromRecord, getTaggedItem } from './functions';
 
 export enum WordPosition {
   Prefix = 'prefix',
   Suffix = 'suffix',
   Root = 'root'
 }
+const { Prefix, Suffix, Root } =  WordPosition
+
+export const getFirstName = (
+  gender: Gender
+): string => getFromRecord(names, gender)
+
+export const getLastNameByTags = (
+  tags: string[]
+): string => {
+  const prefix = filterTaggedList([ ...tags, Prefix], taggedNames)
+  const suffix = filterTaggedList([ ...tags, Suffix], taggedNames)
+  return `${prefix}${suffix}`
+}
+
+
+export const getName = (gender: Gender, tags: string[]): string => {
+  const firstName = getFirstName(gender)
+  const lastName = getLastNameByTags(tags)
+  return `${firstName} ${lastName}`
+}
+
+export const getTwoWordItemByTags = (
+  a: TaggedItem[], 
+  b: TaggedItem[], 
+  tags: string[]
+): string => `${filterTaggedList(tags, a)}${filterTaggedList(tags, b)}`
+
+
 
 export enum WordType {
   Agentive = 'agentivenoun'
@@ -40,6 +61,16 @@ export enum AdjectiveGroups {
   Condition = 'condition',
   Quality = 'quality',
 }
+
+
+const taggedNames: TaggedItem[] = [
+  { name: 'Master', 
+		tags: [ Neutral, All, Prefix, Suffix ] },
+  { name: 'Apprentice', 
+		tags: [ Neutral, All, Prefix, Suffix ] },
+  { name: 'Chamberlain', 
+		tags: [ Neutral, All, Prefix, Suffix ] },
+]
 
 const weightedTaggedNames = [
   [ 'Bob', ['male', 'evil', 'royal'], 3],
