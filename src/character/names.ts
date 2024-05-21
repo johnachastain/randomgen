@@ -40,18 +40,38 @@ export const getTwoWordItemByTags = (
 
 
 export enum WordType {
-  Agentive = 'agentivenoun'
+  Agentive = 'agentivenoun',
+  Collective = 'collectivenoun',
+  Noun = 'noun',
+  Verb = 'verb',
+  Adjective = 'adjective',
+  Adverb = 'adverb',
+  Conjunction ='conjunction',
+  Preposition = 'preposition',
+  Pronoun = 'pronoun',
+  Determiner ='determiner'
 }
 
 export enum NounGroup {
   Animal = 'animal',
+  Plant = 'plant',
   Material = 'material',
   Anatomical = 'anatomical',
   Weapon = 'weapon',
   Armor = 'armor',
   Fluid = 'fluid',
   Color = 'color',
-  Weather = 'weather'
+  Weather = 'weather',
+  Abstraction = 'abstraction'
+}
+
+export enum VerbTense {
+  Past = 'past',
+  Present = 'present',
+  Future = 'future',
+  Continuous = 'continuous',
+  Perfect = 'perfect',
+  Simple = 'simple'
 }
 
 export enum VerbGroup {}
