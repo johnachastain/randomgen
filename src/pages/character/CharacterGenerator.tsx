@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Character } from '../../character/Character';
 import { getConfig, getVariantItem, makeVariantTable } from '../../character/functions';
 import { characterConfig } from '../../character/config';
-import { weighedVariantConfig } from '../../character/names';
+import { weightedVariantConfig } from '../../character/names';
 
 export const CharacterGenerator = () => {
   const [character, setCharacter] = useState<Character>(getConfig(characterConfig))
-  console.log('character1', getConfig(characterConfig))
-  console.log('makeTable', makeVariantTable(weighedVariantConfig, []))
-  console.log('getTableItem', getVariantItem(weighedVariantConfig, []))
+  console.log('getConfig', getConfig(characterConfig))
+  console.log('makeVariantTable', makeVariantTable(weightedVariantConfig, []))
+  console.log('getVariantItem', getVariantItem(weightedVariantConfig, []))
 
   return (
     <div>

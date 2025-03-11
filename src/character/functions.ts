@@ -1,4 +1,4 @@
-import { WeighedVariantUpdater, TaggedItem, TaggedTuple, WeightedTaggedTuple, WeightedTaggedItem } from '../shared/types';
+import { VariantUpdater, TaggedItem } from '../shared/types';
 import { getItem, getRandom } from '../shared/functions';
 
 // Populate Objects using a config of updaters
@@ -11,7 +11,7 @@ export const getConfig = (configArray: Function[]) => {
 }
 
 // table of updaters with weighted variant syntax functions
-export const makeVariantTable = (tuples: WeighedVariantUpdater[], tags: string[]) => {
+export const makeVariantTable = (tuples: VariantUpdater<any>[]) => {
   let table: Function[] = []
   for (const tuple of tuples) {
     const [weight, updater] = tuple
@@ -24,39 +24,44 @@ export const makeVariantTable = (tuples: WeighedVariantUpdater[], tags: string[]
 }
 
 // gets one variant item based on tags
-export const getVariantItem = (config: WeighedVariantUpdater[], tags: string[]) => {
-  const table: Function[] = makeVariantTable(config, tags)
+export const getVariantItem = (config: VariantUpdater<any>[], tags: string[]) => {
+  const table: Function[] = makeVariantTable(config)
   const updater: Function = getItem(table)
   return updater(tags)
 }
-
-
-
-// taggedItem (keyed objects)
-export const getTaggedItem = (arr: TaggedItem[]): string =>
-  (arr[getRandom(arr.length)]?.value)
 
 export const containsAll = (required: string[], target: string[]) => (
   required.every((s: string) => target.includes(s))
 );
 
-export const filterTaggedList = (required: string[], list: TaggedItem[]) => {
-  const array = list.filter(
-    ({ tags }) => containsAll(required, tags))
-  return getTaggedItem(array)
-}
+export const excludesAll = (required: string[], target: string[]) => (
+  required.every((s: string) => !target.includes(s))
+);
 
 
+// console.log('containsAll 1', containsAll([], [])) // true
+// console.log('containsAll 2', containsAll([], ['test'])) // true
+// console.log('containsAll 3', containsAll(['test'], [])) // false
+// console.log('containsAll 4', containsAll(['test'], ['test']))// true
+
+// console.log('excludesAll 1', excludesAll([], [])) // true
+// console.log('excludesAll 2', excludesAll([], ['test'])) // true
+// console.log('excludesAll 3', excludesAll(['test'], [])) // true
+// console.log('excludesAll 4', excludesAll(['test'], ['test'])) // false
 
 // taggedTuples similar to taggedItem but array tuple instead of keyed object
-export const getTaggedTuple = (arr: WeightedTaggedTuple[]): string =>
+export const getTaggedItem = (arr: TaggedItem[]): string =>
   (arr[getRandom(arr.length)]?.[0])
 
-export const filterTaggedTupleList = (required: string[], list: WeightedTaggedTuple[]) => {
-  const array = list.filter(
-    ([_, tags]) => containsAll(required, tags))
+export const filterTaggedList = (
+  required: string[] = [],
+  list: TaggedItem[] = [],
+  excluded: string[] = []) => {
+  const array = list
+    .filter(([_, tags]) => containsAll(required, tags))
+    .filter(([_, tags]) => excludesAll(excluded, tags))
 
-  let sum: WeightedTaggedTuple[] = []
+  let sum: TaggedItem[] = []
 
   for (const item of array) {
     const [_, __, n] = item
@@ -65,24 +70,34 @@ export const filterTaggedTupleList = (required: string[], list: WeightedTaggedTu
     }
   }
 
-  return getTaggedTuple(sum)
+  return getTaggedItem(sum)
 }
 
+// Records (keyed object of arrays)
+export const getFromRecord = (list: Record<string, string[]>, key: string): string =>
+  (getItem(list[key as keyof typeof list]))
 
 
-// export const getWeightedTaggedTuple = (arr: WeightedTaggedTuple[]): string =>
+// taggedItem (keyed objects)
+// export const getTaggedItem = (arr: TaggedItem[]): string =>
+//   (arr[getRandom(arr.length)]?.value)
+
+// export const filterTaggedList = (required: string[], list: TaggedItem[]) => {
+//   const array = list.filter(
+//     ({ tags }) => containsAll(required, tags))
+//   return getTaggedItem(array)
+// }
+
+// export const getTaggedItem = (arr: TaggedItem[]): string =>
 //   (arr[getRandom(arr.length)]?.[0])
 
-
-
-
-// export const filterWeightedTaggedTupleList = (
-//   required: string[], list: WeightedTaggedTuple[]
+// export const filterTaggedList = (
+//   required: string[], list: TaggedItem[]
 // ) => {
 //   const filtered = list.filter(
 //     ([_, tags]) => containsAll(required, tags))
 
-//   let sum: WeightedTaggedTuple[] = []
+//   let sum: TaggedItem[] = []
 
 //   for (const item of filtered) {
 //     const [_, __, n] = item
@@ -91,7 +106,7 @@ export const filterTaggedTupleList = (required: string[], list: WeightedTaggedTu
 //     }
 //   }
 
-//   return getWeightedTaggedTuple(sum)
+//   return getTaggedItem(sum)
 // }
 
 
@@ -115,10 +130,3 @@ export const filterTaggedTupleList = (required: string[], list: WeightedTaggedTu
 
 //   return getWeightedTaggedItem(sum)
 // }
-
-
-
-
-// Records (keyed object of arrays)
-export const getFromRecord = (list: Record<string, string[]>, set: string): string =>
-  (getItem(list[set as keyof typeof list]))

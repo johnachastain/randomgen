@@ -1,9 +1,8 @@
 import { Gender } from '../character/Character';
 import { d_silly, d_nasty } from './names_lists';
-import { WeighedVariantUpdater, TaggedItem, WeightedTaggedItem, WeightedTaggedTuple } from '../shared/types';
+import { VariantUpdater, TaggedItem } from '../shared/types';
 import { All, Neutral, names } from '../character/lists';
-import { getItem } from '../shared/functions';
-import { filterTaggedList, getFromRecord, getTaggedItem } from './functions';
+import { filterTaggedList, getFromRecord } from './functions';
 
 export enum WordPosition {
   Prefix = 'prefix',
@@ -19,8 +18,8 @@ export const getFirstName = (
 export const getLastNameByTags = (
   tags: string[]
 ): string => {
-  const prefix = filterTaggedList([...tags, Prefix], taggedNames)
-  const suffix = filterTaggedList([...tags, Suffix], taggedNames)
+  const prefix = filterTaggedList([...tags, Prefix], weightedTaggedNameTuples)
+  const suffix = filterTaggedList([...tags, Suffix], weightedTaggedNameTuples)
   return `${prefix}${suffix}`
 }
 
@@ -83,38 +82,44 @@ export enum AdjectiveGroups {
 }
 
 
-const taggedNames: TaggedItem[] = [
-  {
-    value: 'Master',
-    tags: [Neutral, All, Prefix, Suffix]
-  },
-  {
-    value: 'Apprentice',
-    tags: [Neutral, All, Prefix, Suffix]
-  },
-  {
-    value: 'Chamberlain',
-    tags: [Neutral, All, Prefix, Suffix]
-  },
+// const taggedNames: TaggedItem[] = [
+//   {
+//     value: 'Master',
+//     tags: [Neutral, All, Prefix, Suffix]
+//   },
+//   {
+//     value: 'Apprentice',
+//     tags: [Neutral, All, Prefix, Suffix]
+//   },
+//   {
+//     value: 'Chamberlain',
+//     tags: [Neutral, All, Prefix, Suffix]
+//   },
+// ]
+
+const weightedTaggedNameTuples: TaggedItem[] = [
+  ['Master', [Neutral, All, Prefix, Suffix], 1],
+  ['Apprentice', [Neutral, All, Prefix, Suffix], 1],
+  ['Chamberlain', [Neutral, All, Prefix, Suffix], 1],
 ]
 
-const weightedTaggedNames: WeightedTaggedTuple[] = [
-  ['Bob', ['male', 'evil', 'royal'], 3],
-  ['Fred', ['male', 'good', 'artisan'], 2],
-  ['Phil', ['male', 'good', 'criminal'], 1],
-]
+// const weightedTaggedNames: TaggedItem[] = [
+//   ['Bob', ['male', 'evil', 'royal'], 3],
+//   ['Fred', ['male', 'good', 'artisan'], 2],
+//   ['Phil', ['male', 'good', 'criminal'], 1],
+// ]
 
-const weightedTaggedNamesObj: WeightedTaggedItem[] = [
-  { value: 'Bob', tags: ['male', 'evil', 'royal'], weight: 3 },
-  { value: 'Fred', tags: ['male', 'good', 'artisan'], weight: 2 },
-  { value: 'Phil', tags: ['male', 'good', 'criminal'], weight: 1 },
-]
+// const weightedTaggedNamesObj: WeightedTaggedItem[] = [
+//   { value: 'Bob', tags: ['male', 'evil', 'royal'], weight: 3 },
+//   { value: 'Fred', tags: ['male', 'good', 'artisan'], weight: 2 },
+//   { value: 'Phil', tags: ['male', 'good', 'criminal'], weight: 1 },
+// ]
 
 const getNameVariant1 = (tags: string[]) => 'one'
 const getNameVariant2 = (tags: string[]) => 'two'
 const getNameVariant3 = (tags: string[]) => 'three'
 
-export const weighedVariantConfig: WeighedVariantUpdater[] = [
+export const weightedVariantConfig: VariantUpdater<any>[] = [
   [1, (tags: string[]) => getNameVariant1(tags)],
   [2, (tags: string[]) => getNameVariant2(tags)],
   [3, (tags: string[]) => getNameVariant3(tags)]
