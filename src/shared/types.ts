@@ -1,11 +1,14 @@
 export type Updater<T> = { (obj: T): T }
 
-export type TableItem = [number, Function]
+// tuple of [ weight, Updater ]
+export type WeighedVariantUpdater = [number, Function]
 
-export type TaggedItem = { name: string, tags: string[] }
+export type TaggedItem = { value: string, tags: string[] }
 
-export type TaggedTuple = [ string, string[] ]
+export type TaggedTuple = [string, string[]]
 
-export type WeightedTaggedTuple = [ string, string[], number ] 
+export type WeightedTaggedTuple = [string, string[], number]
 
 export enum Generic { All = 'all' }
+
+export type WeightedTaggedItem = { value: string, tags?: string[], weight?: number, index?: number }

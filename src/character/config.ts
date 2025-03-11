@@ -1,6 +1,6 @@
 import { Character } from '../character/Character';
 import { Updater } from '../shared/types';
-import { Labor, Neutral, age, demeanor, gender, occupationTuple, socialClass, title, wealth } from '../character/lists';
+import { Labor, Neutral, age, demeanor, gender, occupationTuple, socialClass, titleTuple, wealth } from '../character/lists';
 import { getItem } from '../shared/functions';
 import { filterTaggedList, filterTaggedTupleList, } from './functions';
 import { getName } from './names';
@@ -10,7 +10,7 @@ export const characterConfig: Updater<Character>[] = [
 
   (obj) => {
     const { gender = Neutral } = obj
-    const name = getName(gender)
+    const name = getName(gender, [])
     return { ...obj, name }
   },
 
@@ -20,7 +20,7 @@ export const characterConfig: Updater<Character>[] = [
 
   (obj) => {
     const { gender = Neutral, socialClass = Labor } = obj
-    const result = filterTaggedList([gender, socialClass], title)
+    const result = filterTaggedTupleList([gender, socialClass], titleTuple)
     return { ...obj, title: result }
   },
 
