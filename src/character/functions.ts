@@ -1,6 +1,14 @@
 import { VariantUpdater, TaggedItem } from '../shared/types';
 import { getItem, getRandom } from '../shared/functions';
 
+export const d4 = (): number => getRandom(4)
+export const d6 = (): number => getRandom(6)
+export const d8 = (): number => getRandom(8)
+export const d10 = (): number => getRandom(10)
+export const d12 = (): number => getRandom(12)
+export const d20 = (): number => getRandom(20)
+export const d6x3 = (): number => getRandom(6) + getRandom(6) + getRandom(6)
+
 // Populate Objects using a config of updaters
 export const getConfig = (configArray: Function[]) => {
   let result = {}
@@ -72,6 +80,37 @@ export const filterTaggedList = (
 
   return getTaggedItem(sum)
 }
+
+// export type filterTaggedList2Props = {
+//   required?: string[],
+//   list?: any[],
+//   excluded?: string[],
+//   accumulator?: any
+// }
+
+// export const filterTaggedList2 = (
+//   {
+//     required = [],
+//     list = [],
+//     excluded = [],
+//     accumulator = {}
+//   }: filterTaggedList2Props
+// ) => {
+//   const array = list
+//     .filter(([_, tags]) => containsAll(required, tags))
+//     .filter(([_, tags]) => excludesAll(excluded, tags))
+
+//   let sum: TaggedItem[] = []
+
+//   for (const item of array) {
+//     const [_, __, n] = item
+//     for (let i = 0; i < n; i++) {
+//       sum = [...sum, item]
+//     }
+//   }
+
+//   return getTaggedItem(sum)
+// }
 
 // Records (keyed object of arrays)
 export const getFromRecord = (list: Record<string, string[]>, key: string): string =>

@@ -1,7 +1,7 @@
 import { Gender } from '../character/Character';
 import { d_silly, d_nasty } from './names_lists';
 import { VariantUpdater, TaggedItem } from '../shared/types';
-import { All, Neutral, names } from '../character/lists';
+import { Neutral, names } from '../character/lists';
 import { filterTaggedList, getFromRecord } from './functions';
 
 export enum WordPosition {
@@ -9,7 +9,7 @@ export enum WordPosition {
   Suffix = 'suffix',
   Root = 'root'
 }
-const { Prefix, Suffix, Root } = WordPosition
+export const { Prefix, Suffix, Root } = WordPosition
 
 export const getFirstName = (
   gender: Gender
@@ -24,11 +24,11 @@ export const getLastNameByTags = (
 }
 
 
-export const getName = (gender: Gender, tags: string[]): string => {
-  const firstName = getFirstName(gender)
-  const lastName = getLastNameByTags(tags)
-  return `${firstName} ${lastName}`
-}
+// export const getName = (gender: string, tags: string[]): string => {
+//   const firstName = getFirstName(gender as Gender)
+//   const lastName = getLastNameByTags(tags)
+//   return `${firstName} ${lastName}`
+// }
 
 export const getTwoWordItemByTags = (
   a: TaggedItem[],
@@ -97,10 +97,10 @@ export enum AdjectiveGroups {
 //   },
 // ]
 
-const weightedTaggedNameTuples: TaggedItem[] = [
-  ['Master', [Neutral, All, Prefix, Suffix], 1],
-  ['Apprentice', [Neutral, All, Prefix, Suffix], 1],
-  ['Chamberlain', [Neutral, All, Prefix, Suffix], 1],
+export const weightedTaggedNameTuples: TaggedItem[] = [
+  ['Master', [Neutral, Prefix, Suffix], 1],
+  ['Apprentice', [Neutral, Prefix, Suffix], 1],
+  ['Chamberlain', [Neutral, Prefix, Suffix], 1],
 ]
 
 // const weightedTaggedNames: TaggedItem[] = [

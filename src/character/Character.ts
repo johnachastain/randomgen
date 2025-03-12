@@ -11,7 +11,7 @@ export enum Alignment {
   Evil = 'evil'
 }
 
-export enum SocialClass { 
+export enum SocialClass {
   Servant = 'servant',
   Labor = 'labor',
   Merchant = 'merchant',
@@ -38,4 +38,10 @@ export interface Character extends Being {
   title?: string
   occupation?: string
   demeanor?: string
+  strength?: number
+  intelligence?: number
+  wisdom?: number
+  constitution?: number
+  dexterity?: number
+  charisma?: number
 }
