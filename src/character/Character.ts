@@ -27,6 +27,7 @@ export enum SocialClass {
 }
 
 export interface Character extends Being {
+  alignment?: Alignment
   firstName?: string
   lastName?: string
   middleName?: string
@@ -44,4 +45,5 @@ export interface Character extends Being {
   constitution?: number
   dexterity?: number
   charisma?: number
+  flaw?: string
 }
