@@ -234,8 +234,11 @@ Profession/Occupation effected by wealth and class
 
 Quirks
   Twitching
-  uncontrolable cursing
+  uncontrollable cursing
   Amnesia
+  uncontrollable itching - allergy
+  uncontrollable sneezing - allergy
+  uncontrollable laughing
 
 Physical conditions
   hunchback

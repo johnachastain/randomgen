@@ -8,7 +8,8 @@ export enum Gender {
 
 export enum Alignment {
   Good = 'good',
-  Evil = 'evil'
+  Evil = 'evil',
+  Neutral = 'neutral'
 }
 
 export enum SocialClass {
