@@ -12874,7 +12874,7 @@ General: admirable",
 "poor; skilful",
 "inept; tasteful",
 "vulgar; victor",
-"loser 
+"loser"
 Further Descriptions 
 Some typical qualities of leaders",
 "heroes",
