@@ -1,11 +1,19 @@
-const a = `The ${1} and the ${2} ${3}`
-const b = `The ${1} and ${2} ${3}`
-const c = `The ${1} ${2}`
-const d = `The ${1} ${2} ${3}`
+const adj = 'adj'
+const noun = 'noun'
+const agentive = 'keeper, eater, stalker'
+const title = 'master, lord, queen, mistress'
 
-const e = `of the ${1}`
-const f = `of the ${1} ${2}`
-const g = `of ${1}`
-const h = `of ${1} ${2}`
+const a = `The ${noun} and the ${adj} ${noun}`
+const b = `The ${noun} and ${adj} ${noun}`
+const c = `The ${adj} ${noun}`
+const d = `The ${adj} ${adj} ${noun}`
 
-const i = ` the ${1}`
+const e = `of the ${noun}`
+const f = `of the ${adj} ${noun}`
+const g = `of ${noun}`
+const h = `of ${adj} ${noun}`
+
+const i = ` the ${noun}` //epithet
+const j = `The ${noun} and ${noun}` //tavern
+const k = `The ${agentive | title} of the ${adj} ${noun}` //dominion
+const l = `The ${agentive | title} of ${noun}` //dominion
