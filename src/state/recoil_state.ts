@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { GridItem } from "../geomorph/Geomorph";
+import { GridItem } from "../originalGeomorphs/geomorph/Geomorph";
 
 export type SyntaxMap = {
   name: string,
@@ -38,12 +38,12 @@ const BaseOutputState = atom({
 
 const MapRowsState = atom({
   key: "MapRowsState",
-  default: 3
+  default: 5
 });
 
 const MapColumnsState = atom({
   key: "MapColumnsState",
-  default: 3
+  default: 5
 });
 
 const MapGridState = atom({

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Cell, Direction, Grid } from "./types"
 import { generateGrid, pickTileImage } from "./tiles"
 import { Tile } from "./Tile"
+import { GeomorphNav } from "../geomorph-shared/GeomorphNav"
 
 const OPPOSITE: Record<Direction, Direction> = {
   top: "bottom",
@@ -20,10 +21,8 @@ const NEIGHBOR_OFFSET: Record<Direction, { dc: number; dr: number }> = {
 function applyEditAndCascade(grid: Grid, updated: Cell, cols: number, rows: number): Grid {
   const next = grid.map(row => [...row])
 
-  // Place updated cell
   next[updated.row][updated.col] = updated
 
-  // Update each of the 4 neighbors to reflect the new connections
   const directions: Direction[] = ["top", "right", "bottom", "left"]
   for (const dir of directions) {
     const { dc, dr } = NEIGHBOR_OFFSET[dir]
@@ -40,7 +39,7 @@ function applyEditAndCascade(grid: Grid, updated: Cell, cols: number, rows: numb
   return next
 }
 
-export default function GeomorphWalkPage() {
+export default function GeomorphWfcPage() {
   const [cols, setCols] = useState(5)
   const [rows, setRows] = useState(5)
   const [grid, setGrid] = useState<Grid>(() => generateGrid(5, 5))
@@ -70,7 +69,8 @@ export default function GeomorphWalkPage() {
 
   return (
     <div style={{ padding: 16 }}>
-      <h2>Drunken Walk Map</h2>
+      <GeomorphNav />
+      <h2>Wave Function Collapse</h2>
 
       <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 16, flexWrap: "wrap" }}>
         <label>

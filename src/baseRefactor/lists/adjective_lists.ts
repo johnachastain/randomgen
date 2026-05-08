@@ -10,9 +10,7 @@ import {
   CONDITION, EFFECT,
 } from './tags'
 import {
-  dungeon_materials, dungeon_objects, dungeon_adjective,
-  dungeon_bridge_adjective, dungeon_corridor_adjective, dungeon_portal_adjective,
-  dungeon_stairway_adjective, dungeon_pit_adjective,
+  dungeon_materials, dungeon_objects, dungeon_adjective, dungeon_feature_adjective,
   tomb_objects, tomb_adjective,
   temple_objects, temple_adjective,
   cavern_materials, cavern_objects, cavern_adjective,
@@ -1377,11 +1375,7 @@ export const dungeon_room_adjective: TaggedItem[] = [
   ...dungeon_materials,
   ...dungeon_objects,
   ...dungeon_adjective,
-  ...dungeon_bridge_adjective,
-  ...dungeon_corridor_adjective,
-  ...dungeon_portal_adjective,
-  ...dungeon_stairway_adjective,
-  ...dungeon_pit_adjective,
+  ...dungeon_feature_adjective,
 ]
 
 export const tomb_room_adjective: TaggedItem[] = [

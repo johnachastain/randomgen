@@ -1,7 +1,8 @@
 import { TaggedItem } from '../types/types'
 import {
   NOUN, ADJECTIVE,
-  DUNGEON, TOMB, TEMPLE, CAVE, UNDERGROUND, MAGICAL
+  DUNGEON, TOMB, TEMPLE, CAVE, UNDERGROUND, MAGICAL,
+  BRIDGE, CORRIDOR, PORTAL, STAIRWAY, PIT,
 } from './tags'
 
 // TOMB
@@ -522,67 +523,55 @@ export const dungeon_unique: TaggedItem[] = [
   ["Underground Bridge",    [NOUN, DUNGEON], 1],
 ]
 
-export const dungeon_bridge_adjective: TaggedItem[] = [
-  ["Collapsing", [ADJECTIVE, DUNGEON], 2],
-  ["Rope",       [ADJECTIVE, DUNGEON], 2],
-  ["Rotting",    [ADJECTIVE, DUNGEON], 2],
-  ["Stone",      [ADJECTIVE, DUNGEON], 3],
-]
-
-export const dungeon_corridor_adjective: TaggedItem[] = [
-  ["Blocked",   [ADJECTIVE, DUNGEON], 2],
-  ["Cobweb",    [ADJECTIVE, DUNGEON], 2],
-  ["Collapsed", [ADJECTIVE, DUNGEON], 2],
-  ["Crooked",   [ADJECTIVE, DUNGEON], 2],
-  ["Flooded",   [ADJECTIVE, DUNGEON], 2],
-  ["Junction",  [ADJECTIVE, DUNGEON], 2],
-  ["Plain",     [ADJECTIVE, DUNGEON], 3],
-  ["Round",     [ADJECTIVE, DUNGEON], 2],
-  ["Royal",     [ADJECTIVE, DUNGEON], 1],
-  ["Trapped",   [ADJECTIVE, DUNGEON], 2],
-  ["Verdigris", [ADJECTIVE, DUNGEON], 1],
-]
-
-export const dungeon_portal_adjective: TaggedItem[] = [
-  ["Great Iron",   [ADJECTIVE, DUNGEON], 2],
-  ["Heavy Barred", [ADJECTIVE, DUNGEON], 2],
-  ["Reinforced",   [ADJECTIVE, DUNGEON], 2],
-  ["Secret",       [ADJECTIVE, DUNGEON], 2],
-  ["One-way",      [ADJECTIVE, DUNGEON], 1],
-  ["Metal",        [ADJECTIVE, DUNGEON], 2],
-  ["Stone",        [ADJECTIVE, DUNGEON], 3],
-  ["Circular",     [ADJECTIVE, DUNGEON], 1],
-  ["False",        [ADJECTIVE, DUNGEON], 2],
-  ["Double",       [ADJECTIVE, DUNGEON], 2],
-  ["Revolving",    [ADJECTIVE, DUNGEON], 1],
-]
-
-export const dungeon_stairway_adjective: TaggedItem[] = [
-  ["Main",    [ADJECTIVE, DUNGEON], 3],
-  ["Marble",  [ADJECTIVE, DUNGEON], 2],
-  ["Moving",  [ADJECTIVE, DUNGEON], 1],
-  ["Ruined",  [ADJECTIVE, DUNGEON], 2],
-  ["Sinister",[ADJECTIVE, DUNGEON], 1],
-  ["Trapped", [ADJECTIVE, DUNGEON], 2],
-]
-
-export const dungeon_pit_adjective: TaggedItem[] = [
-  ["Circular",    [ADJECTIVE, DUNGEON], 2],
-  ["Drainage",    [ADJECTIVE, DUNGEON], 2],
-  ["Locking",     [ADJECTIVE, DUNGEON], 1],
-  ["Flooding",    [ADJECTIVE, DUNGEON], 2],
-  ["Spiked",      [ADJECTIVE, DUNGEON], 2],
-  ["Spear",       [ADJECTIVE, DUNGEON], 2],
-  ["Poison Spike",[ADJECTIVE, DUNGEON], 1],
-  ["Teleporting", [ADJECTIVE, DUNGEON], 1],
-  ["Crossbow",    [ADJECTIVE, DUNGEON], 1],
-  ["Slime",       [ADJECTIVE, DUNGEON], 2],
-  ["Gas",         [ADJECTIVE, DUNGEON], 2],
-  ["Water Filled",[ADJECTIVE, DUNGEON], 2],
-  ["Acid",        [ADJECTIVE, DUNGEON], 1],
-  ["Sulfur",      [ADJECTIVE, DUNGEON], 1],
-  ["Rat",         [ADJECTIVE, DUNGEON], 2],
-  ["Snake",       [ADJECTIVE, DUNGEON], 2],
+export const dungeon_feature_adjective: TaggedItem[] = [
+  ["Collapsing", [ADJECTIVE, DUNGEON, BRIDGE], 2],
+  ["Rope",       [ADJECTIVE, DUNGEON, BRIDGE], 2],
+  ["Rotting",    [ADJECTIVE, DUNGEON, BRIDGE], 2],
+  ["Stone",      [ADJECTIVE, DUNGEON, BRIDGE], 3],
+  ["Blocked",   [ADJECTIVE, DUNGEON, CORRIDOR], 2],
+  ["Cobweb",    [ADJECTIVE, DUNGEON, CORRIDOR], 2],
+  ["Collapsed", [ADJECTIVE, DUNGEON, CORRIDOR], 2],
+  ["Crooked",   [ADJECTIVE, DUNGEON, CORRIDOR], 2],
+  ["Flooded",   [ADJECTIVE, DUNGEON, CORRIDOR], 2],
+  ["Junction",  [ADJECTIVE, DUNGEON, CORRIDOR], 2],
+  ["Plain",     [ADJECTIVE, DUNGEON, CORRIDOR], 3],
+  ["Round",     [ADJECTIVE, DUNGEON, CORRIDOR], 2],
+  ["Royal",     [ADJECTIVE, DUNGEON, CORRIDOR], 1],
+  ["Trapped",   [ADJECTIVE, DUNGEON, CORRIDOR], 2],
+  ["Verdigris", [ADJECTIVE, DUNGEON, CORRIDOR], 1],
+  ["Great Iron",   [ADJECTIVE, DUNGEON, PORTAL], 2],
+  ["Heavy Barred", [ADJECTIVE, DUNGEON, PORTAL], 2],
+  ["Reinforced",   [ADJECTIVE, DUNGEON, PORTAL], 2],
+  ["Secret",       [ADJECTIVE, DUNGEON, PORTAL], 2],
+  ["One-way",      [ADJECTIVE, DUNGEON, PORTAL], 1],
+  ["Metal",        [ADJECTIVE, DUNGEON, PORTAL], 2],
+  ["Stone",        [ADJECTIVE, DUNGEON, PORTAL], 3],
+  ["Circular",     [ADJECTIVE, DUNGEON, PORTAL], 1],
+  ["False",        [ADJECTIVE, DUNGEON, PORTAL], 2],
+  ["Double",       [ADJECTIVE, DUNGEON, PORTAL], 2],
+  ["Revolving",    [ADJECTIVE, DUNGEON, PORTAL], 1],
+  ["Main",    [ADJECTIVE, DUNGEON, STAIRWAY], 3],
+  ["Marble",  [ADJECTIVE, DUNGEON, STAIRWAY], 2],
+  ["Moving",  [ADJECTIVE, DUNGEON, STAIRWAY], 1],
+  ["Ruined",  [ADJECTIVE, DUNGEON, STAIRWAY], 2],
+  ["Sinister",[ADJECTIVE, DUNGEON, STAIRWAY], 1],
+  ["Trapped", [ADJECTIVE, DUNGEON, STAIRWAY], 2],
+  ["Circular",    [ADJECTIVE, DUNGEON, PIT], 2],
+  ["Drainage",    [ADJECTIVE, DUNGEON, PIT], 2],
+  ["Locking",     [ADJECTIVE, DUNGEON, PIT], 1],
+  ["Flooding",    [ADJECTIVE, DUNGEON, PIT], 2],
+  ["Spiked",      [ADJECTIVE, DUNGEON, PIT], 2],
+  ["Spear",       [ADJECTIVE, DUNGEON, PIT], 2],
+  ["Poison Spike",[ADJECTIVE, DUNGEON, PIT], 1],
+  ["Teleporting", [ADJECTIVE, DUNGEON, PIT], 1],
+  ["Crossbow",    [ADJECTIVE, DUNGEON, PIT], 1],
+  ["Slime",       [ADJECTIVE, DUNGEON, PIT], 2],
+  ["Gas",         [ADJECTIVE, DUNGEON, PIT], 2],
+  ["Water Filled",[ADJECTIVE, DUNGEON, PIT], 2],
+  ["Acid",        [ADJECTIVE, DUNGEON, PIT], 1],
+  ["Sulfur",      [ADJECTIVE, DUNGEON, PIT], 1],
+  ["Rat",         [ADJECTIVE, DUNGEON, PIT], 2],
+  ["Snake",       [ADJECTIVE, DUNGEON, PIT], 2],
 ]
 
 // MAGICAL

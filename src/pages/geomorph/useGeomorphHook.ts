@@ -1,13 +1,13 @@
 import { useRecoilState } from "recoil"
 import { MapColumnsState, MapGridState, MapRowsState } from "../../state/recoil_state"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { getNewGrid } from "../../geomorph/geomorphs"
-import { GridItem } from "../../geomorph/Geomorph"
+import { getNewGrid } from "../../originalGeomorphs/geomorph/geomorphs"
+import { GridItem } from "../../originalGeomorphs/geomorph/Geomorph"
 
 export interface GeomorphHook {
     mapGrid: GridItem[]
     setMapGrid: (itm: GridItem[]) => void
-    rows: number 
+    rows: number
     setRows: (n: number) => void
     columns: number
     setColumns: (n: number) => void
@@ -15,6 +15,7 @@ export interface GeomorphHook {
     setEditModeItem: (n: number) => void
     gridMemo: GridItem[]
     onSetEditModeItem: (i: number) => void
+    regenerate: () => void
 }
 
 export const useGeomorphHook = (): GeomorphHook => {
@@ -37,16 +38,21 @@ const [mapGrid, setMapGrid] = useRecoilState(MapGridState)
     setEditModeItem(i !== editModeItem ? i : undefined)
   }, [editModeItem, setEditModeItem]);
 
+  const regenerate = useCallback(() => {
+    setMapGrid(getNewGrid(columns, rows))
+  }, [columns, rows, setMapGrid]);
+
   return {
-    mapGrid, 
+    mapGrid,
     setMapGrid,
-    rows, 
+    rows,
     setRows,
-    columns, 
+    columns,
     setColumns,
-    editModeItem, 
+    editModeItem,
     setEditModeItem,
     gridMemo,
-    onSetEditModeItem
+    onSetEditModeItem,
+    regenerate,
   }
 }

@@ -1,10 +1,11 @@
-import { TypeConfig, filterByTag } from '../types/types'
+import { TypeConfig, filterByTag, filterByAllTags } from '../types/types'
 
 import {
   MOUNTAIN, HILLS, RIVER, FOREST, OCEAN, CAVE, CANYON, SWAMP, DESERT, STONE,
   FORTIFICATION, TEMPLE, TOMB, ARTIFACT, SHELTER, MECHANICAL, SECURITY,
   CITY, BRIDGE, TOWER, TAVERN, UNDERGROUND,
   UNDEAD, RELIGIOUS, MAGICAL_PERSON,
+  ROOM, LEVEL, DISTRICT,
 } from '../lists/tags'
 
 import {
@@ -25,16 +26,13 @@ import {
 
 import {
   base, naturals, constructions,
-  political_district,
-  dungeon_room, tomb_room, temple_room, cavern_room, magical_room,
+  political,
+  dungeon, tomb_room, temple_room, cavern_room, magical_room,
 } from '../lists/base_lists'
 
 import {
   persons, possessive,
   prefixes, suffixes, suffix_town,
-  prefix_mountain, suffix_mountain,
-  prefix_fortification,
-  suffix_river, suffix_forest,
   prepositional_singular,
   dungeon_prepositional, tomb_prepositional,
   temple_prepositional, cavern_prepositional, magical_prepositional,
@@ -56,8 +54,8 @@ export const typeConfigMap: Record<string, TypeConfig> = {
     strategy: 'prefixed',
     adjectivePool: natural_mountain_adjective,
     basePool:      filterByTag(MOUNTAIN, naturals),
-    prefixPool:    prefix_mountain,
-    suffixPool:    suffix_mountain,
+    prefixPool:    filterByTag(MOUNTAIN, prefixes),
+    suffixPool:    filterByTag(MOUNTAIN, suffixes),
   },
   'natural_highlands': {
     strategy: 'wilderness',
@@ -74,20 +72,20 @@ export const typeConfigMap: Record<string, TypeConfig> = {
     adjectivePool: natural_river_adjective,
     basePool:      filterByTag(RIVER, naturals),
     prefixPool:    prefixes,
-    suffixPool:    suffix_river,
+    suffixPool:    filterByTag(RIVER, suffixes),
   },
   'natural_freshwater': {
     strategy: 'river',
     adjectivePool: natural_river_adjective,
     basePool:      filterByTag(RIVER, naturals),
     prefixPool:    prefixes,
-    suffixPool:    suffix_river,
+    suffixPool:    filterByTag(RIVER, suffixes),
   },
   'natural_woodlands': {
     strategy: 'wilderness',
     adjectivePool: natural_woodlands_adjective,
     basePool:      filterByTag(FOREST, naturals),
-    suffixPool:    suffix_forest,
+    suffixPool:    filterByTag(FOREST, suffixes),
   },
   'natural_saltwater': {
     strategy: 'wilderness',
@@ -138,7 +136,7 @@ export const typeConfigMap: Record<string, TypeConfig> = {
     strategy: 'prefixed',
     adjectivePool: construction_fortification_adjective,
     basePool:      filterByTag(FORTIFICATION, constructions),
-    prefixPool:    prefix_fortification,
+    prefixPool:    filterByTag(FORTIFICATION, prefixes),
     suffixPool:    suffixes,
   },
   'construction_tavern': {
@@ -202,14 +200,21 @@ export const typeConfigMap: Record<string, TypeConfig> = {
   'political_district': {
     strategy: 'city',
     adjectivePool: district_special_adjective,
-    basePool:      political_district,
+    basePool:      filterByTag(DISTRICT, political),
   },
 
   // ── DUNGEON ROOMS ───────────────────────────────────────────────────────────
+  'dungeon_level': {
+    strategy: 'dungeon',
+    adjectivePool: dungeon_room_adjective,
+    basePool:      filterByTag(LEVEL, dungeon),
+    prepPool:      dungeon_prepositional,
+    uniqueItems:   dungeon_unique,
+  },
   'dungeon_room': {
     strategy: 'dungeon',
     adjectivePool: dungeon_room_adjective,
-    basePool:      dungeon_room,
+    basePool:      filterByTag(ROOM, dungeon),
     prepPool:      dungeon_prepositional,
     uniqueItems:   dungeon_unique,
   },

@@ -71,6 +71,18 @@ export const MECHANICAL = 'mechanical'
 export const SECURITY = 'security'
 export const ARTIFACT = 'artifact'
 
+// Dungeon sub-type
+export const LEVEL    = 'level'     // large-scale dungeon area
+export const ROOM     = 'room'      // individual dungeon room
+// Political sub-type
+export const NATION   = 'nation'
+export const DISTRICT = 'district'
+// Dungeon feature adjective sub-type
+export const CORRIDOR = 'corridor'
+export const PORTAL   = 'portal'
+export const STAIRWAY = 'stairway'
+export const PIT      = 'pit'
+
 // Adjective semantic role
 export const CONDITION = 'condition'
 export const EFFECT = 'effect'

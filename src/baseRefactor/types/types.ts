@@ -4,6 +4,12 @@ export type TaggedItem = [string, string[], number]
 export const filterByTag = (tag: string, items: TaggedItem[]): TaggedItem[] =>
   items.filter(([_, tags]) => tags.includes(tag))
 
+export const filterByAllTags = (tags: string[], items: TaggedItem[]): TaggedItem[] =>
+  items.filter(([_, itemTags]) => tags.every(tag => itemTags.includes(tag)))
+
+export const filterByAnyTag = (tags: string[], items: TaggedItem[]): TaggedItem[] =>
+  items.filter(([_, itemTags]) => tags.some(tag => itemTags.includes(tag)))
+
 export type StrategyType =
   | 'wilderness'  // adj + base + optional prep (default)
   | 'dungeon'     // unique | adj + base + prep

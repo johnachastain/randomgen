@@ -222,6 +222,10 @@ export const prefixes: TaggedItem[] = [
   ["Owl",     [PREFIX, MUNDANE], 2],
   ["Grog",    [PREFIX, MUNDANE], 2],
   ["Farm",    [PREFIX, MUNDANE], 2],
+  // Terrain
+  ["Mount",  [PREFIX, MOUNTAIN], 3],
+  ["Fort",   [PREFIX, FORTIFICATION], 3],
+  ["Castle", [PREFIX, FORTIFICATION], 3],
 ]
 
 export const suffixes: TaggedItem[] = [
@@ -371,6 +375,42 @@ export const suffixes: TaggedItem[] = [
   ["Owl",     [PREFIX, MUNDANE], 2],
   ["Grog",    [PREFIX, MUNDANE], 2],
   ["Farm",    [PREFIX, MUNDANE], 2],
+  // Terrain suffixes
+  ["flow",   [SUFFIX, RIVER], 2],
+  ["water",  [SUFFIX, RIVER], 2],
+  ["tears",  [SUFFIX, RIVER], 2],
+  ["blood",  [SUFFIX, RIVER], 2],
+  ["wine",   [SUFFIX, RIVER], 2],
+  ["mere",   [SUFFIX, RIVER], 2],
+  ["ford",   [SUFFIX, RIVER], 2],
+  ["falls",  [SUFFIX, RIVER], 2],
+  ["meade",  [SUFFIX, RIVER], 2],
+  ["grog",   [SUFFIX, RIVER], 2],
+  ["spring", [SUFFIX, RIVER], 2],
+  ["tide",   [SUFFIX, RIVER], 2],
+  ["wash",   [SUFFIX, RIVER], 2],
+  ["wood",   [SUFFIX, FOREST], 2],
+  ["leaf",   [SUFFIX, FOREST], 2],
+  ["root",   [SUFFIX, FOREST], 2],
+  ["tree",   [SUFFIX, FOREST], 2],
+  ["thorn",  [SUFFIX, FOREST], 2],
+  ["willow", [SUFFIX, FOREST], 2],
+  ["oak",    [SUFFIX, FOREST], 2],
+  ["wort",   [SUFFIX, FOREST], 2],
+  ["weed",   [SUFFIX, FOREST], 2],
+  ["cedar",  [SUFFIX, FOREST], 2],
+  ["bark",   [SUFFIX, FOREST], 2],
+  ["wall",  [SUFFIX, MOUNTAIN], 2],
+  ["stone", [SUFFIX, MOUNTAIN], 2],
+  ["horn",  [SUFFIX, MOUNTAIN], 2],
+  ["spur",  [SUFFIX, MOUNTAIN], 2],
+  ["rock",  [SUFFIX, MOUNTAIN], 2],
+  ["tooth", [SUFFIX, MOUNTAIN], 2],
+  ["spine", [SUFFIX, MOUNTAIN], 2],
+  ["teeth", [SUFFIX, MOUNTAIN], 2],
+  ["talon", [SUFFIX, MOUNTAIN], 2],
+  ["cap",   [SUFFIX, MOUNTAIN], 2],
+  ["top",   [SUFFIX, MOUNTAIN], 2],
 ]
 
 // ABSTRACTIONS
@@ -509,61 +549,6 @@ export const dungeon_prepositional: TaggedItem[] = [
 export const magical_prepositional: TaggedItem[] = [
   ...filterByTag(MAGICAL_PERSON, persons),
   ...abstraction,
-]
-
-// SPECIAL SUFFIX / PREFIX — standalone pools for specific terrain types
-
-export const suffix_river: TaggedItem[] = [
-  ["flow",   [SUFFIX, RIVER], 2],
-  ["water",  [SUFFIX, RIVER], 2],
-  ["tears",  [SUFFIX, RIVER], 2],
-  ["blood",  [SUFFIX, RIVER], 2],
-  ["wine",   [SUFFIX, RIVER], 2],
-  ["mere",   [SUFFIX, RIVER], 2],
-  ["ford",   [SUFFIX, RIVER], 2],
-  ["falls",  [SUFFIX, RIVER], 2],
-  ["meade",  [SUFFIX, RIVER], 2],
-  ["grog",   [SUFFIX, RIVER], 2],
-  ["spring", [SUFFIX, RIVER], 2],
-  ["tide",   [SUFFIX, RIVER], 2],
-  ["wash",   [SUFFIX, RIVER], 2],
-]
-
-export const suffix_forest: TaggedItem[] = [
-  ["wood",   [SUFFIX, FOREST], 2],
-  ["leaf",   [SUFFIX, FOREST], 2],
-  ["root",   [SUFFIX, FOREST], 2],
-  ["tree",   [SUFFIX, FOREST], 2],
-  ["thorn",  [SUFFIX, FOREST], 2],
-  ["willow", [SUFFIX, FOREST], 2],
-  ["oak",    [SUFFIX, FOREST], 2],
-  ["wort",   [SUFFIX, FOREST], 2],
-  ["weed",   [SUFFIX, FOREST], 2],
-  ["cedar",  [SUFFIX, FOREST], 2],
-  ["bark",   [SUFFIX, FOREST], 2],
-]
-
-export const suffix_mountain: TaggedItem[] = [
-  ["wall",  [SUFFIX, MOUNTAIN], 2],
-  ["stone", [SUFFIX, MOUNTAIN], 2],
-  ["horn",  [SUFFIX, MOUNTAIN], 2],
-  ["spur",  [SUFFIX, MOUNTAIN], 2],
-  ["rock",  [SUFFIX, MOUNTAIN], 2],
-  ["tooth", [SUFFIX, MOUNTAIN], 2],
-  ["spine", [SUFFIX, MOUNTAIN], 2],
-  ["teeth", [SUFFIX, MOUNTAIN], 2],
-  ["talon", [SUFFIX, MOUNTAIN], 2],
-  ["cap",   [SUFFIX, MOUNTAIN], 2],
-  ["top",   [SUFFIX, MOUNTAIN], 2],
-]
-
-export const prefix_mountain: TaggedItem[] = [
-  ["Mount", [PREFIX, MOUNTAIN], 3],
-]
-
-export const prefix_fortification: TaggedItem[] = [
-  ["Fort",   [PREFIX, FORTIFICATION], 3],
-  ["Castle", [PREFIX, FORTIFICATION], 3],
 ]
 
 export const suffix_town: TaggedItem[] = [

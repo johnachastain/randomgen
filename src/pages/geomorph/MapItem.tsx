@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
-import { GridItem } from '../../geomorph/Geomorph';
+import { GridItem } from '../../originalGeomorphs/geomorph/Geomorph';
 import {createUseStyles} from 'react-jss'
-import { Edge, Edges } from "../../geomorph/Geomorph";
-import { updateSelf } from '../../geomorph/geomorphs';
+import { Edge, Edges } from "../../originalGeomorphs/geomorph/Geomorph";
+import { updateSelf } from '../../originalGeomorphs/geomorph/geomorphs';
 import { MapGridState, MapRowsState, MapColumnsState } from "../../state/recoil_state";
 import { useRecoilValue, useRecoilState } from "recoil";
 
@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
     }
   },
   mapItemBtn: {padding: 0, margin: 0, display: 'grid'},
-  mapItemImg: {zIndex: 1, gridRow: 1, gridColumn: 1}
+  mapItemImg: {zIndex: 1, gridRow: 1, gridColumn: 1, width: '100%', display: 'block'}
 })
 
 export type CheckboxProps = {
