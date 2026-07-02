@@ -33,8 +33,8 @@ function applyEditAndCascade(grid: Grid, updated: Cell, cols: number, rows: numb
     if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
       const neighbor = next[nr][nc]
       const theirSide = OPPOSITE[dir]
-      const newConnects = { ...neighbor.connects, [theirSide]: updated.connects[dir] }
-      next[nr][nc] = { ...neighbor, connects: newConnects, src: pickTileImage(newConnects) }
+      const newEdges = { ...neighbor.edges, [theirSide]: updated.edges[dir] }
+      next[nr][nc] = { ...neighbor, edges: newEdges, src: pickTileImage(newEdges) }
     }
   }
 

@@ -1,12 +1,12 @@
-export type Direction = "top" | "right" | "bottom" | "left"
+import { Edge } from "../geomorph/Geomorph"
 
-export type Connects = Record<Direction, boolean>
+export type Direction = "top" | "right" | "bottom" | "left"
 
 export type Cell = {
   col: number
   row: number
   isPath: boolean
-  connects: Connects
+  edges: Record<Direction, Edge>
   src: string
 }
 

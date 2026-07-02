@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
-import { Cell, Connects, Direction } from "./types"
+import { Edge } from "../geomorph/Geomorph"
+import { Cell, Direction } from "./types"
 import { pickTileImage } from "./tiles"
 
 const DIRECTIONS: Direction[] = ["top", "right", "bottom", "left"]
@@ -26,19 +27,32 @@ type Props = {
   onClose: () => void
 }
 
+const EdgeSelector = (
+  { name, value, onChange }: { name: Direction; value: Edge; onChange: (v: Partial<Record<Direction, Edge>>) => void }
+) => (
+  <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+    <select value={value} onChange={e => onChange({ [name]: e.target.value as Edge })}>
+      <option value={Edge.Closed}>Closed</option>
+      <option value={Edge.Open}>Open</option>
+      <option value={Edge.Connect}>Connect</option>
+    </select>
+    {name}
+  </span>
+)
+
 export function Tile({ cell, isEditing, onStartEdit, onSave, onClose }: Props) {
-  const [connects, setConnects] = useState<Connects>(cell.connects)
+  const [edges, setEdges] = useState<Record<Direction, Edge>>(cell.edges)
 
   useEffect(() => {
-    if (!isEditing) setConnects(cell.connects)
-  }, [cell.connects, isEditing])
+    if (!isEditing) setEdges(cell.edges)
+  }, [cell.edges, isEditing])
 
-  const toggleDirection = (dir: Direction) => {
-    setConnects(prev => ({ ...prev, [dir]: !prev[dir] }))
+  const onChangeHandler = (update: Partial<Record<Direction, Edge>>) => {
+    setEdges(prev => ({ ...prev, ...update }))
   }
 
   const handleSave = () => {
-    onSave({ ...cell, connects, src: pickTileImage(connects) })
+    onSave({ ...cell, edges, src: pickTileImage(edges) })
   }
 
   return (
@@ -49,14 +63,7 @@ export function Tile({ cell, isEditing, onStartEdit, onSave, onClose }: Props) {
       {isEditing && (
         <div style={overlayStyle}>
           {DIRECTIONS.map(dir => (
-            <label key={dir} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <input
-                type="checkbox"
-                checked={connects[dir]}
-                onChange={() => toggleDirection(dir)}
-              />
-              {dir}
-            </label>
+            <EdgeSelector key={dir} name={dir} value={edges[dir]} onChange={onChangeHandler} />
           ))}
           <div style={{ display: "flex", gap: 4, marginTop: 4 }}>
             <button onClick={onClose}>Close</button>

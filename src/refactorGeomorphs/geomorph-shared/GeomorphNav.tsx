@@ -1,13 +1,14 @@
 import { Link, useLocation } from "wouter"
 
 const PAGES = [
-  { path: "/geomorph",      label: "Geomorph" },
-  { path: "/geomorph-walk", label: "Drunken Walk" },
-  { path: "/geomorph-dfs",  label: "Backtracker" },
-  { path: "/geomorph-bsp",  label: "BSP Rooms" },
-  { path: "/geomorph-ca",   label: "Cave" },
-  { path: "/geomorph-prim", label: "Prim's" },
-  { path: "/geomorph-wfc",  label: "WFC" },
+  { path: "/refactor/geomorph",      label: "Geomorph" },
+  { path: "/refactor/geomorph-walk", label: "Drunken Walk" },
+  { path: "/refactor/geomorph-dfs",  label: "Backtracker" },
+  { path: "/refactor/geomorph-bsp",  label: "BSP Rooms" },
+  { path: "/refactor/geomorph-ca",   label: "Cave" },
+  { path: "/refactor/geomorph-prim", label: "Prim's" },
+  { path: "/refactor/geomorph-wfc",  label: "WFC" },
+  { path: "/refactor/geomorph-dungeon", label: "Dungeon (bitmask)" },
 ]
 
 export function GeomorphNav() {

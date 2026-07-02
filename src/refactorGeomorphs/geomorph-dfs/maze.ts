@@ -1,4 +1,6 @@
-import { Connects, Direction } from "./types"
+import { Direction } from "./types"
+
+type Connects = Record<Direction, boolean>
 
 const DIRECTIONS: { dir: Direction; dc: number; dr: number }[] = [
   { dir: "top",    dc:  0, dr: -1 },

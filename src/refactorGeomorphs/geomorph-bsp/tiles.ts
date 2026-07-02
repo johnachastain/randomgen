@@ -3,7 +3,7 @@ import { getGeomorphsByEdges } from "../geomorph/geomorphs"
 import { bspRooms } from "./bsp"
 import { Cell, Connects, Grid } from "./types"
 
-const SOLID_SRC = "./png/37.png"
+const SOLID_SRC = "/png/37.png"
 
 function cellKey(col: number, row: number): string {
   return `${col},${row}`

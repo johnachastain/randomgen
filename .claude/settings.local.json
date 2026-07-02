@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find /Users/johnchastain/dev/randomgen/src/refactor* -type f \\\\\\( -name \"*.ts\" -o -name \"*.js\" \\\\\\))"
+      "Bash(find /Users/johnchastain/dev/randomgen/src/refactor* -type f \\\\\\( -name \"*.ts\" -o -name \"*.js\" \\\\\\))",
+      "Bash(npx tsc *)",
+      "Bash(cp *)"
     ]
   }
 }

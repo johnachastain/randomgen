@@ -1,4 +1,6 @@
-import { Connects, Direction } from "./types"
+import { Direction } from "./types"
+
+type Connects = Record<Direction, boolean>
 
 type Offset = { dir: Direction; dc: number; dr: number }
 

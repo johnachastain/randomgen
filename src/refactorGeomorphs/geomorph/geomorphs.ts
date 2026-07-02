@@ -153,8 +153,15 @@ type GetNewGridItem = {
 }
 
 export const getNewGridItem: GetNewGridItem = (column, row, edges) => {
-  const available = getGeomorphsByEdges(edges)
-  const geomorph = available[getRandom(available.length - 1)]
+  // Try exact match first, then relax border constraints, then pick any tile
+  let available = getGeomorphsByEdges(edges)
+  if (available.length === 0) {
+    available = getGeomorphsByEdges({ top: edges.top, left: edges.left })
+  }
+  if (available.length === 0) {
+    available = geomorphs
+  }
+  const geomorph = available[Math.floor(Math.random() * available.length)]
 
   return {
     key: `column${column}row${row}`,

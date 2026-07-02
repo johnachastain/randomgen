@@ -3,7 +3,7 @@ import { getGeomorphsByEdges } from "../geomorph/geomorphs"
 import { wfc } from "./wfc"
 import { Cell, Connects, Grid } from "./types"
 
-const SOLID_SRC = "./png/37.png"
+const SOLID_SRC = "/png/37.png"
 
 function connectsToEdges(connects: Connects): Edges {
   return {
