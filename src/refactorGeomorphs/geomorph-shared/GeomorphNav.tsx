@@ -9,6 +9,9 @@ const PAGES = [
   { path: "/refactor/geomorph-prim", label: "Prim's" },
   { path: "/refactor/geomorph-wfc",  label: "WFC" },
   { path: "/refactor/geomorph-dungeon", label: "Dungeon (bitmask)" },
+  { path: "/refactor/geomorph-dungeon-v1", label: "Dungeon v1" },
+  { path: "/refactor/geomorph-dungeon-v2", label: "Dungeon v2" },
+  { path: "/refactor/geomorph-dungeon-v3", label: "Dungeon v3" },
 ]
 
 export function GeomorphNav() {

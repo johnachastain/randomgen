@@ -1,5 +1,6 @@
 import './App.css'
 import { Route, Switch } from "wouter";
+import { Home } from "./pages/home/Home";
 import { Base } from "./pages/base/Base";
 import { Geomorph } from "./pages/geomorph/Geomorph";
 import { Character } from "./pages/character/Character";
@@ -20,6 +21,9 @@ import RefactorGeomorphCaPage from './refactorGeomorphs/geomorph-ca/Page';
 import RefactorGeomorphPrimPage from './refactorGeomorphs/geomorph-prim/Page';
 import RefactorGeomorphWfcPage from './refactorGeomorphs/geomorph-wfc/Page';
 import GeomorphDungeonPage from './refactorGeomorphs/geomorph-dungeon/Page';
+import GeomorphDungeonV1Page from './refactorGeomorphs/geomorph-dungeon-v1/Page';
+import GeomorphDungeonV2Page from './refactorGeomorphs/geomorph-dungeon-v2/Page';
+import GeomorphDungeonV3Page from './refactorGeomorphs/geomorph-dungeon-v3/Page';
 import HexTerrainWfcPage from './hexTerrain/Page';
 import RefactorHexTerrainWfcPage from './refactorHexTerrain/Page';
 import HexTransitionsWfcPage from './refactorHexTransitions/Page';
@@ -31,7 +35,8 @@ import { BaseRefactor } from './baseRefactor/pages/BaseRefactor';
 function App() {
   return (
     <Switch>
-      <Route path="/" component={Base} />
+      <Route path="/" component={Home} />
+      <Route path="/base" component={Base} />
       <Route path="/geomorph" component={Geomorph} />
       <Route path="/geomorph-walk" component={GeomorphWalkPage} />
       <Route path="/geomorph-dfs" component={GeomorphDfsPage} />
@@ -47,6 +52,9 @@ function App() {
       <Route path="/refactor/geomorph-prim" component={RefactorGeomorphPrimPage} />
       <Route path="/refactor/geomorph-wfc" component={RefactorGeomorphWfcPage} />
       <Route path="/refactor/geomorph-dungeon" component={GeomorphDungeonPage} />
+      <Route path="/refactor/geomorph-dungeon-v1" component={GeomorphDungeonV1Page} />
+      <Route path="/refactor/geomorph-dungeon-v2" component={GeomorphDungeonV2Page} />
+      <Route path="/refactor/geomorph-dungeon-v3" component={GeomorphDungeonV3Page} />
       <Route path="/hex-terrain/wfc" component={HexTerrainWfcPage} />
       <Route path="/refactor/hex-terrain/wfc" component={RefactorHexTerrainWfcPage} />
       <Route path="/refactor/hex-transitions/wfc" component={HexTransitionsWfcPage} />
