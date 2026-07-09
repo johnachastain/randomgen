@@ -131,9 +131,65 @@ function roundTrimTile(orient: Corner, r: number): string {
   return wrap(`<path d="${arc[orient]}" fill="none" stroke="${TRIM_STYLE.wall.body}" stroke-width="${w}"/>`)
 }
 
+// TIGHTER rounded-ROOM corner tiles (2026-07-08): the fillet is only HALF a cell (radius V/2 = 50,
+// centred at the cell centre 50,50) — a ½-cell straight wall → quarter-arc → ½-cell straight wall.
+// Scoped to the `rounded` room shape ONLY (circles/apses keep the full-cell `roundCornerTile` arc).
+// Rounded rooms are always cornerRadius 1, so these are r=1 only (stroke = BW).
+const RR_BITE: Record<Corner, string> = {
+  nw: "M 0,0 L 50,0 A 50 50 0 0 0 0,50 Z",
+  ne: "M 100,0 L 50,0 A 50 50 0 0 1 100,50 Z",
+  se: "M 100,100 L 100,50 A 50 50 0 0 1 50,100 Z",
+  sw: "M 0,100 L 0,50 A 50 50 0 0 0 50,100 Z",
+}
+function roundedRoomCornerTile(orient: Corner): string {
+  return wrap(`<path d="${RR_BITE[orient]}" fill="${MATERIAL_COLOR[Material.Wall]}"/>`)
+}
+function roundedRoomTrimTile(orient: Corner): string {
+  const i = BW / 2, Rp = 50 - i // stroke centred on the path → outer edge lands on the wall boundary
+  const arc: Record<Corner, string> = {
+    nw: `M 100,${i} L 50,${i} A ${Rp} ${Rp} 0 0 0 ${i},50 L ${i},100`,
+    ne: `M 0,${i} L 50,${i} A ${Rp} ${Rp} 0 0 1 ${100 - i},50 L ${100 - i},100`,
+    se: `M ${100 - i},0 L ${100 - i},50 A ${Rp} ${Rp} 0 0 1 50,${100 - i} L 0,${100 - i}`,
+    sw: `M ${i},0 L ${i},50 A ${Rp} ${Rp} 0 0 0 50,${100 - i} L 100,${100 - i}`,
+  }
+  return wrap(`<path d="${arc[orient]}" fill="none" stroke="${TRIM_STYLE.wall.body}" stroke-width="${BW}"/>`)
+}
+
+// Alcove half-circle tiles (E3d): an OUTWARD semicircular bay. Unlike apses (two quarter-corner
+// tiles) an alcove is ONE half-disc. BITE = the wall-colour region = the 2:1 bounding rect MINUS the
+// half-disc (transparent inside → base floor/water shows through); the flat diameter sits on the wall
+// line (room side), the bulge points AWAY. TRIM = the arc lip (stroke) hugging the floor side.
+// N/S use a 200×100 viewBox (diameter×radius), E/W a 100×200. Rendered scaled to the alcove region.
+const svgVB = (w: number, h: number, inner: string) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}">\n  ${inner}\n</svg>\n`
+const WALLC = MATERIAL_COLOR[Material.Wall]
+// CELL-ALIGNED per (wall,size): viewBox = wCells×reserveDepth cells (100/cell); the semicircle radius
+// = wCells·50 (bulge = 1½ cells lg / ½ sm) sits on the wall line, leaving the outer strip as bite so
+// the tile fills WHOLE cells (no floor sliver). Undistorted (aspect matches the region). lg = 3×2
+// cells, sm = 1×1. e/w swap the axes. `rad` = the along half-width; `depth` viewBox = reserveDepth·100.
+const ALCOVE_DIM: Record<"sm" | "lg", { wCells: number; reserve: number }> = { sm: { wCells: 1, reserve: 1 }, lg: { wCells: 3, reserve: 2 } }
+function alcoveBaseTile(wall: Edge, size: "sm" | "lg"): string {
+  const { wCells, reserve } = ALCOVE_DIM[size], A = wCells * 100, D = reserve * 100, rad = wCells * 50
+  // bite = rect − half-disc; flat diameter on the wall line, bulge outward. Sweeps as derived (P1).
+  if (wall === "n") return svgVB(A, D, `<path d="M 0,0 L ${A},0 L ${A},${D} A ${rad} ${rad} 0 0 0 0,${D} Z" fill="${WALLC}"/>`)
+  if (wall === "s") return svgVB(A, D, `<path d="M 0,${D} L ${A},${D} L ${A},0 A ${rad} ${rad} 0 0 1 0,0 Z" fill="${WALLC}"/>`)
+  if (wall === "e") return svgVB(D, A, `<path d="M ${D},0 L ${D},${A} L 0,${A} A ${rad} ${rad} 0 0 0 0,0 Z" fill="${WALLC}"/>`)
+  return svgVB(D, A, `<path d="M 0,0 L 0,${A} L ${D},${A} A ${rad} ${rad} 0 0 1 ${D},0 Z" fill="${WALLC}"/>`) // w
+}
+function alcoveTrimTile(wall: Edge, size: "sm" | "lg"): string {
+  const { wCells, reserve } = ALCOVE_DIM[size], A = wCells * 100, D = reserve * 100, rad = wCells * 50
+  const wS = BW, i = wS / 2, R = rad - i // stroke centred → outer edge lands on the arc boundary
+  let vb: [number, number], arc: string
+  if (wall === "n") { vb = [A, D]; arc = `M ${i},${D} A ${R} ${R} 0 0 1 ${A - i},${D}` }
+  else if (wall === "s") { vb = [A, D]; arc = `M ${i},0 A ${R} ${R} 0 0 0 ${A - i},0` }
+  else if (wall === "e") { vb = [D, A]; arc = `M 0,${i} A ${R} ${R} 0 0 1 0,${A - i}` }
+  else { vb = [D, A]; arc = `M ${D},${i} A ${R} ${R} 0 0 0 ${D},${A - i}` } // w
+  return svgVB(vb[0], vb[1], `<path d="${arc}" fill="none" stroke="${TRIM_STYLE.wall.body}" stroke-width="${wS}"/>`)
+}
+
 mkdirSync(OUT_DIR, { recursive: true })
 for (const f of readdirSync(OUT_DIR)) {
-  if (/^(corner_|trim_|wall_trim_|water_trim_|door_|pillar|stairs_|portal_|round_base_|round_corner_|round_trim_)/.test(f)) rmSync(join(OUT_DIR, f))
+  if (/^(corner_|trim_|wall_trim_|water_trim_|door_|pillar|stairs_|portal_|round_base_|round_corner_|round_trim_|rrcorner_|rrtrim_|alcove_)/.test(f)) rmSync(join(OUT_DIR, f))
 }
 
 // Per-material trim sets (index 0 unused).
@@ -174,6 +230,15 @@ for (const orient of ["nw", "ne", "se", "sw"] as const) {
   for (const r of [1, 2, 3, 4]) {
     writeFileSync(join(OUT_DIR, `round_trim_${orient}_r${r}.svg`), roundTrimTile(orient, r), "utf-8")
   }
+  // Tighter rounded-ROOM corner (half-cell fillet) — scoped to the `rounded` shape (r=1 only).
+  writeFileSync(join(OUT_DIR, `rrcorner_${orient}.svg`), roundedRoomCornerTile(orient), "utf-8")
+  writeFileSync(join(OUT_DIR, `rrtrim_${orient}.svg`), roundedRoomTrimTile(orient), "utf-8")
+}
+
+// Alcove half-circle tiles — cell-aligned base bite + arc trim per (wall, size).
+for (const wall of ["n", "s", "e", "w"] as const) for (const size of ["sm", "lg"] as const) {
+  writeFileSync(join(OUT_DIR, `alcove_base_${wall}_${size}.svg`), alcoveBaseTile(wall, size), "utf-8")
+  writeFileSync(join(OUT_DIR, `alcove_trim_${wall}_${size}.svg`), alcoveTrimTile(wall, size), "utf-8")
 }
 
 const arrLiteral = (a: string[]) => `[\n${a.map(s => `  "${s}",`).join("\n")}\n]`
@@ -202,8 +267,23 @@ export const ROUND_CORNER_TILES = { nw: "/dungeonTiles/round_corner_nw.svg", ne:
 export const ROUND_TRIM_TILES = {
 ${(["nw", "ne", "se", "sw"] as const).map(o => `  ${o}: { ${[1, 2, 3, 4].map(r => `${r}: "/dungeonTiles/round_trim_${o}_r${r}.svg"`).join(", ")} },`).join("\n")}
 }
+
+// Tighter rounded-ROOM corner tiles (half-cell fillet, r=1) — used ONLY for the rounded room shape;
+// circles/apses keep ROUND_CORNER_TILES/ROUND_TRIM_TILES. BITE (mask) + arc TRIM (straight+arc+straight).
+export const ROUNDED_CORNER_TILES = { nw: "/dungeonTiles/rrcorner_nw.svg", ne: "/dungeonTiles/rrcorner_ne.svg", se: "/dungeonTiles/rrcorner_se.svg", sw: "/dungeonTiles/rrcorner_sw.svg" }
+
+export const ROUNDED_TRIM_TILES = { nw: "/dungeonTiles/rrtrim_nw.svg", ne: "/dungeonTiles/rrtrim_ne.svg", se: "/dungeonTiles/rrtrim_se.svg", sw: "/dungeonTiles/rrtrim_sw.svg" }
+
+// Alcove half-circle tiles (E3d): outward semicircular bay — cell-aligned BASE bite + arc TRIM, nested [wall][size].
+export const ALCOVE_BASE_TILES = {
+${(["n", "s", "e", "w"] as const).map(w => `  ${w}: { ${(["sm", "lg"] as const).map(s => `${s}: "/dungeonTiles/alcove_base_${w}_${s}.svg"`).join(", ")} },`).join("\n")}
+}
+
+export const ALCOVE_TRIM_TILES = {
+${(["n", "s", "e", "w"] as const).map(w => `  ${w}: { ${(["sm", "lg"] as const).map(s => `${s}: "/dungeonTiles/alcove_trim_${w}_${s}.svg"`).join(", ")} },`).join("\n")}
+}
 `
 mkdirSync(dirname(CONFIG_PATH), { recursive: true })
 writeFileSync(CONFIG_PATH, config, "utf-8")
 
-console.log("Done: wall+water trim (19 each) + 4 door tiles + pillar + 4 stair tiles + 2 portal markers + 4 corner-bite + 16 arc-trim (4 orient × 4 radii) tiles → public/dungeonTiles/ + tileConfig.ts")
+console.log("Done: wall+water trim (19 each) + 4 door tiles + pillar + 4 stair tiles + 2 portal markers + 4 corner-bite + 16 arc-trim (4 orient × 4 radii) + 4 rr-corner + 4 rr-trim (tighter rounded-room, half-cell fillet) + 8 alcove-base + 8 alcove-trim (4 wall × 2 size, cell-aligned) tiles → public/dungeonTiles/ + tileConfig.ts")

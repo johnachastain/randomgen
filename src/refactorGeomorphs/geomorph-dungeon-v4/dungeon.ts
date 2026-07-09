@@ -1,5 +1,4 @@
 import { Material, MaterialGrid, PillarGrid, StairGrid, LevelGrid, RoomInfo, RoomShape, Edge, Apse, Alcove, Portal, PortalKind, EDGE, EdgeKind, EdgeGrids, Corner, DungeonResult } from "./types"
-import { roomName } from "../../core/naming" // shared core (promotion pilot); rng-injectable → seeded later
 
 // Simple room+corridor dungeon over a Material grid: carve rooms (Floor) joined by
 // L-shaped corridors, leave the rest Wall, then add stairs (elevation), Water pools
@@ -157,14 +156,14 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
     const { w, h, cornerRadius } = shapeBox(shape, w0, h0) // tight box + corner radius (circle → 2r square)
     const x = randInt(1, Math.max(1, cols - w - 1))
     const y = randInt(1, Math.max(1, rows - h - 1))
-    const room: Room = { x, y, w, h, z: 0, shape, cornerRadius, roundCorners: [], apses: [], alcoves: [], num: 0, name: "" }
+    const room: Room = { x, y, w, h, z: 0, shape, cornerRadius, roundCorners: [], apses: [], alcoves: [] }
     if (rooms.some(other => overlaps(room, other))) continue // bounding-box overlap (footprint ⊆ box)
     carveRoom(shapeCells(x, y, w, h, shape), rooms.length)
     rooms.push(room)
   }
   if (rooms.length === 0) {
     carveRoom(shapeCells(0, 0, cols, rows, "rect"), 0)
-    rooms.push({ x: 0, y: 0, w: cols, h: rows, z: 0, shape: "rect", cornerRadius: 0, roundCorners: [], apses: [], alcoves: [], num: 0, name: "" })
+    rooms.push({ x: 0, y: 0, w: cols, h: rows, z: 0, shape: "rect", cornerRadius: 0, roundCorners: [], apses: [], alcoves: [] })
   }
 
   // Room membership (also used for water regions below): a cell in any room's carved footprint.
@@ -537,7 +536,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
     }
     // … then open a single DOOR edge at the anchor (overrides the wall on that boundary).
     setEdge(ac, ar, dx, dy, EDGE.door)
-    rooms.push({ x, y, w: sw, h: sh, z: 0, shape: "rect", cornerRadius: 0, roundCorners: [], apses: [], alcoves: [], num: 0, name: "" })
+    rooms.push({ x, y, w: sw, h: sh, z: 0, shape: "rect", cornerRadius: 0, roundCorners: [], apses: [], alcoves: [] })
   }
 
   // Pass B: assign a CONSISTENT elevation over the real geometry. Level changes only
@@ -948,10 +947,6 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
   for (const room of rooms) {
     if (room.cornerRadius === 1) room.roundCorners = room.roundCorners.filter(cn => cornerOk(room, cn))
   }
-
-  // Room numbers + names: sequential 1-based over the final rooms array (main rooms first, side-rooms
-  // after). Names come from the shared core generator (currently Math.random; pass a seeded rng later).
-  rooms.forEach((rm, i) => { rm.num = i + 1; rm.name = roomName() })
 
   return { grid, pillars, rooms, stairs, levels, portals, edges }
 }

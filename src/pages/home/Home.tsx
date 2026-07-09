@@ -39,6 +39,7 @@ const GROUPS: Group[] = [
       { path: "/refactor/geomorph-dungeon-v1", label: "Dungeon v1 (frozen baseline)" },
       { path: "/refactor/geomorph-dungeon-v2", label: "Dungeon v2 (frozen baseline)" },
       { path: "/refactor/geomorph-dungeon-v3", label: "Dungeon v3 (frozen baseline)" },
+      { path: "/refactor/geomorph-dungeon-v4", label: "Dungeon v4 (frozen baseline)" },
     ],
   },
   {

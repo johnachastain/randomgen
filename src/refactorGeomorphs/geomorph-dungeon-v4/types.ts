@@ -24,7 +24,7 @@ export type RoomShape = "rect" | "rounded" | "circle"
 // Public room bounding box + vertical level (z) + footprint shape. `cornerRadius` = the rounded/
 // round corner size in cells (0 rect, 1 rounded, 2–4 circle: a 2r×2r circle). `roundCorners` =
 // which corners are actually rounded (circle = all 4; rounded = the guarded subset). z starts 0.
-export type RoomInfo = { x: number; y: number; w: number; h: number; z: number; shape: RoomShape; cornerRadius: number; roundCorners: Corner[]; apses: Apse[]; alcoves: Alcove[]; num: number; name: string }
+export type RoomInfo = { x: number; y: number; w: number; h: number; z: number; shape: RoomShape; cornerRadius: number; roundCorners: Corner[]; apses: Apse[]; alcoves: Alcove[] }
 
 // Per-cell stair ascent direction (the "up" side, toward the higher room), or null
 // where the cell is not a staircase. Parallel [row][col] grid, like PillarGrid.

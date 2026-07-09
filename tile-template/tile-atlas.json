@@ -1,0 +1,1312 @@
+{
+  "cellPx": [
+    186,
+    210
+  ],
+  "cols": 8,
+  "scale": 1.5,
+  "tiles": [
+    {
+      "name": "alcove_base_e_lg",
+      "file": "alcove_base_e_lg.svg",
+      "viewBox": [
+        200,
+        300
+      ],
+      "atlas": {
+        "x": 43,
+        "y": 63,
+        "w": 100,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_base_e_sm",
+      "file": "alcove_base_e_sm.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 63,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_base_n_lg",
+      "file": "alcove_base_n_lg.svg",
+      "viewBox": [
+        300,
+        200
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 88,
+        "w": 150,
+        "h": 100
+      }
+    },
+    {
+      "name": "alcove_base_n_sm",
+      "file": "alcove_base_n_sm.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 63,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_base_s_lg",
+      "file": "alcove_base_s_lg.svg",
+      "viewBox": [
+        300,
+        200
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 88,
+        "w": 150,
+        "h": 100
+      }
+    },
+    {
+      "name": "alcove_base_s_sm",
+      "file": "alcove_base_s_sm.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 63,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_base_w_lg",
+      "file": "alcove_base_w_lg.svg",
+      "viewBox": [
+        200,
+        300
+      ],
+      "atlas": {
+        "x": 1159,
+        "y": 63,
+        "w": 100,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_base_w_sm",
+      "file": "alcove_base_w_sm.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 63,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_trim_e_lg",
+      "file": "alcove_trim_e_lg.svg",
+      "viewBox": [
+        200,
+        300
+      ],
+      "atlas": {
+        "x": 43,
+        "y": 273,
+        "w": 100,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_trim_e_sm",
+      "file": "alcove_trim_e_sm.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 273,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_trim_n_lg",
+      "file": "alcove_trim_n_lg.svg",
+      "viewBox": [
+        300,
+        200
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 298,
+        "w": 150,
+        "h": 100
+      }
+    },
+    {
+      "name": "alcove_trim_n_sm",
+      "file": "alcove_trim_n_sm.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 273,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_trim_s_lg",
+      "file": "alcove_trim_s_lg.svg",
+      "viewBox": [
+        300,
+        200
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 298,
+        "w": 150,
+        "h": 100
+      }
+    },
+    {
+      "name": "alcove_trim_s_sm",
+      "file": "alcove_trim_s_sm.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 273,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_trim_w_lg",
+      "file": "alcove_trim_w_lg.svg",
+      "viewBox": [
+        200,
+        300
+      ],
+      "atlas": {
+        "x": 1159,
+        "y": 273,
+        "w": 100,
+        "h": 150
+      }
+    },
+    {
+      "name": "alcove_trim_w_sm",
+      "file": "alcove_trim_w_sm.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 273,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "door_e",
+      "file": "door_e.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 18,
+        "y": 483,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "door_n",
+      "file": "door_n.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 483,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "door_s",
+      "file": "door_s.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 483,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "door_w",
+      "file": "door_w.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 483,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "pillar",
+      "file": "pillar.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 483,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "portal_entrance",
+      "file": "portal_entrance.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 483,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "portal_exit",
+      "file": "portal_exit.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1134,
+        "y": 483,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_corner_ne",
+      "file": "round_corner_ne.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 483,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_corner_nw",
+      "file": "round_corner_nw.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 18,
+        "y": 693,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_corner_se",
+      "file": "round_corner_se.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 693,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_corner_sw",
+      "file": "round_corner_sw.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 693,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_ne_r1",
+      "file": "round_trim_ne_r1.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 693,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_ne_r2",
+      "file": "round_trim_ne_r2.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 693,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_ne_r3",
+      "file": "round_trim_ne_r3.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 693,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_ne_r4",
+      "file": "round_trim_ne_r4.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1134,
+        "y": 693,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_nw_r1",
+      "file": "round_trim_nw_r1.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 693,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_nw_r2",
+      "file": "round_trim_nw_r2.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 18,
+        "y": 903,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_nw_r3",
+      "file": "round_trim_nw_r3.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 903,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_nw_r4",
+      "file": "round_trim_nw_r4.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 903,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_se_r1",
+      "file": "round_trim_se_r1.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 903,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_se_r2",
+      "file": "round_trim_se_r2.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 903,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_se_r3",
+      "file": "round_trim_se_r3.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 903,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_se_r4",
+      "file": "round_trim_se_r4.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1134,
+        "y": 903,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_sw_r1",
+      "file": "round_trim_sw_r1.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 903,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_sw_r2",
+      "file": "round_trim_sw_r2.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 18,
+        "y": 1113,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_sw_r3",
+      "file": "round_trim_sw_r3.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 1113,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "round_trim_sw_r4",
+      "file": "round_trim_sw_r4.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 1113,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "rrcorner_ne",
+      "file": "rrcorner_ne.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 1113,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "rrcorner_nw",
+      "file": "rrcorner_nw.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 1113,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "rrcorner_se",
+      "file": "rrcorner_se.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 1113,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "rrcorner_sw",
+      "file": "rrcorner_sw.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1134,
+        "y": 1113,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "rrtrim_ne",
+      "file": "rrtrim_ne.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 1113,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "rrtrim_nw",
+      "file": "rrtrim_nw.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 18,
+        "y": 1323,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "rrtrim_se",
+      "file": "rrtrim_se.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 1323,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "rrtrim_sw",
+      "file": "rrtrim_sw.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 1323,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "stairs_e",
+      "file": "stairs_e.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 1323,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "stairs_n",
+      "file": "stairs_n.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 1323,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "stairs_s",
+      "file": "stairs_s.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 1323,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "stairs_w",
+      "file": "stairs_w.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1134,
+        "y": 1323,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_1",
+      "file": "wall_trim_1.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 1323,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_10",
+      "file": "wall_trim_10.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 18,
+        "y": 1533,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_11",
+      "file": "wall_trim_11.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 1533,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_12",
+      "file": "wall_trim_12.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 1533,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_13",
+      "file": "wall_trim_13.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 1533,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_14",
+      "file": "wall_trim_14.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 1533,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_15",
+      "file": "wall_trim_15.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 1533,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_16",
+      "file": "wall_trim_16.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1134,
+        "y": 1533,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_17",
+      "file": "wall_trim_17.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 1533,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_18",
+      "file": "wall_trim_18.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 18,
+        "y": 1743,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_19",
+      "file": "wall_trim_19.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 1743,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_2",
+      "file": "wall_trim_2.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 1743,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_3",
+      "file": "wall_trim_3.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 1743,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_4",
+      "file": "wall_trim_4.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 1743,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_5",
+      "file": "wall_trim_5.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 1743,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_6",
+      "file": "wall_trim_6.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1134,
+        "y": 1743,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_7",
+      "file": "wall_trim_7.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 1743,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_8",
+      "file": "wall_trim_8.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 18,
+        "y": 1953,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "wall_trim_9",
+      "file": "wall_trim_9.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 1953,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_1",
+      "file": "water_trim_1.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 1953,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_10",
+      "file": "water_trim_10.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 1953,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_11",
+      "file": "water_trim_11.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 1953,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_12",
+      "file": "water_trim_12.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 1953,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_13",
+      "file": "water_trim_13.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1134,
+        "y": 1953,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_14",
+      "file": "water_trim_14.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 1953,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_15",
+      "file": "water_trim_15.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 18,
+        "y": 2163,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_16",
+      "file": "water_trim_16.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 2163,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_17",
+      "file": "water_trim_17.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 2163,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_18",
+      "file": "water_trim_18.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 2163,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_19",
+      "file": "water_trim_19.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 2163,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_2",
+      "file": "water_trim_2.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 948,
+        "y": 2163,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_3",
+      "file": "water_trim_3.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1134,
+        "y": 2163,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_4",
+      "file": "water_trim_4.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 1320,
+        "y": 2163,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_5",
+      "file": "water_trim_5.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 18,
+        "y": 2373,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_6",
+      "file": "water_trim_6.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 204,
+        "y": 2373,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_7",
+      "file": "water_trim_7.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 390,
+        "y": 2373,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_8",
+      "file": "water_trim_8.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 576,
+        "y": 2373,
+        "w": 150,
+        "h": 150
+      }
+    },
+    {
+      "name": "water_trim_9",
+      "file": "water_trim_9.svg",
+      "viewBox": [
+        100,
+        100
+      ],
+      "atlas": {
+        "x": 762,
+        "y": 2373,
+        "w": 150,
+        "h": 150
+      }
+    }
+  ]
+}

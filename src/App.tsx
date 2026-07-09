@@ -24,6 +24,7 @@ import GeomorphDungeonPage from './refactorGeomorphs/geomorph-dungeon/Page';
 import GeomorphDungeonV1Page from './refactorGeomorphs/geomorph-dungeon-v1/Page';
 import GeomorphDungeonV2Page from './refactorGeomorphs/geomorph-dungeon-v2/Page';
 import GeomorphDungeonV3Page from './refactorGeomorphs/geomorph-dungeon-v3/Page';
+import GeomorphDungeonV4Page from './refactorGeomorphs/geomorph-dungeon-v4/Page';
 import HexTerrainWfcPage from './hexTerrain/Page';
 import RefactorHexTerrainWfcPage from './refactorHexTerrain/Page';
 import HexTransitionsWfcPage from './refactorHexTransitions/Page';
@@ -55,6 +56,7 @@ function App() {
       <Route path="/refactor/geomorph-dungeon-v1" component={GeomorphDungeonV1Page} />
       <Route path="/refactor/geomorph-dungeon-v2" component={GeomorphDungeonV2Page} />
       <Route path="/refactor/geomorph-dungeon-v3" component={GeomorphDungeonV3Page} />
+      <Route path="/refactor/geomorph-dungeon-v4" component={GeomorphDungeonV4Page} />
       <Route path="/hex-terrain/wfc" component={HexTerrainWfcPage} />
       <Route path="/refactor/hex-terrain/wfc" component={RefactorHexTerrainWfcPage} />
       <Route path="/refactor/hex-transitions/wfc" component={HexTransitionsWfcPage} />

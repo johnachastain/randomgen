@@ -1,0 +1,483 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1488" height="2565" viewBox="0 0 1488 2565">
+<rect width="1488" height="2565" fill="#3a3a3a"/>
+<pattern id="chk" width="24" height="24" patternUnits="userSpaceOnUse"><rect width="24" height="24" fill="#ffffff"/><rect width="12" height="12" fill="#cccccc"/><rect x="12" y="12" width="12" height="12" fill="#cccccc"/></pattern>
+<text x="18" y="31" font-family="Helvetica, Arial, sans-serif" font-size="21" fill="#fff">Dungeon tile atlas — 93 tiles (checkerboard = transparent)</text>
+<rect x="18" y="63" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(43.00,63.00) scale(0.5000)"><path d="M 200,0 L 200,300 L 0,300 A 150 150 0 0 0 0,0 Z" fill="#2c313b"/></g>
+<rect x="18" y="63" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="231" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_base_e_lg</text>
+<rect x="204" y="63" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,63.00) scale(1.5000)"><path d="M 100,0 L 100,100 L 0,100 A 50 50 0 0 0 0,0 Z" fill="#2c313b"/></g>
+<rect x="204" y="63" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="231" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_base_e_sm</text>
+<rect x="390" y="63" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,88.00) scale(0.5000)"><path d="M 0,0 L 300,0 L 300,200 A 150 150 0 0 0 0,200 Z" fill="#2c313b"/></g>
+<rect x="390" y="63" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="231" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_base_n_lg</text>
+<rect x="576" y="63" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,63.00) scale(1.5000)"><path d="M 0,0 L 100,0 L 100,100 A 50 50 0 0 0 0,100 Z" fill="#2c313b"/></g>
+<rect x="576" y="63" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="231" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_base_n_sm</text>
+<rect x="762" y="63" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,88.00) scale(0.5000)"><path d="M 0,200 L 300,200 L 300,0 A 150 150 0 0 1 0,0 Z" fill="#2c313b"/></g>
+<rect x="762" y="63" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="231" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_base_s_lg</text>
+<rect x="948" y="63" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,63.00) scale(1.5000)"><path d="M 0,100 L 100,100 L 100,0 A 50 50 0 0 1 0,0 Z" fill="#2c313b"/></g>
+<rect x="948" y="63" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="231" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_base_s_sm</text>
+<rect x="1134" y="63" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1159.00,63.00) scale(0.5000)"><path d="M 0,0 L 0,300 L 200,300 A 150 150 0 0 1 200,0 Z" fill="#2c313b"/></g>
+<rect x="1134" y="63" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="231" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_base_w_lg</text>
+<rect x="1320" y="63" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,63.00) scale(1.5000)"><path d="M 0,0 L 0,100 L 100,100 A 50 50 0 0 1 100,0 Z" fill="#2c313b"/></g>
+<rect x="1320" y="63" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="231" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_base_w_sm</text>
+<rect x="18" y="273" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(43.00,273.00) scale(0.5000)"><path d="M 0,11 A 139 139 0 0 1 0,289" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="18" y="273" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="441" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_trim_e_lg</text>
+<rect x="204" y="273" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,273.00) scale(1.5000)"><path d="M 0,11 A 39 39 0 0 1 0,89" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="204" y="273" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="441" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_trim_e_sm</text>
+<rect x="390" y="273" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,298.00) scale(0.5000)"><path d="M 11,200 A 139 139 0 0 1 289,200" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="390" y="273" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="441" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_trim_n_lg</text>
+<rect x="576" y="273" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,273.00) scale(1.5000)"><path d="M 11,100 A 39 39 0 0 1 89,100" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="576" y="273" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="441" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_trim_n_sm</text>
+<rect x="762" y="273" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,298.00) scale(0.5000)"><path d="M 11,0 A 139 139 0 0 0 289,0" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="762" y="273" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="441" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_trim_s_lg</text>
+<rect x="948" y="273" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,273.00) scale(1.5000)"><path d="M 11,0 A 39 39 0 0 0 89,0" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="948" y="273" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="441" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_trim_s_sm</text>
+<rect x="1134" y="273" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1159.00,273.00) scale(0.5000)"><path d="M 200,11 A 139 139 0 0 0 200,289" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="1134" y="273" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="441" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_trim_w_lg</text>
+<rect x="1320" y="273" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,273.00) scale(1.5000)"><path d="M 100,11 A 39 39 0 0 0 100,89" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="1320" y="273" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="441" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">alcove_trim_w_sm</text>
+<rect x="18" y="483" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(18.00,483.00) scale(1.5000)"><rect x="76" y="0" width="24" height="100" fill="#8a5a2b"/></g>
+<rect x="18" y="483" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="651" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">door_e</text>
+<rect x="204" y="483" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,483.00) scale(1.5000)"><rect x="0" y="0" width="100" height="24" fill="#8a5a2b"/></g>
+<rect x="204" y="483" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="651" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">door_n</text>
+<rect x="390" y="483" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,483.00) scale(1.5000)"><rect x="0" y="76" width="100" height="24" fill="#8a5a2b"/></g>
+<rect x="390" y="483" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="651" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">door_s</text>
+<rect x="576" y="483" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,483.00) scale(1.5000)"><rect x="0" y="0" width="24" height="100" fill="#8a5a2b"/></g>
+<rect x="576" y="483" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="651" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">door_w</text>
+<rect x="762" y="483" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,483.00) scale(1.5000)"><circle cx="50" cy="50" r="48" fill="#4d525c"/></g>
+<rect x="762" y="483" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="651" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">pillar</text>
+<rect x="948" y="483" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,483.00) scale(1.5000)"><circle cx="50" cy="50" r="34" fill="#2f9e44"/>
+  <polygon points="50,72 34,44 66,44" fill="#fff"/></g>
+<rect x="948" y="483" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="651" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">portal_entrance</text>
+<rect x="1134" y="483" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1134.00,483.00) scale(1.5000)"><circle cx="50" cy="50" r="34" fill="#e8590c"/>
+  <polygon points="50,72 34,44 66,44" fill="#fff"/></g>
+<rect x="1134" y="483" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="651" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">portal_exit</text>
+<rect x="1320" y="483" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,483.00) scale(1.5000)"><path d="M 100,0 L 0,0 A 100 100 0 0 1 100,100 Z" fill="#2c313b"/></g>
+<rect x="1320" y="483" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="651" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_corner_ne</text>
+<rect x="18" y="693" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(18.00,693.00) scale(1.5000)"><path d="M 0,0 L 100,0 A 100 100 0 0 0 0,100 Z" fill="#2c313b"/></g>
+<rect x="18" y="693" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="861" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_corner_nw</text>
+<rect x="204" y="693" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,693.00) scale(1.5000)"><path d="M 100,100 L 100,0 A 100 100 0 0 1 0,100 Z" fill="#2c313b"/></g>
+<rect x="204" y="693" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="861" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_corner_se</text>
+<rect x="390" y="693" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,693.00) scale(1.5000)"><path d="M 0,100 L 0,0 A 100 100 0 0 0 100,100 Z" fill="#2c313b"/></g>
+<rect x="390" y="693" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="861" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_corner_sw</text>
+<rect x="576" y="693" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,693.00) scale(1.5000)"><path d="M 0,11 A 89 89 0 0 1 89,100" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="576" y="693" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="861" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_ne_r1</text>
+<rect x="762" y="693" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,693.00) scale(1.5000)"><path d="M 0,5.5 A 94.5 94.5 0 0 1 94.5,100" fill="none" stroke="#4a5160" stroke-width="11"/></g>
+<rect x="762" y="693" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="861" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_ne_r2</text>
+<rect x="948" y="693" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,693.00) scale(1.5000)"><path d="M 0,3.6666666666666665 A 96.33333333333333 96.33333333333333 0 0 1 96.33333333333333,100" fill="none" stroke="#4a5160" stroke-width="7.333333333333333"/></g>
+<rect x="948" y="693" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="861" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_ne_r3</text>
+<rect x="1134" y="693" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1134.00,693.00) scale(1.5000)"><path d="M 0,2.75 A 97.25 97.25 0 0 1 97.25,100" fill="none" stroke="#4a5160" stroke-width="5.5"/></g>
+<rect x="1134" y="693" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="861" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_ne_r4</text>
+<rect x="1320" y="693" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,693.00) scale(1.5000)"><path d="M 100,11 A 89 89 0 0 0 11,100" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="1320" y="693" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="861" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_nw_r1</text>
+<rect x="18" y="903" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(18.00,903.00) scale(1.5000)"><path d="M 100,5.5 A 94.5 94.5 0 0 0 5.5,100" fill="none" stroke="#4a5160" stroke-width="11"/></g>
+<rect x="18" y="903" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="1071" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_nw_r2</text>
+<rect x="204" y="903" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,903.00) scale(1.5000)"><path d="M 100,3.6666666666666665 A 96.33333333333333 96.33333333333333 0 0 0 3.6666666666666665,100" fill="none" stroke="#4a5160" stroke-width="7.333333333333333"/></g>
+<rect x="204" y="903" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="1071" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_nw_r3</text>
+<rect x="390" y="903" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,903.00) scale(1.5000)"><path d="M 100,2.75 A 97.25 97.25 0 0 0 2.75,100" fill="none" stroke="#4a5160" stroke-width="5.5"/></g>
+<rect x="390" y="903" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="1071" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_nw_r4</text>
+<rect x="576" y="903" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,903.00) scale(1.5000)"><path d="M 89,0 A 89 89 0 0 1 0,89" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="576" y="903" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="1071" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_se_r1</text>
+<rect x="762" y="903" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,903.00) scale(1.5000)"><path d="M 94.5,0 A 94.5 94.5 0 0 1 0,94.5" fill="none" stroke="#4a5160" stroke-width="11"/></g>
+<rect x="762" y="903" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="1071" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_se_r2</text>
+<rect x="948" y="903" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,903.00) scale(1.5000)"><path d="M 96.33333333333333,0 A 96.33333333333333 96.33333333333333 0 0 1 0,96.33333333333333" fill="none" stroke="#4a5160" stroke-width="7.333333333333333"/></g>
+<rect x="948" y="903" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="1071" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_se_r3</text>
+<rect x="1134" y="903" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1134.00,903.00) scale(1.5000)"><path d="M 97.25,0 A 97.25 97.25 0 0 1 0,97.25" fill="none" stroke="#4a5160" stroke-width="5.5"/></g>
+<rect x="1134" y="903" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="1071" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_se_r4</text>
+<rect x="1320" y="903" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,903.00) scale(1.5000)"><path d="M 11,0 A 89 89 0 0 0 100,89" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="1320" y="903" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="1071" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_sw_r1</text>
+<rect x="18" y="1113" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(18.00,1113.00) scale(1.5000)"><path d="M 5.5,0 A 94.5 94.5 0 0 0 100,94.5" fill="none" stroke="#4a5160" stroke-width="11"/></g>
+<rect x="18" y="1113" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="1281" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_sw_r2</text>
+<rect x="204" y="1113" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,1113.00) scale(1.5000)"><path d="M 3.6666666666666665,0 A 96.33333333333333 96.33333333333333 0 0 0 100,96.33333333333333" fill="none" stroke="#4a5160" stroke-width="7.333333333333333"/></g>
+<rect x="204" y="1113" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="1281" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_sw_r3</text>
+<rect x="390" y="1113" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,1113.00) scale(1.5000)"><path d="M 2.75,0 A 97.25 97.25 0 0 0 100,97.25" fill="none" stroke="#4a5160" stroke-width="5.5"/></g>
+<rect x="390" y="1113" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="1281" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">round_trim_sw_r4</text>
+<rect x="576" y="1113" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,1113.00) scale(1.5000)"><path d="M 100,0 L 50,0 A 50 50 0 0 1 100,50 Z" fill="#2c313b"/></g>
+<rect x="576" y="1113" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="1281" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">rrcorner_ne</text>
+<rect x="762" y="1113" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,1113.00) scale(1.5000)"><path d="M 0,0 L 50,0 A 50 50 0 0 0 0,50 Z" fill="#2c313b"/></g>
+<rect x="762" y="1113" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="1281" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">rrcorner_nw</text>
+<rect x="948" y="1113" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,1113.00) scale(1.5000)"><path d="M 100,100 L 100,50 A 50 50 0 0 1 50,100 Z" fill="#2c313b"/></g>
+<rect x="948" y="1113" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="1281" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">rrcorner_se</text>
+<rect x="1134" y="1113" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1134.00,1113.00) scale(1.5000)"><path d="M 0,100 L 0,50 A 50 50 0 0 0 50,100 Z" fill="#2c313b"/></g>
+<rect x="1134" y="1113" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="1281" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">rrcorner_sw</text>
+<rect x="1320" y="1113" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,1113.00) scale(1.5000)"><path d="M 0,11 L 50,11 A 39 39 0 0 1 89,50 L 89,100" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="1320" y="1113" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="1281" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">rrtrim_ne</text>
+<rect x="18" y="1323" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(18.00,1323.00) scale(1.5000)"><path d="M 100,11 L 50,11 A 39 39 0 0 0 11,50 L 11,100" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="18" y="1323" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="1491" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">rrtrim_nw</text>
+<rect x="204" y="1323" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,1323.00) scale(1.5000)"><path d="M 89,0 L 89,50 A 39 39 0 0 1 50,89 L 0,89" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="204" y="1323" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="1491" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">rrtrim_se</text>
+<rect x="390" y="1323" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,1323.00) scale(1.5000)"><path d="M 11,0 L 11,50 A 39 39 0 0 0 50,89 L 100,89" fill="none" stroke="#4a5160" stroke-width="22"/></g>
+<rect x="390" y="1323" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="1491" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">rrtrim_sw</text>
+<rect x="576" y="1323" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,1323.00) scale(1.5000)"><rect x="8" y="0" width="6" height="100" fill="#7c745f"/>
+  <rect x="24" y="0" width="6" height="100" fill="#7c745f"/>
+  <rect x="40" y="0" width="6" height="100" fill="#7c745f"/>
+  <rect x="56" y="0" width="6" height="100" fill="#7c745f"/>
+  <rect x="72" y="0" width="6" height="100" fill="#7c745f"/>
+  <rect x="88" y="0" width="6" height="100" fill="#7c745f"/>
+  <polygon points="34,50 54,36 54,64" fill="#4a4534"/></g>
+<rect x="576" y="1323" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="1491" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">stairs_e</text>
+<rect x="762" y="1323" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,1323.00) scale(1.5000)"><rect x="0" y="8" width="100" height="6" fill="#7c745f"/>
+  <rect x="0" y="24" width="100" height="6" fill="#7c745f"/>
+  <rect x="0" y="40" width="100" height="6" fill="#7c745f"/>
+  <rect x="0" y="56" width="100" height="6" fill="#7c745f"/>
+  <rect x="0" y="72" width="100" height="6" fill="#7c745f"/>
+  <rect x="0" y="88" width="100" height="6" fill="#7c745f"/>
+  <polygon points="50,66 36,46 64,46" fill="#4a4534"/></g>
+<rect x="762" y="1323" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="1491" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">stairs_n</text>
+<rect x="948" y="1323" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,1323.00) scale(1.5000)"><rect x="0" y="8" width="100" height="6" fill="#7c745f"/>
+  <rect x="0" y="24" width="100" height="6" fill="#7c745f"/>
+  <rect x="0" y="40" width="100" height="6" fill="#7c745f"/>
+  <rect x="0" y="56" width="100" height="6" fill="#7c745f"/>
+  <rect x="0" y="72" width="100" height="6" fill="#7c745f"/>
+  <rect x="0" y="88" width="100" height="6" fill="#7c745f"/>
+  <polygon points="50,34 36,54 64,54" fill="#4a4534"/></g>
+<rect x="948" y="1323" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="1491" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">stairs_s</text>
+<rect x="1134" y="1323" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1134.00,1323.00) scale(1.5000)"><rect x="8" y="0" width="6" height="100" fill="#7c745f"/>
+  <rect x="24" y="0" width="6" height="100" fill="#7c745f"/>
+  <rect x="40" y="0" width="6" height="100" fill="#7c745f"/>
+  <rect x="56" y="0" width="6" height="100" fill="#7c745f"/>
+  <rect x="72" y="0" width="6" height="100" fill="#7c745f"/>
+  <rect x="88" y="0" width="6" height="100" fill="#7c745f"/>
+  <polygon points="66,50 46,36 46,64" fill="#4a4534"/></g>
+<rect x="1134" y="1323" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="1491" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">stairs_w</text>
+<rect x="1320" y="1323" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,1323.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="78" width="100" height="22" fill="#6f7686"/></g>
+<rect x="1320" y="1323" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="1491" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_1</text>
+<rect x="18" y="1533" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(18.00,1533.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="0" width="22" height="100" fill="#6f7686"/>
+  <rect x="78" y="0" width="22" height="100" fill="#6f7686"/></g>
+<rect x="18" y="1533" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="1701" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_10</text>
+<rect x="204" y="1533" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,1533.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="78" width="100" height="22" fill="#6f7686"/>
+  <rect x="0" y="0" width="22" height="100" fill="#6f7686"/>
+  <rect x="78" y="0" width="22" height="100" fill="#6f7686"/></g>
+<rect x="204" y="1533" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="1701" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_11</text>
+<rect x="390" y="1533" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,1533.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="0" width="100" height="22" fill="#6f7686"/>
+  <rect x="78" y="0" width="22" height="100" fill="#6f7686"/></g>
+<rect x="390" y="1533" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="1701" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_12</text>
+<rect x="576" y="1533" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,1533.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="78" width="100" height="22" fill="#6f7686"/>
+  <rect x="0" y="0" width="100" height="22" fill="#6f7686"/>
+  <rect x="78" y="0" width="22" height="100" fill="#6f7686"/></g>
+<rect x="576" y="1533" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="1701" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_13</text>
+<rect x="762" y="1533" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,1533.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="0" width="22" height="100" fill="#6f7686"/>
+  <rect x="0" y="0" width="100" height="22" fill="#6f7686"/>
+  <rect x="78" y="0" width="22" height="100" fill="#6f7686"/></g>
+<rect x="762" y="1533" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="1701" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_14</text>
+<rect x="948" y="1533" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,1533.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="78" width="100" height="22" fill="#6f7686"/>
+  <rect x="0" y="0" width="22" height="100" fill="#6f7686"/>
+  <rect x="0" y="0" width="100" height="22" fill="#6f7686"/>
+  <rect x="78" y="0" width="22" height="100" fill="#6f7686"/></g>
+<rect x="948" y="1533" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="1701" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_15</text>
+<rect x="1134" y="1533" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1134.00,1533.00) scale(1.5000)"><rect x="50" y="0" width="50" height="50" fill="#4a5160"/>
+  <rect x="50" y="0" width="22" height="50" fill="#6f7686"/>
+  <rect x="50" y="28" width="50" height="22" fill="#6f7686"/></g>
+<rect x="1134" y="1533" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="1701" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_16</text>
+<rect x="1320" y="1533" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,1533.00) scale(1.5000)"><rect x="50" y="50" width="50" height="50" fill="#4a5160"/>
+  <rect x="50" y="50" width="22" height="50" fill="#6f7686"/>
+  <rect x="50" y="50" width="50" height="22" fill="#6f7686"/></g>
+<rect x="1320" y="1533" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="1701" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_17</text>
+<rect x="18" y="1743" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(18.00,1743.00) scale(1.5000)"><rect x="0" y="50" width="50" height="50" fill="#4a5160"/>
+  <rect x="28" y="50" width="22" height="50" fill="#6f7686"/>
+  <rect x="0" y="50" width="50" height="22" fill="#6f7686"/></g>
+<rect x="18" y="1743" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="1911" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_18</text>
+<rect x="204" y="1743" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,1743.00) scale(1.5000)"><rect x="0" y="0" width="50" height="50" fill="#4a5160"/>
+  <rect x="28" y="0" width="22" height="50" fill="#6f7686"/>
+  <rect x="0" y="28" width="50" height="22" fill="#6f7686"/></g>
+<rect x="204" y="1743" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="1911" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_19</text>
+<rect x="390" y="1743" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,1743.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="0" width="22" height="100" fill="#6f7686"/></g>
+<rect x="390" y="1743" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="1911" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_2</text>
+<rect x="576" y="1743" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,1743.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="78" width="100" height="22" fill="#6f7686"/>
+  <rect x="0" y="0" width="22" height="100" fill="#6f7686"/></g>
+<rect x="576" y="1743" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="1911" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_3</text>
+<rect x="762" y="1743" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,1743.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="0" width="100" height="22" fill="#6f7686"/></g>
+<rect x="762" y="1743" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="1911" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_4</text>
+<rect x="948" y="1743" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,1743.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="78" width="100" height="22" fill="#6f7686"/>
+  <rect x="0" y="0" width="100" height="22" fill="#6f7686"/></g>
+<rect x="948" y="1743" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="1911" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_5</text>
+<rect x="1134" y="1743" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1134.00,1743.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="0" width="22" height="100" fill="#6f7686"/>
+  <rect x="0" y="0" width="100" height="22" fill="#6f7686"/></g>
+<rect x="1134" y="1743" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="1911" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_6</text>
+<rect x="1320" y="1743" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,1743.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="78" width="100" height="22" fill="#6f7686"/>
+  <rect x="0" y="0" width="22" height="100" fill="#6f7686"/>
+  <rect x="0" y="0" width="100" height="22" fill="#6f7686"/></g>
+<rect x="1320" y="1743" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="1911" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_7</text>
+<rect x="18" y="1953" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(18.00,1953.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="78" y="0" width="22" height="100" fill="#6f7686"/></g>
+<rect x="18" y="1953" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="2121" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_8</text>
+<rect x="204" y="1953" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,1953.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#4a5160"/>
+  <rect x="0" y="78" width="100" height="22" fill="#6f7686"/>
+  <rect x="78" y="0" width="22" height="100" fill="#6f7686"/></g>
+<rect x="204" y="1953" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="2121" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">wall_trim_9</text>
+<rect x="390" y="1953" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,1953.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="78" width="100" height="22" fill="#87b7e6"/></g>
+<rect x="390" y="1953" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="2121" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_1</text>
+<rect x="576" y="1953" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,1953.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="0" width="22" height="100" fill="#87b7e6"/>
+  <rect x="78" y="0" width="22" height="100" fill="#87b7e6"/></g>
+<rect x="576" y="1953" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="2121" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_10</text>
+<rect x="762" y="1953" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,1953.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="78" width="100" height="22" fill="#87b7e6"/>
+  <rect x="0" y="0" width="22" height="100" fill="#87b7e6"/>
+  <rect x="78" y="0" width="22" height="100" fill="#87b7e6"/></g>
+<rect x="762" y="1953" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="2121" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_11</text>
+<rect x="948" y="1953" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,1953.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="0" width="100" height="22" fill="#87b7e6"/>
+  <rect x="78" y="0" width="22" height="100" fill="#87b7e6"/></g>
+<rect x="948" y="1953" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="2121" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_12</text>
+<rect x="1134" y="1953" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1134.00,1953.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="78" width="100" height="22" fill="#87b7e6"/>
+  <rect x="0" y="0" width="100" height="22" fill="#87b7e6"/>
+  <rect x="78" y="0" width="22" height="100" fill="#87b7e6"/></g>
+<rect x="1134" y="1953" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="2121" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_13</text>
+<rect x="1320" y="1953" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,1953.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="0" width="22" height="100" fill="#87b7e6"/>
+  <rect x="0" y="0" width="100" height="22" fill="#87b7e6"/>
+  <rect x="78" y="0" width="22" height="100" fill="#87b7e6"/></g>
+<rect x="1320" y="1953" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="2121" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_14</text>
+<rect x="18" y="2163" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(18.00,2163.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="78" width="100" height="22" fill="#87b7e6"/>
+  <rect x="0" y="0" width="22" height="100" fill="#87b7e6"/>
+  <rect x="0" y="0" width="100" height="22" fill="#87b7e6"/>
+  <rect x="78" y="0" width="22" height="100" fill="#87b7e6"/></g>
+<rect x="18" y="2163" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="2331" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_15</text>
+<rect x="204" y="2163" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,2163.00) scale(1.5000)"><rect x="50" y="0" width="50" height="50" fill="#5b93cf"/>
+  <rect x="50" y="0" width="22" height="50" fill="#87b7e6"/>
+  <rect x="50" y="28" width="50" height="22" fill="#87b7e6"/></g>
+<rect x="204" y="2163" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="2331" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_16</text>
+<rect x="390" y="2163" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,2163.00) scale(1.5000)"><rect x="50" y="50" width="50" height="50" fill="#5b93cf"/>
+  <rect x="50" y="50" width="22" height="50" fill="#87b7e6"/>
+  <rect x="50" y="50" width="50" height="22" fill="#87b7e6"/></g>
+<rect x="390" y="2163" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="2331" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_17</text>
+<rect x="576" y="2163" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,2163.00) scale(1.5000)"><rect x="0" y="50" width="50" height="50" fill="#5b93cf"/>
+  <rect x="28" y="50" width="22" height="50" fill="#87b7e6"/>
+  <rect x="0" y="50" width="50" height="22" fill="#87b7e6"/></g>
+<rect x="576" y="2163" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="2331" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_18</text>
+<rect x="762" y="2163" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,2163.00) scale(1.5000)"><rect x="0" y="0" width="50" height="50" fill="#5b93cf"/>
+  <rect x="28" y="0" width="22" height="50" fill="#87b7e6"/>
+  <rect x="0" y="28" width="50" height="22" fill="#87b7e6"/></g>
+<rect x="762" y="2163" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="2331" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_19</text>
+<rect x="948" y="2163" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(948.00,2163.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="0" width="22" height="100" fill="#87b7e6"/></g>
+<rect x="948" y="2163" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1023" y="2331" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_2</text>
+<rect x="1134" y="2163" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1134.00,2163.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="78" width="100" height="22" fill="#87b7e6"/>
+  <rect x="0" y="0" width="22" height="100" fill="#87b7e6"/></g>
+<rect x="1134" y="2163" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1209" y="2331" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_3</text>
+<rect x="1320" y="2163" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(1320.00,2163.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="0" width="100" height="22" fill="#87b7e6"/></g>
+<rect x="1320" y="2163" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="1395" y="2331" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_4</text>
+<rect x="18" y="2373" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(18.00,2373.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="78" width="100" height="22" fill="#87b7e6"/>
+  <rect x="0" y="0" width="100" height="22" fill="#87b7e6"/></g>
+<rect x="18" y="2373" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="93" y="2541" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_5</text>
+<rect x="204" y="2373" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(204.00,2373.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="0" width="22" height="100" fill="#87b7e6"/>
+  <rect x="0" y="0" width="100" height="22" fill="#87b7e6"/></g>
+<rect x="204" y="2373" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="279" y="2541" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_6</text>
+<rect x="390" y="2373" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(390.00,2373.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="78" width="100" height="22" fill="#87b7e6"/>
+  <rect x="0" y="0" width="22" height="100" fill="#87b7e6"/>
+  <rect x="0" y="0" width="100" height="22" fill="#87b7e6"/></g>
+<rect x="390" y="2373" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="465" y="2541" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_7</text>
+<rect x="576" y="2373" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(576.00,2373.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="78" y="0" width="22" height="100" fill="#87b7e6"/></g>
+<rect x="576" y="2373" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="651" y="2541" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_8</text>
+<rect x="762" y="2373" width="150" height="150" fill="url(#chk)"/>
+<g transform="translate(762.00,2373.00) scale(1.5000)"><rect x="0" y="0" width="100" height="100" fill="#5b93cf"/>
+  <rect x="0" y="78" width="100" height="22" fill="#87b7e6"/>
+  <rect x="78" y="0" width="22" height="100" fill="#87b7e6"/></g>
+<rect x="762" y="2373" width="150" height="150" fill="none" stroke="#000" stroke-width="1"/>
+<text x="837" y="2541" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#eee">water_trim_9</text>
+</svg>

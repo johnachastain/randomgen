@@ -12,6 +12,7 @@ const PAGES = [
   { path: "/refactor/geomorph-dungeon-v1", label: "Dungeon v1" },
   { path: "/refactor/geomorph-dungeon-v2", label: "Dungeon v2" },
   { path: "/refactor/geomorph-dungeon-v3", label: "Dungeon v3" },
+  { path: "/refactor/geomorph-dungeon-v4", label: "Dungeon v4" },
 ]
 
 export function GeomorphNav() {
