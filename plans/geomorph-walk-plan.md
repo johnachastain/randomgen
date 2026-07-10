@@ -6,7 +6,7 @@ The existing geomorph feature (`src/pages/geomorph/`, `src/geomorph/`) generates
 
 The new variation uses a **drunken walk** (random walk) algorithm instead: a walker starts at a random outer-edge cell, stumbles through the grid marking cells as "path", and the path topology determines which tile image each cell gets. Non-visited cells are solid walls.
 
-This variation lives in `src/geomorph-walk/` — a peer of `src/refactor/`, `src/refactor2/`, `src/refactor3/`. It is wired into the router as a new route (e.g., `/geomorph-walk`). The click-to-edit tile overlay from the original implementation is preserved.
+This variation lives in `src/geomorph-walk/` — a peer of `src/configCharacterGen/` (was `refactor3`). (The old `src/refactor/` and `src/refactor2/` experiments have since been archived under `src/snapshots/`.) It is wired into the router as a new route (e.g., `/geomorph-walk`). The click-to-edit tile overlay from the original implementation is preserved.
 
 Goal: **maximum simplicity and readability** — no external state library, minimal abstraction.
 

@@ -5,9 +5,9 @@ import type { DungeonResult, EdgeGrids, MaterialGrid } from "./types"
 
 // Property-based suite: these mirror the headless invariant checks used throughout the
 // dungeon's development (connectivity, elevation consistency, feature placement rules).
-// generateDungeon uses Math.random(), so we assert each invariant over a CORPUS of many
-// runs at a few sizes rather than a single fixed seed. A failure prints the offending
-// dungeon index + cell so it's reproducible-by-inspection.
+// generateDungeon defaults to a fresh random seed (T1), so we assert each invariant over a
+// CORPUS of many runs at a few sizes rather than a single fixed seed. A failure prints the
+// offending dungeon index + cell so it's reproducible-by-inspection.
 
 const SIZES: [number, number][] = [[20, 18], [16, 14], [24, 20]]
 const PER_SIZE = 60
@@ -195,6 +195,60 @@ describe("dungeon room features (apses & alcoves)", () => {
         if (new Set(rm.alcoves.map(a => a.size)).size > 1) bad.push(`dungeon ${di} room ${ri}: mixed alcove sizes`)
         if (new Set(rm.apses.map(a => a.variant)).size > 1) bad.push(`dungeon ${di} room ${ri}: mixed apse variants`)
       })
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+})
+
+// T1: seeded generation is deterministic — same seed → identical dungeon (incl. room names).
+describe("seeded generation (T1)", () => {
+  it("same seed reproduces the same dungeon", () => {
+    const a = generateDungeon(20, 18, 12345)
+    const b = generateDungeon(20, 18, 12345)
+    expect(a.seed).toBe(12345)
+    expect(JSON.stringify(b)).toBe(JSON.stringify(a))
+    expect(b.rooms.map(r => r.name)).toEqual(a.rooms.map(r => r.name))
+  })
+
+  it("different seeds diverge", () => {
+    const a = generateDungeon(20, 18, 1)
+    const b = generateDungeon(20, 18, 2)
+    expect(JSON.stringify(b)).not.toBe(JSON.stringify(a))
+  })
+})
+
+// Idea 10: every room gets a derived profile, and the derived facts match the map.
+describe("room profiles (Idea 10)", () => {
+  it("every room has a well-formed profile; water/shape match the map", () => {
+    const bad: string[] = []
+    for (let di = 0; di < CORPUS.length; di++) {
+      const d = CORPUS[di]
+      d.rooms.forEach((rm, ri) => {
+        const p = rm.profile
+        if (!p) { bad.push(`dungeon ${di} room ${ri}: missing profile`); return }
+        if (p.shape !== rm.shape) bad.push(`dungeon ${di} room ${ri}: profile.shape ≠ room.shape`)
+        if (p.elevation !== rm.z) bad.push(`dungeon ${di} room ${ri}: profile.elevation ≠ room.z`)
+        if (!["dry", "pool", "partial", "full"].includes(p.water)) bad.push(`dungeon ${di} room ${ri}: bad water ${p.water}`)
+        if (!["small", "medium", "large"].includes(p.size)) bad.push(`dungeon ${di} room ${ri}: bad size ${p.size}`)
+        // Water cross-check: only for RECT rooms, whose bounding box equals their footprint exactly
+        // (rounded/circle bboxes include non-room corner cells; roomAt isn't exported to verify those).
+        if (rm.shape === "rect") {
+          let water = 0
+          for (let r = rm.y; r < rm.y + rm.h; r++) for (let c = rm.x; c < rm.x + rm.w; c++)
+            if (d.grid[r]?.[c] === Material.Water) water++
+          if (p.water === "dry" && water > 0) bad.push(`dungeon ${di} room ${ri}: dry profile but ${water} water cells`)
+          if (p.water !== "dry" && water === 0) bad.push(`dungeon ${di} room ${ri}: ${p.water} profile but no water cells`)
+        }
+      })
+    }
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("profile-aware names are well-formed (non-empty, no unresolved templates)", () => {
+    const bad: string[] = []
+    for (let di = 0; di < CORPUS.length; di++) CORPUS[di].rooms.forEach((rm, ri) => {
+      if (!rm.name || !rm.name.trim()) bad.push(`dungeon ${di} room ${ri}: empty name`)
+      if (/[{}]|undefined/.test(rm.name)) bad.push(`dungeon ${di} room ${ri}: bad name "${rm.name}"`)
     })
     expect(bad.slice(0, 5)).toEqual([])
   })

@@ -15,6 +15,14 @@ const GROUPS: Group[] = [
     ],
   },
   {
+    title: "Lab",
+    pages: [
+      { path: "/refactor/geomorph-dungeon", label: "Dungeon (bitmask)" },
+      { path: "/lab/room-description", label: "Room Description Generator" },
+      { path: "/lab/room-description/edit", label: "Room Description — template editor" },
+    ],
+  },
+  {
     title: "Geomorphs — original",
     pages: [
       { path: "/geomorph-walk", label: "Drunken Walk" },
@@ -35,11 +43,15 @@ const GROUPS: Group[] = [
       { path: "/refactor/geomorph-ca", label: "Cave" },
       { path: "/refactor/geomorph-prim", label: "Prim's" },
       { path: "/refactor/geomorph-wfc", label: "WFC" },
-      { path: "/refactor/geomorph-dungeon", label: "Dungeon (bitmask)" },
-      { path: "/refactor/geomorph-dungeon-v1", label: "Dungeon v1 (frozen baseline)" },
-      { path: "/refactor/geomorph-dungeon-v2", label: "Dungeon v2 (frozen baseline)" },
-      { path: "/refactor/geomorph-dungeon-v3", label: "Dungeon v3 (frozen baseline)" },
-      { path: "/refactor/geomorph-dungeon-v4", label: "Dungeon v4 (frozen baseline)" },
+    ],
+  },
+  {
+    title: "Snapshots (frozen dungeon baselines)",
+    pages: [
+      { path: "/refactor/geomorph-dungeon-v1", label: "Dungeon v1" },
+      { path: "/refactor/geomorph-dungeon-v2", label: "Dungeon v2" },
+      { path: "/refactor/geomorph-dungeon-v3", label: "Dungeon v3" },
+      { path: "/refactor/geomorph-dungeon-v4", label: "Dungeon v4" },
     ],
   },
   {
@@ -55,8 +67,8 @@ const GROUPS: Group[] = [
     title: "Refactor experiments",
     pages: [
       { path: "/baseRefactor", label: "Wilderness Location (refactor)" },
-      { path: "/refactor3", label: "Refactor 3" },
-      { path: "/refactor4", label: "Refactor 4" },
+      { path: "/config-character", label: "Config Character Generator" },
+      { path: "/config-dungeon", label: "Config Dungeon Generator" },
     ],
   },
 ]

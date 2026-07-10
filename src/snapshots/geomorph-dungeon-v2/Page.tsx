@@ -1,65 +1,21 @@
 import { useState } from "react"
-import { GeomorphNav } from "../geomorph-shared/GeomorphNav"
+import { GeomorphNav } from "../../refactorGeomorphs/geomorph-shared/GeomorphNav"
 import { generateDungeon } from "./dungeon"
 import { SUB, trimIndexFor } from "./bitmask"
-import { TRIM_WALL, TRIM_WATER, PILLAR_TILE, STAIR_TILES, PORTAL_TILES, ROUND_CORNER_TILES, ROUND_TRIM_TILES } from "./tileConfig"
+import { TRIM_WALL, TRIM_WATER, PILLAR_TILE, STAIR_TILES, PORTAL_TILES } from "./tileConfig"
 import { MATERIAL_COLOR, MATERIAL_LABEL, DETAIL_MATERIALS, PORTAL_STYLE } from "./materials"
-import { Material, Edge, EDGE, Corner } from "./types"
+import { Material, Edge, EDGE } from "./types"
 
 const S = 32 // px per base cell
 const s = S / SUB // px per fine (detail) cell
 
 const TRIM_ART: Record<"wall" | "water", string[]> = { wall: TRIM_WALL, water: TRIM_WATER }
 
-// Debug "Shapes" overlay: footprint tint colour per room shape.
-const SHAPE_COLOR: Record<string, string> = { circle: "#e64980", rounded: "#f08c00" }
-
-const DIRS8: [number, number][] = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]
-
 export default function GeomorphDungeonPage() {
   const [cols, setCols] = useState(20)
-  const [rows, setRows] = useState(18)
-  const [dungeon, setDungeon] = useState(() => generateDungeon(20, 18))
+  const [rows, setRows] = useState(14)
+  const [dungeon, setDungeon] = useState(() => generateDungeon(20, 14))
   const { grid, pillars, rooms, stairs, levels, portals, edges } = dungeon
-
-  // Curve-art visibility (default on): hide a feature group's corner tiles → its cells revert to raw
-  // material + normal trim. Declared here so the block loop below can filter by them.
-  const [showRounded, setShowRounded] = useState(true) // rounded-corner rooms
-  const [showCircles, setShowCircles] = useState(true) // round (circle) rooms
-  const [showApses, setShowApses] = useState(true)     // apses + bumps
-
-  // Rounded/round corner BLOCKS: each active corner of a room (cornerRadius>0) is an r×r block at
-  // the room's corner, rendered with the quarter-disc bite + arc lip (a true circle = 4 blocks that
-  // meet at the centre). `cornerCellSet` = base cells inside any block (skip straight wall-trim there).
-  type CornerBlock = { orient: Corner; r: number; x: number; y: number }
-  const cornerBlocks: CornerBlock[] = []
-  const cornerCellSet = new Set<number>()
-  const addBlock = (b: CornerBlock) => {
-    cornerBlocks.push(b)
-    for (let dy = 0; dy < b.r; dy++) for (let dx = 0; dx < b.r; dx++) cornerCellSet.add((b.y + dy) * cols + (b.x + dx))
-  }
-  for (const rm of rooms) {
-    const r = rm.cornerRadius
-    if (r > 0 && (rm.shape === "circle" ? showCircles : showRounded)) for (const orient of rm.roundCorners) {
-      const bx = orient === "ne" || orient === "se" ? rm.x + rm.w - r : rm.x
-      const by = orient === "sw" || orient === "se" ? rm.y + rm.h - r : rm.y
-      addBlock({ orient, r, x: bx, y: by })
-    }
-    // Apse bays: their TWO far corners (away from the room) round with the corner tiles.
-    if (showApses) for (const ap of rm.apses) {
-      const ar = ap.radius
-      const bx = ap.wall === "e" ? rm.x + rm.w : ap.wall === "w" ? rm.x - ar : ap.center - ar
-      const by = ap.wall === "s" ? rm.y + rm.h : ap.wall === "n" ? rm.y - ar : ap.center - ar
-      const bw = ap.wall === "n" || ap.wall === "s" ? 2 * ar : ar
-      const bh = ap.wall === "n" || ap.wall === "s" ? ar : 2 * ar
-      const nw: CornerBlock = { orient: "nw", r: ar, x: bx, y: by }
-      const ne: CornerBlock = { orient: "ne", r: ar, x: bx + bw - ar, y: by }
-      const sw: CornerBlock = { orient: "sw", r: ar, x: bx, y: by + bh - ar }
-      const se: CornerBlock = { orient: "se", r: ar, x: bx + bw - ar, y: by + bh - ar }
-      const far = ap.wall === "n" ? [nw, ne] : ap.wall === "s" ? [sw, se] : ap.wall === "w" ? [nw, sw] : [ne, se]
-      for (const b of far) addBlock(b)
-    }
-  }
   const [showBase, setShowBase] = useState(true)
   const [showWall, setShowWall] = useState(true)
   const [showWater, setShowWater] = useState(true)
@@ -68,8 +24,6 @@ export default function GeomorphDungeonPage() {
   const [showPillars, setShowPillars] = useState(true)
   const [showLevels, setShowLevels] = useState(false)
   const [showPortals, setShowPortals] = useState(true)
-  const [showShapes, setShowShapes] = useState(false) // debug overlay: mark non-rect room footprints
-  const [showGrid, setShowGrid] = useState(false) // graph-paper grid aligned to the base cell grid
 
   // Level → colour ramp (cool = lower, warm = higher), scaled to this dungeon's range.
   // Range is taken over every open cell's level (halls included), not just rooms.
@@ -97,39 +51,12 @@ export default function GeomorphDungeonPage() {
       // Water toggle hides the base fill together with the shoreline trim.
       // Doors, stairs, and hidden water all fall back to floor for the base fill;
       // their own art (door line / stair treads) draws on the top layer.
-      // Every cell draws its full material square here; the corner's wall "bite" is painted by the
-      // cornerTiles overlay below, so water shows through the curve. A circle's DISC-cut corner cell
-      // is logically Wall — but draw its base to MATCH the room so the smooth bite mask (not a dark
-      // stepped square) defines the cut: Floor for a dry room, or Water if the round room is flooded
-      // (a neighbouring disc cell is Water). Round rooms are dry/full only, and the circle's corridor
-      // margin means the only water neighbour is the room's own disc — so no false positive.
-      const cutCorner = m === Material.Wall && cornerCellSet.has(r * cols + c)
-      let displayM: Material
-      if (cutCorner) {
-        displayM = Material.Floor
-        if (showWater) for (const [dc, dr] of DIRS8) if (grid[r + dr]?.[c + dc] === Material.Water) { displayM = Material.Water; break }
-      } else {
-        displayM = m === Material.Stairs || (m === Material.Water && !showWater) ? Material.Floor : m
-      }
+      const displayM = m === Material.Stairs || (m === Material.Water && !showWater) ? Material.Floor : m
       baseCells.push(
         <div key={`b${c}-${r}`} style={{
           position: "absolute", left: c * S, top: r * S, width: S, height: S,
           background: MATERIAL_COLOR[displayM],
         }} />
-      )
-    }
-  }
-
-  // Rounded/round-corner overlay: the wall "bite" only (transparent inside the arc), scaled to the
-  // r×r block, on a layer above the base squares (so water shows through) and below the arc lip.
-  // Part of the base representation → gated with the Base toggle.
-  const cornerTiles = []
-  if (showBase) {
-    for (let i = 0; i < cornerBlocks.length; i++) {
-      const b = cornerBlocks[i]
-      cornerTiles.push(
-        <img key={`cn${i}`} src={ROUND_CORNER_TILES[b.orient]} width={b.r * S} height={b.r * S} alt=""
-          style={{ position: "absolute", left: b.x * S, top: b.y * S, display: "block" }} />
       )
     }
   }
@@ -144,9 +71,6 @@ export default function GeomorphDungeonPage() {
     if (spec.name === "water" && !showWater) continue
     const art = TRIM_ART[spec.name]
     for (let fr = 0; fr < rows * SUB; fr++) for (let fc = 0; fc < cols * SUB; fc++) {
-      // In a rounded/round corner block, the straight wall lip is replaced by the arc trim below —
-      // skip the marching-squares wall trim there so the two don't fight.
-      if (spec.name === "wall" && cornerCellSet.has(Math.floor(fr / SUB) * cols + Math.floor(fc / SUB))) continue
       const idx = trimIndexFor(grid, fc, fr, cols, rows, spec.material, spec.oobIsTarget, spec.host, edges)
       if (idx < 1) continue
       const tile = (
@@ -155,17 +79,6 @@ export default function GeomorphDungeonPage() {
       )
       if (spec.name === "water") waterDetailTiles.push(tile)
       else wallDetailTiles.push(tile)
-    }
-  }
-  // Rounded/round-corner arc trim: the curved lip hugging each block's floor/wall boundary, scaled
-  // to r×r (wall detail → wallDetailTiles layer, above doors). Gated with the Wall detail toggle.
-  if (showWall) {
-    for (let i = 0; i < cornerBlocks.length; i++) {
-      const b = cornerBlocks[i]
-      wallDetailTiles.push(
-        <img key={`rt${i}`} src={ROUND_TRIM_TILES[b.orient][b.r as 1 | 2 | 3 | 4]} width={b.r * S} height={b.r * S} alt=""
-          style={{ position: "absolute", left: b.x * S, top: b.y * S, display: "block" }} />
-      )
     }
   }
 
@@ -236,39 +149,6 @@ export default function GeomorphDungeonPage() {
     }
   }
 
-  // Shapes debug overlay: for each non-rect room, tint its bounding box — footprint cells in
-  // the shape colour, CUT-AWAY corner cells (wall inside the box) in red (the proof it isn't a
-  // rectangle) — plus a dashed box + a `shape w×h` label. Diagnostic only; no generation effect.
-  const shapedRooms = rooms.filter(rm => rm.shape !== "rect")
-  const shapeTiles = []
-  if (showShapes) {
-    for (let i = 0; i < shapedRooms.length; i++) {
-      const rm = shapedRooms[i]
-      const color = SHAPE_COLOR[rm.shape] ?? "#f08c00" // per-shape footprint tint
-      for (let r = rm.y; r < rm.y + rm.h; r++) for (let c = rm.x; c < rm.x + rm.w; c++) {
-        const cut = grid[r][c] === Material.Wall
-        shapeTiles.push(
-          <div key={`shp${i}-${c}-${r}`} style={{
-            position: "absolute", left: c * S, top: r * S, width: S, height: S,
-            background: cut ? "#ff0000" : color, opacity: cut ? 0.55 : 0.3, pointerEvents: "none",
-          }} />
-        )
-      }
-      shapeTiles.push(
-        <div key={`shpbox${i}`} style={{
-          position: "absolute", left: rm.x * S, top: rm.y * S, width: rm.w * S, height: rm.h * S,
-          border: "2px dashed #000", boxSizing: "border-box", pointerEvents: "none",
-        }} />
-      )
-      shapeTiles.push(
-        <div key={`shplbl${i}`} style={{
-          position: "absolute", left: rm.x * S + 2, top: rm.y * S + 2, font: "bold 10px sans-serif",
-          background: "rgba(255,255,255,0.85)", padding: "0 3px", pointerEvents: "none", whiteSpace: "nowrap",
-        }}>{rm.shape} {rm.w}×{rm.h}</div>
-      )
-    }
-  }
-
   // Pillars: dots (S/2) centered on base-grid vertices, on the very top layer.
   const pillarTiles = []
   if (showPillars) {
@@ -300,21 +180,10 @@ export default function GeomorphDungeonPage() {
     }
   }
 
-  // Graph-paper grid: light-gray thin lines aligned to the base cell grid (0, S, 2S…), drawn with
-  // two CSS gradients (no per-cell elements) over the whole board. Toggled by the Grid checkbox.
-  const gridLine = "rgba(90,95,105,0.35)"
-  const gridOverlay = showGrid ? (
-    <div style={{
-      position: "absolute", left: 0, top: 0, width: cols * S, height: rows * S, pointerEvents: "none",
-      backgroundImage: `linear-gradient(to right, ${gridLine} 1px, transparent 1px), linear-gradient(to bottom, ${gridLine} 1px, transparent 1px)`,
-      backgroundSize: `${S}px ${S}px`,
-    }} />
-  ) : null
-
   return (
     <div style={{ padding: 16 }}>
       <GeomorphNav />
-      <h2>Dungeon — v3 baseline (code frozen 2026-07-08)</h2>
+      <h2>Dungeon — v2 baseline (code frozen 2026-07-05)</h2>
 
       <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 8, flexWrap: "wrap" }}>
         <label>Columns: {cols}&nbsp;
@@ -331,11 +200,6 @@ export default function GeomorphDungeonPage() {
         <label><input type="checkbox" checked={showPillars} onChange={e => setShowPillars(e.target.checked)} />&nbsp;Pillars</label>
         <label><input type="checkbox" checked={showLevels} onChange={e => setShowLevels(e.target.checked)} />&nbsp;Levels</label>
         <label><input type="checkbox" checked={showPortals} onChange={e => setShowPortals(e.target.checked)} />&nbsp;Portals</label>
-        <label><input type="checkbox" checked={showShapes} onChange={e => setShowShapes(e.target.checked)} />&nbsp;Shapes</label>
-        <label><input type="checkbox" checked={showGrid} onChange={e => setShowGrid(e.target.checked)} />&nbsp;Grid</label>
-        <label><input type="checkbox" checked={showRounded} onChange={e => setShowRounded(e.target.checked)} />&nbsp;Rounded corners</label>
-        <label><input type="checkbox" checked={showCircles} onChange={e => setShowCircles(e.target.checked)} />&nbsp;Round rooms</label>
-        <label><input type="checkbox" checked={showApses} onChange={e => setShowApses(e.target.checked)} />&nbsp;Apses</label>
         <button onClick={() => regenerate()}>Regenerate</button>
       </div>
 
@@ -367,15 +231,6 @@ export default function GeomorphDungeonPage() {
             ))}
           </span>
         )}
-        {showShapes && (
-          <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ color: "#555" }}>
-              Shaped rooms: {shapedRooms.length} ({shapedRooms.filter(r => r.shape === "circle").length} circle / {shapedRooms.filter(r => r.shape === "rounded").length} rounded)
-            </span>
-            <span style={{ width: 12, height: 12, background: "#e64980", opacity: 0.6, display: "inline-block" }} />footprint
-            <span style={{ width: 12, height: 12, background: "#ff0000", opacity: 0.6, display: "inline-block" }} />cut corner
-          </span>
-        )}
       </div>
 
       <div style={{ overflow: "auto" }}>
@@ -384,13 +239,10 @@ export default function GeomorphDungeonPage() {
           {stairTiles}
           {waterDetailTiles}
           {doorTiles}
-          {cornerTiles}
           {wallDetailTiles}
           {pillarTiles}
           {levelTiles}
           {portalTiles}
-          {shapeTiles}
-          {gridOverlay}
         </div>
       </div>
     </div>

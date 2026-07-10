@@ -1,5 +1,5 @@
 import { useState, type CSSProperties } from "react"
-import { GeomorphNav } from "../geomorph-shared/GeomorphNav"
+import { GeomorphNav } from "../../refactorGeomorphs/geomorph-shared/GeomorphNav"
 import { generateDungeon } from "./dungeon"
 import { SUB, trimIndexFor } from "./bitmask"
 import { TRIM_WALL, TRIM_WATER, PILLAR_TILE, STAIR_TILES, PORTAL_TILES, ROUND_CORNER_TILES, ROUND_TRIM_TILES, ROUNDED_CORNER_TILES, ROUNDED_TRIM_TILES, ALCOVE_BASE_TILES, ALCOVE_TRIM_TILES } from "./tileConfig"
@@ -99,8 +99,6 @@ export default function GeomorphDungeonPage() {
   const [showPortals, setShowPortals] = useState(true)
   const [showShapes, setShowShapes] = useState(false) // debug overlay: mark non-rect room footprints
   const [showGrid, setShowGrid] = useState(false) // graph-paper grid aligned to the base cell grid
-  const [showRoomNumbers, setShowRoomNumbers] = useState(true) // black pill w/ the room number at each room centre
-  const [hoverRoom, setHoverRoom] = useState<number | null>(null) // room number whose name popup is showing
   const [navOpen, setNavOpen] = useState(false) // hamburger nav flyout
   const [settingsOpen, setSettingsOpen] = useState(false) // settings (layer toggles) flyout
 
@@ -321,34 +319,6 @@ export default function GeomorphDungeonPage() {
     }
   }
 
-  // Room-number indicators: a small black pill (circle for 1 digit, auto-widening "hotdog" for more)
-  // with the centered white room number, at each room's centre. One per room.
-  const roomNumberTiles = []
-  if (showRoomNumbers) {
-    for (const rm of rooms) {
-      const cx = (rm.x + rm.w / 2) * S, cy = (rm.y + rm.h / 2) * S
-      roomNumberTiles.push(
-        <div key={`rn${rm.num}`} onMouseEnter={() => setHoverRoom(rm.num)} onMouseLeave={() => setHoverRoom(null)} style={{
-          position: "absolute", left: cx, top: cy,
-          transform: "translate(-50%, -50%)", display: "inline-flex", alignItems: "center", justifyContent: "center",
-          height: 16, minWidth: 16, padding: "0 5px", boxSizing: "border-box", borderRadius: 999,
-          background: "#000", color: "#fff", font: "600 11px sans-serif", lineHeight: 1,
-          pointerEvents: "auto", cursor: "help",
-        }}>{rm.num}</div>
-      )
-      // Custom hover popup with the room name (instant + reliable, unlike the native title tooltip).
-      if (hoverRoom === rm.num) {
-        roomNumberTiles.push(
-          <div key={`rnl${rm.num}`} style={{
-            position: "absolute", left: cx, top: cy - 13, transform: "translate(-50%, -100%)",
-            background: "#000", color: "#fff", padding: "3px 7px", borderRadius: 4,
-            font: "600 11px sans-serif", whiteSpace: "nowrap", pointerEvents: "none", zIndex: 20,
-          }}>{rm.name}</div>
-        )
-      }
-    }
-  }
-
   // Shapes debug overlay: for each non-rect room, tint its bounding box — footprint cells in
   // the shape colour, CUT-AWAY corner cells (wall inside the box) in red (the proof it isn't a
   // rectangle) — plus a dashed box + a `shape w×h` label. Diagnostic only; no generation effect.
@@ -438,7 +408,6 @@ export default function GeomorphDungeonPage() {
     ["Levels", showLevels, setShowLevels], ["Portals", showPortals, setShowPortals], ["Shapes", showShapes, setShowShapes],
     ["Grid", showGrid, setShowGrid], ["Rounded corners", showRounded, setShowRounded],
     ["Round rooms", showCircles, setShowCircles], ["Apses", showApses, setShowApses], ["Alcoves", showAlcoves, setShowAlcoves],
-    ["Room numbers", showRoomNumbers, setShowRoomNumbers],
   ]
 
   const legend = (
@@ -489,7 +458,7 @@ export default function GeomorphDungeonPage() {
           onClick={() => { setNavOpen(o => !o); setSettingsOpen(false) }}>☰</button>
         <button aria-label="Settings" title="Layer settings" style={iconBtn}
           onClick={() => { setSettingsOpen(o => !o); setNavOpen(false) }}>⚙</button>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Dungeon — multi-material bitmask</h2>
+        <h2 style={{ margin: 0, fontSize: 18 }}>Dungeon — v4 baseline (code frozen 2026-07-09)</h2>
 
         {navOpen && (<>
           <div style={backdrop} onClick={() => setNavOpen(false)} />
@@ -528,7 +497,6 @@ export default function GeomorphDungeonPage() {
           {portalTiles}
           {shapeTiles}
           {gridOverlay}
-          {roomNumberTiles}
         </div>
       </div>
 

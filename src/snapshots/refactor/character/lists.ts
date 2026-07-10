@@ -1,5 +1,5 @@
 import { Gender, SocialClass, Alignment } from './Character';
-import { TaggedItem } from '../../shared/types';
+import { TaggedItem } from '../../../shared/types';
 
 export const { Male, Female, Neutral } = Gender
 export const gender = [...Object.values(Gender)]

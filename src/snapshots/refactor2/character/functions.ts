@@ -1,5 +1,5 @@
-import { WeightedVariantFilter, TaggedItem, Updater, VariantFilter } from '../../shared/types';
-import { getItem, getRandom } from '../../shared/functions';
+import { WeightedVariantFilter, TaggedItem, Updater, VariantFilter } from '../../../shared/types';
+import { getItem, getRandom } from '../../../shared/functions';
 import { configTuple } from './config';
 import { Character } from './Character';
 

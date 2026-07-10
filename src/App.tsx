@@ -4,9 +4,7 @@ import { Home } from "./pages/home/Home";
 import { Base } from "./pages/base/Base";
 import { Geomorph } from "./pages/geomorph/Geomorph";
 import { Character } from "./pages/character/Character";
-// import { Page } from "./refactor/pages/Page";
-// import { Page2 } from './refactor2/pages/Page2';
-import { Page3 } from './refactor3/pages/Page3';
+import { Page3 } from './configCharacterGen/pages/Page3';
 import GeomorphWalkPage from './originalGeomorphs/geomorph-walk/Page';
 import GeomorphDfsPage from './originalGeomorphs/geomorph-dfs/Page';
 import GeomorphBspPage from './originalGeomorphs/geomorph-bsp/Page';
@@ -20,17 +18,19 @@ import RefactorGeomorphBspPage from './refactorGeomorphs/geomorph-bsp/Page';
 import RefactorGeomorphCaPage from './refactorGeomorphs/geomorph-ca/Page';
 import RefactorGeomorphPrimPage from './refactorGeomorphs/geomorph-prim/Page';
 import RefactorGeomorphWfcPage from './refactorGeomorphs/geomorph-wfc/Page';
-import GeomorphDungeonPage from './refactorGeomorphs/geomorph-dungeon/Page';
-import GeomorphDungeonV1Page from './refactorGeomorphs/geomorph-dungeon-v1/Page';
-import GeomorphDungeonV2Page from './refactorGeomorphs/geomorph-dungeon-v2/Page';
-import GeomorphDungeonV3Page from './refactorGeomorphs/geomorph-dungeon-v3/Page';
-import GeomorphDungeonV4Page from './refactorGeomorphs/geomorph-dungeon-v4/Page';
+import GeomorphDungeonPage from './lab/geomorph-dungeon/Page';
+import GeomorphDungeonV1Page from './snapshots/geomorph-dungeon-v1/Page';
+import GeomorphDungeonV2Page from './snapshots/geomorph-dungeon-v2/Page';
+import GeomorphDungeonV3Page from './snapshots/geomorph-dungeon-v3/Page';
+import GeomorphDungeonV4Page from './snapshots/geomorph-dungeon-v4/Page';
 import HexTerrainWfcPage from './hexTerrain/Page';
 import RefactorHexTerrainWfcPage from './refactorHexTerrain/Page';
 import HexTransitionsWfcPage from './refactorHexTransitions/Page';
 import HexTransitionsV2Page from './refactorHexTransitions2/Page';
-import { Page4 } from './refactor4/pages/Page4';
+import { Page4 } from './configDungeonGen/pages/Page4';
 import { BaseRefactor } from './baseRefactor/pages/BaseRefactor';
+import RoomDescriptionPage from './lab/room-description/Page';
+import RoomDescriptionEditorPage from './lab/room-description/EditorPage';
 
 
 function App() {
@@ -38,6 +38,8 @@ function App() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/base" component={Base} />
+      <Route path="/lab/room-description" component={RoomDescriptionPage} />
+      <Route path="/lab/room-description/edit" component={RoomDescriptionEditorPage} />
       <Route path="/geomorph" component={Geomorph} />
       <Route path="/geomorph-walk" component={GeomorphWalkPage} />
       <Route path="/geomorph-dfs" component={GeomorphDfsPage} />
@@ -62,8 +64,8 @@ function App() {
       <Route path="/refactor/hex-transitions/wfc" component={HexTransitionsWfcPage} />
       <Route path="/refactor/hex-transitions/v2" component={HexTransitionsV2Page} />
       <Route path="/character" component={Character} />
-      <Route path="/refactor3" component={Page3} />
-      <Route path="/refactor4" component={Page4} />
+      <Route path="/config-character" component={Page3} />
+      <Route path="/config-dungeon" component={Page4} />
       <Route path="/baseRefactor" component={BaseRefactor} />
       <Route>404: No such page!</Route>
     </Switch>

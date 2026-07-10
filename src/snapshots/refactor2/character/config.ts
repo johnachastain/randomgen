@@ -1,10 +1,10 @@
 import { Character, SocialClass } from '../character/Character';
-import { Updater } from '../../shared/types';
+import { Updater } from '../../../shared/types';
 import { Labor, Neutral, ageTuple, alignment, demeanorTuple, flawTuple, gender, occupationTuple, socialClass, titleTuple, wealthTuple } from '../character/lists';
-import { getItem } from '../../shared/functions';
+import { getItem } from '../../../shared/functions';
 import { d6x3, filterTaggedList, getVariantItem } from './functions';
-import { getAlliterativeName, getTagSetName, getTwoWordName, weightedVariants } from '../../names/functions';
-import { nameFirstTuple } from '../../names/firstNames';
+import { getAlliterativeName, getTagSetName, getTwoWordName, weightedVariants } from '../../../names/functions';
+import { nameFirstTuple } from '../../../names/firstNames';
 
 const alignmentUpdater: Updater<Character> = (obj) => ({ ...obj, alignment: getItem(alignment) })
 

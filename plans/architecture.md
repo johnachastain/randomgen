@@ -1,6 +1,6 @@
 # Architecture & design notes
 
-Durable design rationale for this repo (a browser-delivered **suite of config-driven generators** — maps, random naming, config-driven objects). The milestone backlog lives in [`dungeon-roadmap.md`](./dungeon-roadmap.md).
+Durable design rationale for this repo (a browser-delivered **suite of config-driven generators** — maps, random naming, config-driven objects). The milestone backlog lives in [`dungeon-roadmap.md`](./dungeon-roadmap.md); the project's **north star** — a config-driven random-object engine the map renders — is [`vision.md`](./vision.md). The sections below are the *mechanics* that serve that vision.
 
 ---
 
@@ -46,7 +46,8 @@ Ergonomics: `@core/*` / `@features/*` path aliases (tsconfig `paths` + Vite `res
 1. API stabilized + barrel export. 2. Has tests. 3. No experiment-only hacks. 4. Experiment copy retired (imports core) or deleted.
 
 ### Status
-**Pilot 1 shipped (2026-07-09): `src/core/naming/`** → feeds `RoomInfo.name` in the dungeon (imports `../../core/naming`, proving *feature → core*). Next: seed via T1; enrich from `src/names`; add aliases + boundary lint; promote a 2nd module (likely `core/rng`).
+**Pilot 1 shipped (2026-07-09): `src/core/naming/`** → feeds `RoomInfo.name` in the dungeon (imports `../../core/naming`, proving *feature → core*).
+**Pilot 2 shipped (2026-07-10): `src/core/rng/`** (T1) → `mulberry32` seeded PRNG + `Rng` type; `generateDungeon(cols, rows, seed?)` is now reproducible (same seed → identical map + room names; determinism test in `dungeon.test.ts`), and `roomName` seeds through it. Seed shown + settable in the dungeon UI. Next: consolidate the duplicate `Rng` type from `lab/room-description` onto `core/rng`; enrich naming from `src/names`; add `@core/*` aliases + boundary lint.
 
 ---
 
@@ -60,9 +61,9 @@ Ergonomics: `@core/*` / `@features/*` path aliases (tsconfig `paths` + Vite `res
 - **Offline data / ML → Python** — as a build step (Markov-trained naming, an AI tile-reskin), feeding the TS app. Not the app itself.
 - **Pivot to an actual game → a game engine** (Godot/Bevy/Unity/Phaser). Not applicable to a *tool*.
 
-**Architectural direction surfaced by the naming + config scope** (becoming a *suite* of config-driven generators → wants a coherent shared core):
+**Architectural direction surfaced by the naming + config scope** (becoming a *suite* of config-driven generators → wants a coherent shared core). These bullets are the **building blocks of the one generation engine** described in [`vision.md`](./vision.md); the detailed content + selection design (and a review finding the content model *regressed* over time) is [`generation-engine.md`](./generation-engine.md) *(draft)*:
 - **Data-driven config** — generators read JSON rules, not hardcode them (keeps logic portable + language-agnostic).
-- **Schema + validation** — adopt **Zod** (or valibot): one definition → both the TS type and runtime validation. Increasingly important as configs proliferate and get user-edited.
+- **Schema + validation** — adopt **Zod** (**vetted 2026-07-09 against Joi & Yup and chosen deliberately**, not by default): Zod is TS-first, so `z.infer<typeof Schema>` makes the schema the *single source of truth* for the type — eliminating the type↔validator drift that's the main risk for user-edited config content; it's also stricter-by-default on coercion (a data-integrity plus). Joi/Yup validate data fine but keep the TS type and the schema separate (drift-prone) and lean backend/form-oriented. **valibot** is the tree-shakeable alternative if bundle size ever matters. One definition → both the TS type and runtime validation. Increasingly important as configs proliferate and get user-edited.
 - **One shared content/registry + persistence** — the pattern-editor "shared collection", name tables, skins, character templates all want the same plumbing (localStorage now → a backend later).
 - **Text-gen** — Tracery-style JSON grammars for naming (JS-native, portable).
 - **Determinism/seeding** spans all of it (= T1).
@@ -92,3 +93,33 @@ any tile source ──▶ ATLAS (conforming to the JSON contract) ──▶ VALI
 **Shared back-end to build once:** slicer, validator, manifest-swap.
 
 **Caveat:** the base floor/wall fills and the active doors are `<div>`s (colour/strip), not tiles — texturing *those* first requires converting them to `<img>` tiles.
+
+---
+
+## 4. Room profile — semantic properties seed naming / descriptions / props
+
+**Foundational.** Do this before deepening random naming + descriptions, or they stay context-free (a cave room gets a generic hall name). This is also **step 1 of the config-object → map integration** — the first bridge from the bitmask map into the generation engine ([`vision.md`](./vision.md)).
+
+> **Shipped 2026-07-10 (derivation):** `RoomInfo.profile` is now populated by a post-generation pass (`type` feature-derived for now — cave/temple/crypt await Idea 7). The *consumers* (profile-aware naming, real descriptions, prop weighting) are the remaining work.
+>
+> **Generalizes beyond rooms (Idea 12):** the profile concept extends to *all* map elements — halls, connectors/doors, stairs, portals — each a node with its own per-kind profile. The generator already builds that element graph internally (corridor edges, stair runs, portals) then discards it; exposing it makes the dungeon the concrete instance of the engine's nested element tree (`vision.md`).
+
+**Current state — a hybrid, split geometry vs. content.** `RoomInfo` (the per-room record in `DungeonResult.rooms[]`) centralizes **geometry/identity**: `x,y,w,h, z, shape, cornerRadius, roundCorners, apses[], alcoves[], num, name`. But room **content** facts are **decentralized** across parallel grids, with no back-reference to a room:
+- **water** → `Material.Water` cells in `grid` (no per-room flag; the per-region water *condition* rolled during generation is transient — only the cells survive);
+- **pillars** → `PillarGrid` (booleans on vertices);
+- **doors** → `EdgeGrids` (per edge between cells);
+- **elevation** → `stairs` + `levels` grids (per cell; only the net `z` is copied back to the room).
+
+And **`roomAt`** (the cell→room-index map) is **internal to `generateDungeon`, not exported** (`DungeonResult = { grid, pillars, rooms, stairs, levels, portals, edges }`). Net effect: "is this room a flooded cave?" is **not readable** from a room object — it's scattered and must be derived by scanning the grids over the room's footprint.
+
+**Target — a derived, centralized `RoomProfile`.** A **post-generation pass inside `generateDungeon`** (runs *after* the water/pillars/doors/elevation passes, where `roomAt` + all grids are still live) scans each room's footprint and distills its content into one semantic summary attached to `RoomInfo` (e.g. `RoomInfo.profile`). Fields (derived, not raw-restored):
+- **`type`** (cave | masonry | temple | crypt | flooded-cistern | …) — the **primary naming seed**, produced by a small classifier over the raw facts;
+- plus `material`, `size` (w×h buckets), `water` (dry|pool|partial|full), `pillared`, `shape` (already on `RoomInfo`), `elevation` (z + raised/sunken/has-stairs), `connectors` (door/corridor/portal adjacency), `features` (apses/alcoves/props).
+
+**The profile is the single seed for every downstream generator:**
+- **Naming** (`src/core/naming`) — `roomName(profile, rng)`, word lists keyed by `profile.type` → cave→cave words, temple→temple words (upgrades the pilot from context-free → context-aware);
+- **Descriptions** (`src/lab/room-description`) — read the **real** profile instead of today's random PoC values (makes the "map-derived properties" integration real);
+- **Props** (Idea 9) — weight placement by profile (altars/sarcophagi in temple/crypt rooms, etc.);
+- later, the **config Dungeon-CONTENT generator** (monsters/treasure appropriate to room type).
+
+**Boundary (keep the dependency direction).** *Derive* the profile in the dungeon **feature** (where the grids live); keep `core/naming` and the text engine **generic consumers** that take a profile/tags — never dungeon internals. That preserves *features → core*. This work likely also motivates exporting/using `roomAt` for footprint membership, and pairs with **T1** (seeded generation) so profile → name → description is reproducible. Roadmap: **Idea 10** in [`dungeon-roadmap.md`](./dungeon-roadmap.md).

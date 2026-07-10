@@ -21,10 +21,30 @@ export type PillarGrid = boolean[][]
 // (box is square). (Half-circle bays = the future "apses" feature, not a base room shape.)
 export type RoomShape = "rect" | "rounded" | "circle"
 
+// Room profile (Idea 10): a derived, centralized semantic summary of a room, computed in a
+// post-generation pass by scanning the room's footprint over the FINISHED grids. It's the single
+// seed for context-aware naming (Step 3) / descriptions / prop placement. `type` is a FEATURE-BASED
+// classification of what the map encodes today (geometry/water/pillars/elevation) — cave/temple/crypt
+// await content generation (Idea 7), and `material` is masonry until then. Easily retuned.
+export type WaterCondition = "dry" | "pool" | "partial" | "full"
+export type RoomSize = "small" | "medium" | "large"
+export type RoomProfile = {
+  type: string             // rotunda | cistern | vault | hall | chamber | cell (feature-derived)
+  material: "masonry"      // only value until cave generation (Idea 7)
+  size: RoomSize
+  water: WaterCondition
+  pillared: boolean
+  shape: RoomShape
+  elevation: number        // room z (0 = base level)
+  connectors: number       // doors + level-portals leading out of the room
+  features: string[]       // any of: pillars, apse, alcove, circle, round-corners, stairs
+}
+
 // Public room bounding box + vertical level (z) + footprint shape. `cornerRadius` = the rounded/
 // round corner size in cells (0 rect, 1 rounded, 2–4 circle: a 2r×2r circle). `roundCorners` =
 // which corners are actually rounded (circle = all 4; rounded = the guarded subset). z starts 0.
-export type RoomInfo = { x: number; y: number; w: number; h: number; z: number; shape: RoomShape; cornerRadius: number; roundCorners: Corner[]; apses: Apse[]; alcoves: Alcove[]; num: number; name: string }
+// `profile` (Idea 10) is filled by a post-generation pass — always present on a generated result.
+export type RoomInfo = { x: number; y: number; w: number; h: number; z: number; shape: RoomShape; cornerRadius: number; roundCorners: Corner[]; apses: Apse[]; alcoves: Alcove[]; num: number; name: string; profile?: RoomProfile }
 
 // Per-cell stair ascent direction (the "up" side, toward the higher room), or null
 // where the cell is not a staircase. Parallel [row][col] grid, like PillarGrid.
@@ -66,6 +86,6 @@ export type Apse = { wall: Edge; center: number; radius: number; variant: "bay" 
 // (lg like the bay, sm like the bump).
 export type Alcove = { wall: Edge; center: number; size: "sm" | "lg" }
 
-export type DungeonResult = { grid: MaterialGrid; pillars: PillarGrid; rooms: RoomInfo[]; stairs: StairGrid; levels: LevelGrid; portals: Portal[]; edges: EdgeGrids }
+export type DungeonResult = { grid: MaterialGrid; pillars: PillarGrid; rooms: RoomInfo[]; stairs: StairGrid; levels: LevelGrid; portals: Portal[]; edges: EdgeGrids; seed: number }
 
 export type Dims = { cols: number; rows: number }

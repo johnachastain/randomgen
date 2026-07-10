@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { GeomorphNav } from "../geomorph-shared/GeomorphNav"
+import { GeomorphNav } from "../../refactorGeomorphs/geomorph-shared/GeomorphNav"
 import { generateDungeon } from "./dungeon"
-import { SUB, trimIndexFor } from "./bitmask"
-import { TRIM_WALL, TRIM_WATER, PILLAR_TILE, STAIR_TILES, PORTAL_TILES } from "./tileConfig"
+import { SUB, trimIndexFor, doorEdge } from "./bitmask"
+import { TRIM_WALL, TRIM_WATER, DOOR_TILES, PILLAR_TILE, STAIR_TILES, PORTAL_TILES } from "./tileConfig"
 import { MATERIAL_COLOR, MATERIAL_LABEL, DETAIL_MATERIALS, PORTAL_STYLE } from "./materials"
-import { Material, Edge, EDGE } from "./types"
+import { Material, Edge } from "./types"
 
 const S = 32 // px per base cell
 const s = S / SUB // px per fine (detail) cell
@@ -15,7 +15,7 @@ export default function GeomorphDungeonPage() {
   const [cols, setCols] = useState(20)
   const [rows, setRows] = useState(14)
   const [dungeon, setDungeon] = useState(() => generateDungeon(20, 14))
-  const { grid, pillars, rooms, stairs, levels, portals, edges } = dungeon
+  const { grid, pillars, rooms, stairs, levels, portals } = dungeon
   const [showBase, setShowBase] = useState(true)
   const [showWall, setShowWall] = useState(true)
   const [showWater, setShowWater] = useState(true)
@@ -51,7 +51,7 @@ export default function GeomorphDungeonPage() {
       // Water toggle hides the base fill together with the shoreline trim.
       // Doors, stairs, and hidden water all fall back to floor for the base fill;
       // their own art (door line / stair treads) draws on the top layer.
-      const displayM = m === Material.Stairs || (m === Material.Water && !showWater) ? Material.Floor : m
+      const displayM = m === Material.Door || m === Material.Stairs || (m === Material.Water && !showWater) ? Material.Floor : m
       baseCells.push(
         <div key={`b${c}-${r}`} style={{
           position: "absolute", left: c * S, top: r * S, width: S, height: S,
@@ -61,49 +61,31 @@ export default function GeomorphDungeonPage() {
     }
   }
 
-  // Detail layers: per edge-material fine-grid trim, bumping into adjacent floor. Split by
-  // material so the door layer can sit BETWEEN them — water-detail below doors (else the
-  // shoreline clips the door leaf), wall-detail above doors (frames the doorway + end-caps).
-  const wallDetailTiles = []
-  const waterDetailTiles = []
+  // Detail layers: per edge-material fine-grid trim, bumping into adjacent floor.
+  const detailTiles = []
   for (const spec of DETAIL_MATERIALS) {
     if (spec.name === "wall" && !showWall) continue
     if (spec.name === "water" && !showWater) continue
     const art = TRIM_ART[spec.name]
     for (let fr = 0; fr < rows * SUB; fr++) for (let fc = 0; fc < cols * SUB; fc++) {
-      const idx = trimIndexFor(grid, fc, fr, cols, rows, spec.material, spec.oobIsTarget, spec.host, edges)
+      const idx = trimIndexFor(grid, fc, fr, cols, rows, spec.material, spec.oobIsTarget, spec.host)
       if (idx < 1) continue
-      const tile = (
+      detailTiles.push(
         <img key={`${spec.name}${fc}-${fr}`} src={art[idx]} width={s} height={s} alt=""
           style={{ position: "absolute", left: fc * s, top: fr * s, display: "block" }} />
       )
-      if (spec.name === "water") waterDetailTiles.push(tile)
-      else wallDetailTiles.push(tile)
     }
   }
 
-  // Doors: a leaf strip on the threshold EDGE (recorded at generation → no flip), on its
-  // own layer, CENTERED on the boundary grid line (straddles both cells equally). A vertical
-  // door-edge `edges.v[r][col]` is the line at x=col·S; a horizontal `edges.h[row][c]` at y=row·S.
-  const DT = S / 4 // door leaf thickness
+  // Doors: a thin line flush to the room-threshold edge, on the top layer.
   const doorTiles = []
   if (showDoors) {
-    for (let r = 0; r < rows; r++) for (let col = 1; col < cols; col++) {
-      if (edges.v[r][col] !== EDGE.door) continue
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      if (grid[r][c] !== Material.Door) continue
+      const edge = doorEdge(grid, c, r, cols, rows)
       doorTiles.push(
-        <div key={`dv${col}-${r}`} style={{
-          position: "absolute", left: col * S - DT / 2, top: r * S, width: DT, height: S,
-          background: MATERIAL_COLOR[Material.Door],
-        }} />
-      )
-    }
-    for (let row = 1; row < rows; row++) for (let c = 0; c < cols; c++) {
-      if (edges.h[row][c] !== EDGE.door) continue
-      doorTiles.push(
-        <div key={`dh${c}-${row}`} style={{
-          position: "absolute", left: c * S, top: row * S - DT / 2, width: S, height: DT,
-          background: MATERIAL_COLOR[Material.Door],
-        }} />
+        <img key={`d${c}-${r}`} src={DOOR_TILES[edge]} width={S} height={S} alt=""
+          style={{ position: "absolute", left: c * S, top: r * S, display: "block" }} />
       )
     }
   }
@@ -183,7 +165,7 @@ export default function GeomorphDungeonPage() {
   return (
     <div style={{ padding: 16 }}>
       <GeomorphNav />
-      <h2>Dungeon — v2 baseline (code frozen 2026-07-05)</h2>
+      <h2>Dungeon — v1 baseline (code frozen 2026-07-04)</h2>
 
       <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 8, flexWrap: "wrap" }}>
         <label>Columns: {cols}&nbsp;
@@ -237,9 +219,8 @@ export default function GeomorphDungeonPage() {
         <div style={{ position: "relative", width: cols * S, height: rows * S }}>
           {baseCells}
           {stairTiles}
-          {waterDetailTiles}
+          {detailTiles}
           {doorTiles}
-          {wallDetailTiles}
           {pillarTiles}
           {levelTiles}
           {portalTiles}

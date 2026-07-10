@@ -1,9 +1,9 @@
 import { writeFileSync, mkdirSync, readdirSync, rmSync } from "node:fs"
 import { join, dirname } from "node:path"
 import { fileURLToPath } from "node:url"
-import { TRIM_STYLE, STAIR_STYLE, PORTAL_STYLE, MATERIAL_COLOR } from "../src/refactorGeomorphs/geomorph-dungeon/materials.js"
-import { Material } from "../src/refactorGeomorphs/geomorph-dungeon/types.js"
-import type { Edge, PortalKind, Corner } from "../src/refactorGeomorphs/geomorph-dungeon/types.js"
+import { TRIM_STYLE, STAIR_STYLE, PORTAL_STYLE, MATERIAL_COLOR } from "../src/lab/geomorph-dungeon/materials.js"
+import { Material } from "../src/lab/geomorph-dungeon/types.js"
+import type { Edge, PortalKind, Corner } from "../src/lab/geomorph-dungeon/types.js"
 
 // Generates PLACEHOLDER wall-detail "trim" tiles (per material) + door tiles for
 // the multi-material dungeon geomorph. The detail layer is a fine sub-grid; a
@@ -20,7 +20,7 @@ import type { Edge, PortalKind, Corner } from "../src/refactorGeomorphs/geomorph
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, "..")
 const OUT_DIR = join(ROOT, "public/dungeonTiles")
-const CONFIG_PATH = join(ROOT, "src/refactorGeomorphs/geomorph-dungeon/tileConfig.ts")
+const CONFIG_PATH = join(ROOT, "src/lab/geomorph-dungeon/tileConfig.ts")
 
 const V = 100 // tile viewBox
 const BW = 22 // bevel strip width

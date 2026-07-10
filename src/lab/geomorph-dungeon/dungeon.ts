@@ -1,5 +1,10 @@
-import { Material, MaterialGrid, PillarGrid, StairGrid, LevelGrid, RoomInfo, RoomShape, Edge, Apse, Alcove, Portal, PortalKind, EDGE, EdgeKind, EdgeGrids, Corner, DungeonResult } from "./types"
+import { Material, MaterialGrid, PillarGrid, StairGrid, LevelGrid, RoomInfo, RoomShape, Edge, Apse, Alcove, Portal, PortalKind, EDGE, EdgeKind, EdgeGrids, Corner, DungeonResult, WaterCondition, RoomSize } from "./types"
 import { roomName } from "../../core/naming" // shared core (promotion pilot); rng-injectable → seeded later
+import { mulberry32, randomSeed, type Rng } from "../../core/rng" // T1: seeded generation
+
+// Seeded PRNG for this module. Reassigned at the top of generateDungeon (synchronous, single-run
+// generation → module-level state is safe). Defaults to Math.random so any use before seeding works.
+let rng: Rng = Math.random
 
 // Simple room+corridor dungeon over a Material grid: carve rooms (Floor) joined by
 // L-shaped corridors, leave the rest Wall, then add stairs (elevation), Water pools
@@ -65,7 +70,7 @@ const ALCOVE_SMALL_FRACTION = 0.5 // of alcove-rooms, share that use small (1×�
 // needs min-dim ≥4; the circle-based shapes (circle/half/quarter) need ≥5 so they read clearly.
 
 function randInt(min: number, max: number): number {
-  return min + Math.floor(Math.random() * (max - min + 1))
+  return min + Math.floor(rng() * (max - min + 1))
 }
 
 // Pick a footprint shape for a room of the given (rolled) bounding size; small rooms stay rect.
@@ -73,7 +78,7 @@ function randInt(min: number, max: number): number {
 function pickShape(w: number, h: number): RoomShape {
   const m = Math.min(w, h)
   if (m < 4) return "rect"
-  const roll = Math.random()
+  const roll = rng()
   if (m < 5) return roll < 0.6 ? "rect" : "rounded"          // size 4: only rect / rounded
   return roll < 0.35 ? "rect" : roll < 0.65 ? "rounded" : "circle"
 }
@@ -119,7 +124,8 @@ function overlaps(a: Room, b: Room): boolean {
   )
 }
 
-export function generateDungeon(cols: number, rows: number): DungeonResult {
+export function generateDungeon(cols: number, rows: number, seed: number = randomSeed()): DungeonResult {
+  rng = mulberry32(seed) // T1: seed the module rng first → the whole generation (incl. room names) is reproducible
   const grid: MaterialGrid = Array.from({ length: rows }, () => Array(cols).fill(Material.Wall))
   const inb = (c: number, r: number) => c >= 0 && c < cols && r >= 0 && r < rows
   const carve = (c: number, r: number) => { if (inb(c, r)) grid[r][c] = Material.Floor }
@@ -229,7 +235,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
     }
     const e1 = hCells(ay, ax, bx).concat(vCells(bx, ay, by))
     const e2 = vCells(ax, ay, by).concat(hCells(by, ax, bx))
-    const opts = Math.random() < 0.5 ? [e1, e2] : [e2, e1]
+    const opts = rng() < 0.5 ? [e1, e2] : [e2, e1]
     for (const p of opts) {
       const full = [...pre, ...p, ...post]
       if (!crossesThird(full, ai, bi) && clearOf(full, ai, portA, outA) && clearOf(full, bi, portB, outB)) return { path: full, clean: true }
@@ -383,11 +389,11 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
   for (let idx = 0; idx < rooms.length; idx++) {
     const room = rooms[idx]
     if (room.shape !== "rect") continue
-    if (Math.random() < ALCOVE_FAMILY_CHANCE) {
+    if (rng() < ALCOVE_FAMILY_CHANCE) {
       // ALCOVE-room: one SIZE per room (small OR large, never mixed).
-      const roomUsesSmall = Math.random() < ALCOVE_SMALL_FRACTION
+      const roomUsesSmall = rng() < ALCOVE_SMALL_FRACTION
       for (const { wall, horiz } of WALLS) {
-        if (Math.random() >= ALCOVE_CHANCE) continue
+        if (rng() >= ALCOVE_CHANCE) continue
         const wallStart = horiz ? room.x : room.y, wallEnd = horiz ? room.x + room.w : room.y + room.h
         if (roomUsesSmall) {
           // SMALL alcoves (1×½ sub-cell nubs) — bump-like symmetric run at ONE consistent pitch
@@ -395,11 +401,11 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
           // nub usually centred. sm cells stay Wall so adjacency is fine.
           const lo = wallStart, hi = wallEnd - 1
           if (hi < lo) continue
-          const P = Math.random() < 0.55 ? 1 : Math.random() < 0.6 ? 2 : 3
+          const P = rng() < 0.55 ? 1 : rng() < 0.6 ? 2 : 3
           const mid = Math.min(Math.max(Math.round((wallStart + wallEnd - 1) / 2), lo), hi)
           const canEven = P % 2 === 0 && mid - P / 2 >= lo && mid + P / 2 <= hi
-          let centers: number[] = canEven && Math.random() < 0.4 ? [mid - P / 2, mid + P / 2] : [mid]
-          while (Math.random() < BUMP_RUN_CHANCE) {
+          let centers: number[] = canEven && rng() < 0.4 ? [mid - P / 2, mid + P / 2] : [mid]
+          while (rng() < BUMP_RUN_CHANCE) {
             const L = centers[0] - P, R = centers[centers.length - 1] + P
             if (L < lo || R > hi) break
             centers.unshift(L); centers.push(R)
@@ -407,7 +413,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
           while (centers.length > 0 && !centers.every(c => alcoveFits(room, wall, c, "sm"))) {
             if (centers.length >= 2) { centers.shift(); centers.pop() } else centers = []
           }
-          if (centers.length === 1 && Math.random() >= BUMP_CENTER_BIAS) {
+          if (centers.length === 1 && rng() >= BUMP_CENTER_BIAS) {
             const alt = randInt(lo, hi)
             if (alcoveFits(room, wall, alt, "sm")) centers = [alt]
           }
@@ -417,15 +423,15 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
           if (wallEnd - wallStart < 3) continue // lg needs a 3-wide wall
           const lo = wallStart + 1, hi = wallEnd - 2 // center = middle cell; span [center-1,center+1] fits
           const mid = Math.min(Math.max(Math.round((wallStart + wallEnd - 1) / 2), lo), hi)
-          const center = Math.random() < APSE_CENTER_BIAS ? mid : randInt(lo, hi)
+          const center = rng() < APSE_CENTER_BIAS ? mid : randInt(lo, hi)
           tryPlaceAlcove(room, idx, wall, center, "lg")
         }
       }
       continue
     }
-    const roomUsesBumps = Math.random() < BUMP_FRACTION // one apse SIZE per room — never mix bays + bumps
+    const roomUsesBumps = rng() < BUMP_FRACTION // one apse SIZE per room — never mix bays + bumps
     for (const { wall, horiz } of WALLS) {
-      if (Math.random() >= APSE_CHANCE) continue
+      if (rng() >= APSE_CHANCE) continue
       const wallStart = horiz ? room.x : room.y
       const wallEnd = horiz ? room.x + room.w : room.y + room.h
       const along = wallEnd - wallStart
@@ -439,11 +445,11 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
         const r = 1
         if (along < 2 * r) continue
         const lo = wallStart + r, hi = wallEnd - r
-        const P = Math.random() < 0.55 ? 2 : Math.random() < 0.6 ? 3 : 4
+        const P = rng() < 0.55 ? 2 : rng() < 0.6 ? 3 : 4
         const mid = Math.min(Math.max(Math.round(horiz ? room.x + room.w / 2 : room.y + room.h / 2), lo), hi)
         const canEven = P % 2 === 0 && mid - P / 2 >= lo && mid + P / 2 <= hi
-        let centers: number[] = canEven && Math.random() < 0.4 ? [mid - P / 2, mid + P / 2] : [mid]
-        while (Math.random() < BUMP_RUN_CHANCE) {
+        let centers: number[] = canEven && rng() < 0.4 ? [mid - P / 2, mid + P / 2] : [mid]
+        while (rng() < BUMP_RUN_CHANCE) {
           const L = centers[0] - P, R = centers[centers.length - 1] + P
           if (L < lo || R > hi) break
           centers.unshift(L); centers.push(R)
@@ -453,7 +459,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
           if (centers.length >= 2) { centers.shift(); centers.pop() } else centers = []
         }
         // a lone bump may occasionally sit off-centre for variety (a multi-run stays centred/symmetric)
-        if (centers.length === 1 && Math.random() >= BUMP_CENTER_BIAS) {
+        if (centers.length === 1 && rng() >= BUMP_CENTER_BIAS) {
           const alt = randInt(lo, hi)
           if (bumpFits(room, idx, wall, alt)) centers = [alt]
         }
@@ -464,7 +470,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
         if (along < 2 * r) continue
         const lo = wallStart + r, hi = wallEnd - r
         const mid = Math.min(Math.max(Math.round(horiz ? room.x + room.w / 2 : room.y + room.h / 2), lo), hi)
-        const center = Math.random() < APSE_CENTER_BIAS ? mid : randInt(lo, hi)
+        const center = rng() < APSE_CENTER_BIAS ? mid : randInt(lo, hi)
         tryPlaceApse(room, idx, wall, center, r, "bay")
       }
     }
@@ -510,15 +516,15 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
     if (isWall(c, r)) continue
     for (const [dx, dy] of SDIRS) if (isWall(c + dx, r + dy)) cands.push([c, r, dx, dy])
   }
-  for (let i = cands.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[cands[i], cands[j]] = [cands[j], cands[i]] }
+  for (let i = cands.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1));[cands[i], cands[j]] = [cands[j], cands[i]] }
   for (const [ac, ar, dx, dy] of cands) {
-    if (Math.random() >= SIDE_ROOM_CHANCE) continue
+    if (rng() >= SIDE_ROOM_CHANCE) continue
     if (isWall(ac, ar)) continue                     // may have been re-carved by an earlier side-room
     if (!circleCardinalOk(ac, ar, dx, dy)) continue  // a circle may host a side-room only at a cardinal
     if (apseBlocked(ac, ar, dx, dy)) continue         // no side-rooms off an apse bay or on an apse wall
     const nearC = ac + dx, nearR = ar + dy           // footprint cell that abuts the anchor
     if (!isWall(nearC, nearR)) continue
-    const [sw, sh] = Math.random() < TINY_FRACTION ? TINY[randInt(0, 2)] : [randInt(2, 3), randInt(2, 3)]
+    const [sw, sh] = rng() < TINY_FRACTION ? TINY[randInt(0, 2)] : [randInt(2, 3), randInt(2, 3)]
     let x: number, y: number                         // footprint starts flush at the near cell
     if (dx !== 0) { x = dx > 0 ? nearC : nearC - sw + 1; y = nearR - randInt(0, sh - 1) }
     else { y = dy > 0 ? nearR : nearR - sh + 1; x = nearC - randInt(0, sw - 1) }
@@ -608,14 +614,14 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
   //     are forced to the difference the other path already set.
   const unitAt = (cell: [number, number]) => isOpen(cell[0], cell[1]) ? unit[cell[1]][cell[0]] : -1
   const runEdges = runs.filter(run => unitAt(run.endA) !== -1 && unitAt(run.endB) !== -1)
-  for (let i = runEdges.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[runEdges[i], runEdges[j]] = [runEdges[j], runEdges[i]] }
+  for (let i = runEdges.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1));[runEdges[i], runEdges[j]] = [runEdges[j], runEdges[i]] }
   const runDelta = new Array<number>(runs.length).fill(0) // realized level change on each run
   const wallOff = new Array<boolean>(runs.length).fill(false)
   for (const run of runEdges) {
     const u = unitAt(run.endA), v = unitAt(run.endB)
     const fu = find(u), fv = find(v)
     if (fu.root !== fv.root) {                       // spanning-tree edge: choose a step
-      const delta = Math.random() < STAIR_CHANCE ? (Math.random() < 0.5 ? 1 : -1) : 0
+      const delta = rng() < STAIR_CHANCE ? (rng() < 0.5 ? 1 : -1) : 0
       union(u, v, delta); runDelta[run.id] = delta
     } else {                                         // loop edge: difference is forced
       const forced = fv.off - fu.off
@@ -671,7 +677,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
     const hCorridor = isWall(c - 1, r) && isWall(c + 1, r) && isFloor(c, r - 1) && isFloor(c, r + 1)
     if (!vCorridor && !hCorridor) continue
     const roomDir = DOOR_DIRS.find(([dc, dr]) => isRoomInterior(c + dc, r + dr))
-    if (!roomDir || pinchAdjacent(c, r) || Math.random() >= DOOR_CHANCE) continue
+    if (!roomDir || pinchAdjacent(c, r) || rng() >= DOOR_CHANCE) continue
     setEdge(c, r, roomDir[0], roomDir[1], EDGE.door)
     doorPinch.add(r * cols + c)
   }
@@ -750,7 +756,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
     const side = randInt(0, 3) // 0=N 1=S 2=E 3=W
     const horizontal = side >= 2
     const span = horizontal ? room.w : room.h
-    const depth = Math.max(1, Math.round((PARTIAL_MIN + Math.random() * (PARTIAL_MAX - PARTIAL_MIN)) * span))
+    const depth = Math.max(1, Math.round((PARTIAL_MIN + rng() * (PARTIAL_MAX - PARTIAL_MIN)) * span))
     const jit = new Map<number, number>()
     const jitter = (line: number) => { if (!jit.has(line)) jit.set(line, randInt(-1, 1)); return jit.get(line)! }
     for (const [c, r] of reg.cells) {
@@ -766,7 +772,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
     const fillable = fillableOf(reg)
     if (fillable.size === 0) return
     const arr = [...fillable]
-    const target = Math.max(1, Math.round((PARTIAL_MIN + Math.random() * (PARTIAL_MAX - PARTIAL_MIN)) * reg.cells.length))
+    const target = Math.max(1, Math.round((PARTIAL_MIN + rng() * (PARTIAL_MAX - PARTIAL_MIN)) * reg.cells.length))
     const seedK = arr[randInt(0, arr.length - 1)]
     const done = new Set<number>([seedK]); const q: [number, number][] = [[seedK % cols, Math.floor(seedK / cols)]]; let n = 0
     while (q.length && n < target) {
@@ -809,7 +815,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
     const room = rooms[i]
     const reg = roomRegion(i)
     const big = room.w >= MIN_ROOM_DIM && room.h >= MIN_ROOM_DIM
-    const x = Math.random()
+    const x = rng()
     if (big) {
       if (x < ROOM_POOL) { if (room.shape !== "circle") fillPool(room) }
       else if (x < ROOM_POOL + ROOM_PARTIAL) { if (room.shape === "rect") fillPartialRoom(room, reg) }
@@ -833,7 +839,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
       }
     }
     const reg: Region = { cells, has }
-    const x = Math.random()
+    const x = rng()
     if (x < HALL_PARTIAL) fillPartialHall(reg)
     else if (x < HALL_PARTIAL + HALL_FULL) fillFull(reg)
   }
@@ -850,11 +856,11 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
   const PILLAR_PATTERNS = ["all", "perimeter", "rows"] as const
   for (const room of rooms) {
     if (room.w < MIN_ROOM_DIM || room.h < MIN_ROOM_DIM) continue
-    if (Math.random() >= PILLAR_ROOM_CHANCE) continue
+    if (rng() >= PILLAR_ROOM_CHANCE) continue
     // CIRCLE rooms: only the basic `all` layout (perimeter/rows deferred). The rounded-square carve
     // makes corner cells Wall, so `pillarOk` already keeps pillars inside the round footprint.
     const pattern = room.cornerRadius >= 2 ? "all" : PILLAR_PATTERNS[randInt(0, PILLAR_PATTERNS.length - 1)]
-    const rowsHoriz = Math.random() < 0.5 // for `rows`: two horizontal rows vs two vertical columns
+    const rowsHoriz = rng() < 0.5 // for `rows`: two horizontal rows vs two vertical columns
     const vi0 = room.x + 1, vi1 = room.x + room.w - 1
     const vj0 = room.y + 1, vj1 = room.y + room.h - 1
     for (let vj = vj0; vj <= vj1; vj++) for (let vi = vi0; vi <= vi1; vi++) {
@@ -904,7 +910,7 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
       else if (isWall(last[0] + dx, last[1] + dy)) interiorSpots.push(spot) // terminal is a dead-end pocket
     }
   }
-  const shuffle = (a: Spot[]) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]] } }
+  const shuffle = (a: Spot[]) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1));[a[i], a[j]] = [a[j], a[i]] } }
   shuffle(edgeSpots); shuffle(interiorSpots)
 
   // A flight cell too close to ANY existing stair — interior stairs (elevation) OR already-placed
@@ -935,10 +941,10 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
   }
   // Per portal: ~PORTAL_EDGE_CHANCE prefer an edge spot, else interior; fall back to the other.
   const placePortal = (kind: PortalKind): boolean => {
-    const [first, second] = Math.random() < PORTAL_EDGE_CHANCE ? [edgeSpots, interiorSpots] : [interiorSpots, edgeSpots]
+    const [first, second] = rng() < PORTAL_EDGE_CHANCE ? [edgeSpots, interiorSpots] : [interiorSpots, edgeSpots]
     return carvePortal(first, kind) || carvePortal(second, kind)
   }
-  const pickCount = () => { const x = Math.random(); return x < 0.6 ? 1 : x < 0.85 ? 2 : x < 0.96 ? 3 : 4 }
+  const pickCount = () => { const x = rng(); return x < 0.6 ? 1 : x < 0.85 ? 2 : x < 0.96 ? 3 : 4 }
   for (let i = 0, n = pickCount(); i < n; i++) if (!placePortal("entrance")) break
   for (let i = 0, n = pickCount(); i < n; i++) if (!placePortal("exit")) break
 
@@ -949,9 +955,76 @@ export function generateDungeon(cols: number, rows: number): DungeonResult {
     if (room.cornerRadius === 1) room.roundCorners = room.roundCorners.filter(cn => cornerOk(room, cn))
   }
 
-  // Room numbers + names: sequential 1-based over the final rooms array (main rooms first, side-rooms
-  // after). Names come from the shared core generator (currently Math.random; pass a seeded rng later).
-  rooms.forEach((rm, i) => { rm.num = i + 1; rm.name = roomName() })
+  // Idea 10: derive a semantic RoomProfile per room by scanning its footprint (roomAt === i) over
+  // the FINISHED grids (water/pillars/doors/elevation are all placed by now). Feeds context-aware
+  // naming (Step 3) / descriptions / prop placement. `type` is feature-derived (see types.ts).
+  rooms.forEach((rm, i) => {
+    // Footprint tally over the room's own cells.
+    let area = 0, waterCells = 0, hasStairs = false
+    for (let r = rm.y; r < rm.y + rm.h; r++) for (let c = rm.x; c < rm.x + rm.w; c++) {
+      if (!inb(c, r) || roomAt[r][c] !== i) continue
+      const m = grid[r][c]
+      if (m === Material.Wall) continue
+      area++
+      if (m === Material.Water) waterCells++
+      else if (m === Material.Stairs) hasStairs = true
+    }
+    const water: WaterCondition =
+      waterCells === 0 ? "dry" : waterCells >= area ? "full" : waterCells === 1 ? "pool" : "partial"
+    const size: RoomSize = area <= 6 ? "small" : area <= 16 ? "medium" : "large"
 
-  return { grid, pillars, rooms, stairs, levels, portals, edges }
+    // Pillars belonging to this room: a pillar vertex whose 4 surrounding cells include a room cell.
+    let pillared = false
+    for (let vj = 0; vj < pillars.length && !pillared; vj++) for (let vi = 0; vi < pillars[vj].length; vi++) {
+      if (!pillars[vj][vi]) continue
+      const corners: [number, number][] = [[vi - 1, vj - 1], [vi, vj - 1], [vi - 1, vj], [vi, vj]]
+      if (corners.some(([cc, rr]) => inb(cc, rr) && roomAt[rr][cc] === i)) { pillared = true; break }
+    }
+
+    // Connectors: distinct boundary openings that lead OUT of the room — a doorway, OR an open edge
+    // onto a corridor/other room (not a thin wall, not the map border) — plus adjacent level-portals.
+    // An opening across `ek` is traversable if it's a door, or it's open AND the neighbour is passable.
+    const opening = (ek: EdgeKind | undefined, nc: number, nr: number) => {
+      if (roomAt[nr]?.[nc] === i) return false                          // still inside this room (apse/alcove)
+      if (ek === EDGE.door) return true
+      return ek !== EDGE.wall && inb(nc, nr) && grid[nr][nc] !== Material.Wall
+    }
+    let connectors = 0
+    for (let r = rm.y; r < rm.y + rm.h; r++) for (let c = rm.x; c < rm.x + rm.w; c++) {
+      if (!inb(c, r) || roomAt[r][c] !== i) continue
+      if (opening(edges.h[r]?.[c], c, r - 1)) connectors++              // north
+      if (opening(edges.h[r + 1]?.[c], c, r + 1)) connectors++          // south
+      if (opening(edges.v[r]?.[c], c - 1, r)) connectors++             // west
+      if (opening(edges.v[r]?.[c + 1], c + 1, r)) connectors++         // east
+    }
+    connectors += portals.filter(p =>
+      ([[p.c, p.r], [p.c - 1, p.r], [p.c + 1, p.r], [p.c, p.r - 1], [p.c, p.r + 1]] as [number, number][])
+        .some(([cc, rr]) => inb(cc, rr) && roomAt[rr][cc] === i)).length
+
+    const features: string[] = []
+    if (pillared) features.push("pillars")
+    if (rm.apses.length) features.push("apse")
+    if (rm.alcoves.length) features.push("alcove")
+    if (rm.shape === "circle") features.push("circle")
+    else if (rm.roundCorners.length) features.push("round-corners")
+    if (hasStairs) features.push("stairs")
+
+    // Feature-based classification (retunable; the naming seed for Step 3).
+    const type =
+      rm.shape === "circle" ? "rotunda" :
+      water === "full" ? "cistern" :
+      hasStairs || rm.z !== 0 ? "vault" :
+      pillared && size === "large" ? "hall" :
+      size === "small" ? "cell" : "chamber"
+
+    rm.profile = { type, material: "masonry", size, water, pillared, shape: rm.shape, elevation: rm.z, connectors, features }
+
+    // Number + name in the same pass: sequential 1-based; the name is drawn from the profile's tags
+    // (type + water + features) via the shared core generator, fed the seeded rng → reproducible (T1)
+    // AND context-aware (a cistern reads watery, a rotunda round, a cell cell-y).
+    rm.num = i + 1
+    rm.name = roomName([type, water, ...features], rng)
+  })
+
+  return { grid, pillars, rooms, stairs, levels, portals, edges, seed }
 }
