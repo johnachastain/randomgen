@@ -1,4 +1,4 @@
-import { useState, useMemo, type CSSProperties } from "react"
+import { useState, type CSSProperties } from "react"
 import { GeomorphNav } from "../../refactorGeomorphs/geomorph-shared/GeomorphNav"
 import { generateDungeon } from "./dungeon"
 import { describeDungeonRoom } from "./roomDescribe"
@@ -36,9 +36,6 @@ export default function GeomorphDungeonPage() {
   // the room's corner, rendered with the quarter-disc bite + arc lip (a true circle = 4 blocks that
   // meet at the centre). `cornerCellSet` = base cells inside any block (skip straight wall-trim there).
   // `kind` selects the tile art: rounded rooms use the tighter half-cell fillet; circles/apses the full arc.
-  // P4: derive the corner/alcove render structures once per (dungeon + curve toggles). Both loops
-  // mutate cornerCellSet, so they share one memo. Returned + destructured for the tile builders below.
-  const { cornerBlocks, cornerCellSet, alcoveRender, smAlcoveCells } = useMemo(() => {
   type CornerBlock = { orient: Corner; r: number; x: number; y: number; kind: "rounded" | "circle" | "apse" }
   const cornerBlocks: CornerBlock[] = []
   const cornerCellSet = new Set<number>()
@@ -95,9 +92,6 @@ export default function GeomorphDungeonPage() {
       }
     }
   }
-  return { cornerBlocks, cornerCellSet, alcoveRender, smAlcoveCells }
-  }, [dungeon, cols, rows, showCircles, showRounded, showApses, showAlcoves])
-
   const [showBase, setShowBase] = useState(true)
   const [showWall, setShowWall] = useState(true)
   const [showWater, setShowWater] = useState(true)
@@ -143,7 +137,6 @@ export default function GeomorphDungeonPage() {
   const handleRows = (n: number) => { setRows(n); regenerate(cols, n) }
 
   // Base layer: material-coloured cells.
-  const baseCells = useMemo(() => {
   const baseCells = []
   if (showBase) {
     for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
@@ -176,13 +169,10 @@ export default function GeomorphDungeonPage() {
       )
     }
   }
-  return baseCells
-  }, [dungeon, cols, rows, showBase, showWater, cornerCellSet])
 
   // Rounded/round-corner overlay: the wall "bite" only (transparent inside the arc), scaled to the
   // r×r block, on a layer above the base squares (so water shows through) and below the arc lip.
   // Part of the base representation → gated with the Base toggle.
-  const cornerTiles = useMemo(() => {
   const cornerTiles = []
   if (showBase) {
     for (let i = 0; i < cornerBlocks.length; i++) {
@@ -202,13 +192,10 @@ export default function GeomorphDungeonPage() {
       )
     }
   }
-  return cornerTiles
-  }, [showBase, cornerBlocks, alcoveRender])
 
   // Detail layers: per edge-material fine-grid trim, bumping into adjacent floor. Split by
   // material so the door layer can sit BETWEEN them — water-detail below doors (else the
   // shoreline clips the door leaf), wall-detail above doors (frames the doorway + end-caps).
-  const { wallDetailTiles, waterDetailTiles } = useMemo(() => {
   const wallDetailTiles = []
   const waterDetailTiles = []
   // Render-only grid for the WALL trim: small-alcove nub cells (Material.Wall in the real grid) read as
@@ -280,13 +267,10 @@ export default function GeomorphDungeonPage() {
       }
     }
   }
-  return { wallDetailTiles, waterDetailTiles }
-  }, [dungeon, cols, rows, showWall, showWater, showApses, showAlcoves, cornerCellSet, cornerBlocks, alcoveRender, smAlcoveCells])
 
   // Doors: a leaf strip on the threshold EDGE (recorded at generation → no flip), on its
   // own layer, CENTERED on the boundary grid line (straddles both cells equally). A vertical
   // door-edge `edges.v[r][col]` is the line at x=col·S; a horizontal `edges.h[row][c]` at y=row·S.
-  const doorTiles = useMemo(() => {
   const DT = S / 6 // door leaf thickness (tunable)
   const DOOR_GAP = S / 4 // symmetric gap at each end so the leaf doesn't touch the flanking walls (tunable)
   // Openings are always 1 cell wide, so every door leaf is an identical fixed size, centered on the
@@ -312,13 +296,10 @@ export default function GeomorphDungeonPage() {
       )
     }
   }
-  return doorTiles
-  }, [dungeon, cols, rows, showDoors])
 
   // Stairs: a full-cell tile (treads perpendicular to travel + up-chevron) per stair
   // cell. Rendered BELOW the wall/water detail layer so the wall lips paint over the
   // stair-tile edges (stairs get walls). `stairs[r][c]` gives the ascent direction.
-  const stairTiles = useMemo(() => {
   const stairTiles = []
   if (showStairs) {
     for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
@@ -330,12 +311,9 @@ export default function GeomorphDungeonPage() {
       )
     }
   }
-  return stairTiles
-  }, [dungeon, cols, rows, showStairs])
 
   // Level overlay: tint EVERY open cell by its level (halls included, so a corridor
   // shares the tint of the rooms it connects), plus a z badge at each room centre.
-  const levelTiles = useMemo(() => {
   const levelTiles = []
   if (showLevels) {
     for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
@@ -359,8 +337,6 @@ export default function GeomorphDungeonPage() {
       )
     }
   }
-  return levelTiles
-  }, [dungeon, cols, rows, showLevels, zMin, zMax])
 
   // Room-number indicators: a small black pill (circle for 1 digit, auto-widening "hotdog" for more)
   // with the centered white room number, at each room's centre. One per room.
@@ -403,8 +379,7 @@ export default function GeomorphDungeonPage() {
   // Shapes debug overlay: for each non-rect room, tint its bounding box — footprint cells in
   // the shape colour, CUT-AWAY corner cells (wall inside the box) in red (the proof it isn't a
   // rectangle) — plus a dashed box + a `shape w×h` label. Diagnostic only; no generation effect.
-  const shapedRooms = useMemo(() => rooms.filter(rm => rm.shape !== "rect"), [dungeon])
-  const shapeTiles = useMemo(() => {
+  const shapedRooms = rooms.filter(rm => rm.shape !== "rect")
   const shapeTiles = []
   if (showShapes) {
     for (let i = 0; i < shapedRooms.length; i++) {
@@ -433,11 +408,8 @@ export default function GeomorphDungeonPage() {
       )
     }
   }
-  return shapeTiles
-  }, [dungeon, showShapes, shapedRooms])
 
   // Pillars: dots (S/2) centered on base-grid vertices, on the very top layer.
-  const pillarTiles = useMemo(() => {
   const pillarTiles = []
   if (showPillars) {
     for (let vj = 0; vj <= rows; vj++) for (let vi = 0; vi <= cols; vi++) {
@@ -448,13 +420,10 @@ export default function GeomorphDungeonPage() {
       )
     }
   }
-  return pillarTiles
-  }, [dungeon, cols, rows, showPillars])
 
   // Portal markers (green entrance / orange exit), on the very top. Smaller than a cell so
   // the layers beneath show, and rotated so the marker arrow points the same way as the
   // stair chevron below it — which points down-slope = opposite of the stair's `up`.
-  const portalTiles = useMemo(() => {
   const MK = S - 6 // marker size
   const OPP: Record<Edge, Edge> = { n: "s", s: "n", e: "w", w: "e" }
   const ROT: Record<Edge, number> = { s: 0, w: 90, n: 180, e: 270 } // rotate the canonical down-arrow to point Edge
@@ -470,8 +439,6 @@ export default function GeomorphDungeonPage() {
       )
     }
   }
-  return portalTiles
-  }, [dungeon, showPortals])
 
   // Graph-paper grid: light-gray thin lines aligned to the base cell grid (0, S, 2S…), drawn with
   // two CSS gradients (no per-cell elements) over the whole board. Toggled by the Grid checkbox.
@@ -542,11 +509,6 @@ export default function GeomorphDungeonPage() {
     </div>
   )
 
-  // P4: the selected room's info + its description, memoized so hovering (which re-renders the page)
-  // doesn't re-run describeDungeonRoom on every mouse-move.
-  const selectedRoomInfo = selectedRoom != null ? rooms.find(r => r.num === selectedRoom) ?? null : null
-  const inspectorDesc = useMemo(() => selectedRoomInfo ? describeDungeonRoom(selectedRoomInfo, dungeon.seed) : [], [selectedRoom, dungeon]) // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <div style={{ padding: 16 }}>
       <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8, position: "relative" }}>
@@ -608,7 +570,7 @@ export default function GeomorphDungeonPage() {
       </div>
 
       {(() => {
-        const sel = selectedRoomInfo
+        const sel = selectedRoom != null ? dungeon.rooms.find(r => r.num === selectedRoom) : null
         return (
           <div style={{ marginTop: 12, padding: "10px 12px", border: "1px solid #ddd", borderRadius: 6, maxWidth: 640, font: "14px/1.55 sans-serif" }}>
             {!sel ? (
@@ -622,7 +584,7 @@ export default function GeomorphDungeonPage() {
                     {sel.profile.features.length ? ` · ${sel.profile.features.join(", ")}` : ""}
                   </div>
                 )}
-                {inspectorDesc.map((para, i) => <p key={i} style={{ margin: "6px 0" }}>{para}</p>)}
+                {describeDungeonRoom(sel, dungeon.seed).map((para, i) => <p key={i} style={{ margin: "6px 0" }}>{para}</p>)}
               </>
             )}
           </div>
