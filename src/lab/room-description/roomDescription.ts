@@ -147,9 +147,12 @@ export const PROPERTIES = defaultConfig.properties
 export type Room = Record<string, string | string[]> // enum props = string; set props = token[]
 
 // Generate a random Room from a config: one value per enum prop, a random subset per set prop.
-export function generateRoom(config: RoomDescConfig = defaultConfig, rng: Rng = Math.random): Room {
+// `overrides` FORCES specific property values (a forced value wins; others roll) — the caller passes
+// map-derived values (e.g. a dungeon RoomProfile) and the rest stay random. (Mini seed+overrides.)
+export function generateRoom(config: RoomDescConfig = defaultConfig, rng: Rng = Math.random, overrides: Room = {}): Room {
   const room: Room = {}
   for (const p of config.properties) {
+    if (p.key in overrides) { room[p.key] = overrides[p.key]; continue }
     if (p.kind === "set") {
       let sel = p.values.filter(() => rng() < 0.5)
       while (sel.length < (p.min ?? 0)) { const v = pick(p.values, rng); if (!sel.includes(v)) sel.push(v) }

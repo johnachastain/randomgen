@@ -955,6 +955,59 @@ export function generateDungeon(cols: number, rows: number, seed: number = rando
     if (room.cornerRadius === 1) room.roundCorners = room.roundCorners.filter(cn => cornerOk(room, cn))
   }
 
+  // Connectivity guarantee. Pass B walls off redundant/inconsistent corridor runs (grid→Wall), which
+  // can rarely sever a region's SOLE bridge to the rest. Run LAST (after every grid/edge pass) so we see
+  // the true final connectivity: flood the open cells (EDGE.wall blocks); for any isolated region, reopen
+  // ONE bridging edge-wall seam as a DOOR — preferring a seam whose two cells share the SAME level so
+  // elevation stays consistent (Pass B already assigned consistent levels before walling the run).
+  {
+    const openAt = (c: number, r: number) => inb(c, r) && grid[r][c] !== Material.Wall
+    const ek = (c: number, r: number, dc: number, dr: number): EdgeKind =>
+      dc === 1 ? (edges.v[r]?.[c + 1] ?? EDGE.open) : dc === -1 ? (edges.v[r]?.[c] ?? EDGE.open)
+        : dr === 1 ? (edges.h[r + 1]?.[c] ?? EDGE.open) : (edges.h[r]?.[c] ?? EDGE.open)
+    const reached: boolean[][] = Array.from({ length: rows }, () => Array(cols).fill(false))
+    const flood = (sc: number, sr: number) => {
+      const st: [number, number][] = [[sc, sr]]; reached[sr][sc] = true
+      while (st.length) {
+        const [c, r] = st.pop()!
+        for (const [dc, dr] of SDIRS) {
+          const nc = c + dc, nr = r + dr
+          if (!openAt(nc, nr) || reached[nr][nc] || ek(c, r, dc, dr) === EDGE.wall) continue
+          reached[nr][nc] = true; st.push([nc, nr])
+        }
+      }
+    }
+    let sc = -1, sr = -1
+    seedScan: for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) if (openAt(c, r)) { sc = c; sr = r; break seedScan }
+    if (sc !== -1) {
+      flood(sc, sr)
+      for (let guard = 0; guard < rooms.length + 128; guard++) {
+        let ic = -1, ir = -1
+        isoScan: for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) if (openAt(c, r) && !reached[r][c]) { ic = c; ir = r; break isoScan }
+        if (ic === -1) break // single component — done
+        // Gather the isolated region; collect its edge-wall seams onto the reached set.
+        const seen: boolean[][] = Array.from({ length: rows }, () => Array(cols).fill(false))
+        const st: [number, number][] = [[ic, ir]]; seen[ir][ic] = true
+        const seams: [number, number, number, number][] = []
+        while (st.length) {
+          const [c, r] = st.pop()!
+          for (const [dc, dr] of SDIRS) {
+            const nc = c + dc, nr = r + dr
+            if (!openAt(nc, nr)) continue
+            if (reached[nr][nc]) { if (ek(c, r, dc, dr) === EDGE.wall) seams.push([c, r, dc, dr]); continue }
+            if (seen[nr][nc] || ek(c, r, dc, dr) === EDGE.wall) continue
+            seen[nr][nc] = true; st.push([nc, nr])
+          }
+        }
+        if (!seams.length) break // fully Wall-enclosed (no edge-wall seam) — not produced by current passes
+        // Prefer a same-level seam (elevation-safe); else the first available.
+        const [c, r, dc, dr] = seams.find(([c, r, dc, dr]) => levels[r][c] === levels[r + dr]?.[c + dc]) ?? seams[0]
+        setEdge(c, r, dc, dr, EDGE.door)
+        flood(ic, ir) // absorb the now-connected region
+      }
+    }
+  }
+
   // Idea 10: derive a semantic RoomProfile per room by scanning its footprint (roomAt === i) over
   // the FINISHED grids (water/pillars/doors/elevation are all placed by now). Feeds context-aware
   // naming (Step 3) / descriptions / prop placement. `type` is feature-derived (see types.ts).

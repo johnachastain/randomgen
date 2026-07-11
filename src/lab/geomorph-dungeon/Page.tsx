@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from "react"
 import { GeomorphNav } from "../../refactorGeomorphs/geomorph-shared/GeomorphNav"
 import { generateDungeon } from "./dungeon"
+import { describeDungeonRoom } from "./roomDescribe"
 import { SUB, trimIndexFor } from "./bitmask"
 import { TRIM_WALL, TRIM_WATER, PILLAR_TILE, STAIR_TILES, PORTAL_TILES, ROUND_CORNER_TILES, ROUND_TRIM_TILES, ROUNDED_CORNER_TILES, ROUNDED_TRIM_TILES, ALCOVE_BASE_TILES, ALCOVE_TRIM_TILES } from "./tileConfig"
 import { MATERIAL_COLOR, MATERIAL_LABEL, DETAIL_MATERIALS, PORTAL_STYLE } from "./materials"
@@ -21,6 +22,7 @@ export default function GeomorphDungeonPage() {
   const [rows, setRows] = useState(18)
   const [dungeon, setDungeon] = useState(() => generateDungeon(20, 18))
   const [seedInput, setSeedInput] = useState("") // blank = fresh random seed each Regenerate; a value = reproduce that seed
+  const [selectedRoom, setSelectedRoom] = useState<number | null>(null) // room num shown in the description inspector
   const { grid, pillars, rooms, stairs, levels, portals, edges } = dungeon
 
   // Curve-art visibility (default on): hide a feature group's corner tiles → its cells revert to raw
@@ -118,7 +120,7 @@ export default function GeomorphDungeonPage() {
 
   // blank seed input → undefined → generateDungeon rolls a fresh random seed; a number → reproduce it.
   const seedArg = () => { const t = seedInput.trim(); return t === "" ? undefined : Number(t) }
-  const regenerate = (c = cols, r = rows) => setDungeon(generateDungeon(c, r, seedArg()))
+  const regenerate = (c = cols, r = rows) => { setDungeon(generateDungeon(c, r, seedArg())); setSelectedRoom(null) }
   const handleCols = (n: number) => { setCols(n); regenerate(n, rows) }
   const handleRows = (n: number) => { setRows(n); regenerate(cols, n) }
 
@@ -331,12 +333,13 @@ export default function GeomorphDungeonPage() {
     for (const rm of rooms) {
       const cx = (rm.x + rm.w / 2) * S, cy = (rm.y + rm.h / 2) * S
       roomNumberTiles.push(
-        <div key={`rn${rm.num}`} onMouseEnter={() => setHoverRoom(rm.num)} onMouseLeave={() => setHoverRoom(null)} style={{
+        <div key={`rn${rm.num}`} onMouseEnter={() => setHoverRoom(rm.num)} onMouseLeave={() => setHoverRoom(null)}
+          onClick={() => setSelectedRoom(n => n === rm.num ? null : rm.num)} style={{
           position: "absolute", left: cx, top: cy,
           transform: "translate(-50%, -50%)", display: "inline-flex", alignItems: "center", justifyContent: "center",
           height: 16, minWidth: 16, padding: "0 5px", boxSizing: "border-box", borderRadius: 999,
-          background: "#000", color: "#fff", font: "600 11px sans-serif", lineHeight: 1,
-          pointerEvents: "auto", cursor: "help",
+          background: selectedRoom === rm.num ? "#1e5fbf" : "#000", color: "#fff", font: "600 11px sans-serif", lineHeight: 1,
+          pointerEvents: "auto", cursor: "pointer",
         }}>{rm.num}</div>
       )
       // Custom hover popup with the room name (instant + reliable, unlike the native title tooltip).
@@ -552,6 +555,28 @@ export default function GeomorphDungeonPage() {
           {roomNumberTiles}
         </div>
       </div>
+
+      {(() => {
+        const sel = selectedRoom != null ? dungeon.rooms.find(r => r.num === selectedRoom) : null
+        return (
+          <div style={{ marginTop: 12, padding: "10px 12px", border: "1px solid #ddd", borderRadius: 6, maxWidth: 640, font: "14px/1.55 sans-serif" }}>
+            {!sel ? (
+              <span style={{ color: "#888" }}>Click a room number to inspect it — name, profile, and a generated description.</span>
+            ) : (
+              <>
+                <div style={{ fontWeight: 700, marginBottom: 2 }}>#{sel.num} · {sel.name}</div>
+                {sel.profile && (
+                  <div style={{ color: "#888", fontSize: 12, marginBottom: 6 }}>
+                    {sel.profile.type} · {sel.profile.size} · {sel.profile.water} · {sel.profile.connectors} way{sel.profile.connectors === 1 ? "" : "s"}
+                    {sel.profile.features.length ? ` · ${sel.profile.features.join(", ")}` : ""}
+                  </div>
+                )}
+                {describeDungeonRoom(sel, dungeon.seed).map((para, i) => <p key={i} style={{ margin: "6px 0" }}>{para}</p>)}
+              </>
+            )}
+          </div>
+        )
+      })()}
 
       {legend}
     </div>

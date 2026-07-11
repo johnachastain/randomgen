@@ -71,6 +71,18 @@ describe("dungeon connectivity", () => {
     })
     expect(bad.slice(0, 5)).toEqual([])
   })
+
+  // Regression: seed 213 @ 24×20 previously isolated 34 open cells (a whole room sealed off by a
+  // side-room's flush edge-wall). The connectivity-guarantee pass reopens the sole bridge as a door.
+  it("repairs a previously-disconnected dungeon (seed 213 @ 24×20)", () => {
+    const d = generateDungeon(24, 20, 213)
+    const { rows, cols } = dims(d.grid)
+    const seen = d.grid.map(row => row.map(() => false))
+    const open: [number, number][] = []
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) if (passable(d.grid[r][c])) open.push([c, r])
+    const reached = flood(d, open[0][0], open[0][1], seen, false).length
+    expect(reached).toBe(open.length)
+  })
 })
 
 describe("dungeon elevation", () => {
