@@ -1,6 +1,6 @@
 import { Material, MaterialGrid, PillarGrid, StairGrid, LevelGrid, RoomInfo, RoomShape, Edge, Apse, Alcove, Portal, PortalKind, EDGE, EdgeKind, EdgeGrids, Corner, DungeonResult, WaterCondition, RoomSize } from "./types"
-import { roomName } from "../../core/naming" // shared core (promotion pilot); rng-injectable → seeded later
-import { mulberry32, randomSeed, type Rng } from "../../core/rng" // T1: seeded generation
+import { roomName } from "../../../core/naming" // shared core (promotion pilot); rng-injectable → seeded later
+import { mulberry32, randomSeed, type Rng } from "../../../core/rng" // T1: seeded generation
 
 // Seeded PRNG for this module. Reassigned at the top of generateDungeon (synchronous, single-run
 // generation → module-level state is safe). Defaults to Math.random so any use before seeding works.

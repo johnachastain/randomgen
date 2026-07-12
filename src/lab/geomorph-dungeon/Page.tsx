@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect, useLayoutEffect, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react"
-import { GeomorphNav } from "../../refactorGeomorphs/geomorph-shared/GeomorphNav"
+import { GeomorphNav } from "../../legacy/refactorGeomorphs/geomorph-shared/GeomorphNav"
 import { generateDungeon } from "./dungeon"
 import { describeDungeonRoom } from "./roomDescribe"
 import { SUB, trimIndexFor } from "./bitmask"

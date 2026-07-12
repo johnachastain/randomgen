@@ -12,7 +12,7 @@ import {
   tomb_adjective, temple_adjective, cavern_adjective, dungeon_adjective, magical_adjective,
   tomb_objects, temple_objects, cavern_objects, dungeon_objects, magical_objects,
   temple_special_rooms, cavern_special_rooms, dungeon_special_rooms, magical_special_rooms,
-} from "../lists/original/dungeon_rooms"
+} from "../legacy/lists/original/dungeon_rooms"
 
 // Wrap a plain word array into Rows carrying the given tags (uniform weight).
 const tagArray = (words: readonly string[], tags: string[], weight = 1): Table =>

@@ -2,8 +2,8 @@
 // engine. Isolates the (experimental-zone) cross-lab import in one place. The description engine is a
 // future `core/text` promotion; when that lands, only the imports here move.
 
-import { generateRoom, describeRoom, defaultConfig, type Room } from "../../lab/room-description/roomDescription"
-import { mulberry32 } from "../../core/rng"
+import { generateRoom, describeRoom, defaultConfig, type Room } from "../../../lab/room-description/roomDescription"
+import { mulberry32 } from "../../../core/rng"
 import type { RoomInfo, RoomProfile } from "./types"
 
 // RoomProfile uses coarse tokens; the description engine has a richer vocabulary. Map the ones that

@@ -3,7 +3,7 @@ import { mulberry32 } from "../core/rng"
 import { pickWeighted } from "../core/select"
 import { validateTable } from "../core/select/schema"
 import { NS, tag } from "../core/model"
-import { cavern_adjective } from "../lists/original/dungeon_rooms"
+import { cavern_adjective } from "../legacy/lists/original/dungeon_rooms"
 import { createTableRegistry, contentRegistry, roomLabel, roomAdjectiveTable, roomObjectTable, roomSpecialTable } from "./index"
 
 describe("content — adapted dungeon-room tables (Step 7)", () => {
