@@ -11,6 +11,9 @@
 // Future real wiring maps the map-derived props: material ← gen mode · size ← room w×h · water ← water
 // pass · shape ← cornerRadius/roundCorners/apses[]/alcoves[] · connectors ← adjacent doors/halls/portals[].
 
+import { fill, capitalize } from "../../core/text" // slot-fill + capitalize now live in shared core (Step 5)
+export { fill } // re-exported for compatibility (previously defined + exported here)
+
 type Rng = () => number
 const pick = <T>(arr: readonly T[], rng: Rng): T => arr[Math.floor(rng() * arr.length)]
 const shuffle = <T>(arr: readonly T[], rng: Rng): T[] => {
@@ -163,12 +166,6 @@ export function generateRoom(config: RoomDescConfig = defaultConfig, rng: Rng = 
   }
   return room
 }
-
-// Replace {key} placeholders using the given string lookup.
-export const fill = (tmpl: string, lookup: Record<string, string>): string =>
-  tmpl.replace(/\{(\w+)\}/g, (_, k: string) => lookup[k] ?? `{${k}}`)
-
-const capitalize = (s: string): string => (s ? s[0].toUpperCase() + s.slice(1) : s)
 
 function roomStrings(room: Room, config: RoomDescConfig): Record<string, string> {
   const out: Record<string, string> = {}

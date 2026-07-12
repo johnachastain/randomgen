@@ -1,5 +1,6 @@
 import { Material, MaterialGrid, PillarGrid, StairGrid, LevelGrid, RoomInfo, RoomShape, Edge, Apse, Alcove, Portal, PortalKind, EDGE, EdgeKind, EdgeGrids, Corner, DungeonResult, WaterCondition, RoomSize } from "./types"
-import { roomName } from "../../core/naming" // shared core (promotion pilot); rng-injectable → seeded later
+import { rootContext } from "../../core/model" // GenContext flows dungeon → room (Step 4)
+import { buildRoomObject } from "./roomObject" // a room as a config object on core/config (Step 8)
 import { mulberry32, randomSeed, type Rng } from "../../core/rng" // T1: seeded generation
 
 // Seeded PRNG for this module. Reassigned at the top of generateDungeon (synchronous, single-run
@@ -1011,6 +1012,9 @@ export function generateDungeon(cols: number, rows: number, seed: number = rando
   // Idea 10: derive a semantic RoomProfile per room by scanning its footprint (roomAt === i) over
   // the FINISHED grids (water/pillars/doors/elevation are all placed by now). Feeds context-aware
   // naming (Step 3) / descriptions / prop placement. `type` is feature-derived (see types.ts).
+  // Dungeon-level context (Step 4). Level themes flow in via its tags in Step 8; for now the root
+  // just carries the seed and each room adds its own profile tags.
+  const rootCtx = rootContext(seed)
   rooms.forEach((rm, i) => {
     // Footprint tally over the room's own cells.
     let area = 0, waterCells = 0, hasStairs = false
@@ -1072,11 +1076,13 @@ export function generateDungeon(cols: number, rows: number, seed: number = rando
 
     rm.profile = { type, material: "masonry", size, water, pillared, shape: rm.shape, elevation: rm.z, connectors, features }
 
-    // Number + name in the same pass: sequential 1-based; the name is drawn from the profile's tags
-    // (type + water + features) via the shared core generator, fed the seeded rng → reproducible (T1)
-    // AND context-aware (a cistern reads watery, a rotunda round, a cell cell-y).
+    // Number + name in the same pass: sequential 1-based. The room is built as a config OBJECT on the
+    // shared engine — its context = the dungeon root ⊕ the profile's namespaced tags, and the seeded
+    // rng makes it reproducible (T1) AND context-aware (a cistern reads watery, a rotunda round). The
+    // name is one property today; richer content = more rules reading the same context.
     rm.num = i + 1
-    rm.name = roomName([type, water, ...features], rng)
+    const roomObj = buildRoomObject(rm.profile, rootCtx, rng, rm.num)
+    rm.name = roomObj.properties.name
   })
 
   return { grid, pillars, rooms, stairs, levels, portals, edges, seed }
