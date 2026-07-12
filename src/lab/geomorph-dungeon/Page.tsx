@@ -1,4 +1,4 @@
-import { useState, useMemo, type CSSProperties } from "react"
+import { useState, useMemo, useRef, useEffect, useLayoutEffect, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react"
 import { GeomorphNav } from "../../refactorGeomorphs/geomorph-shared/GeomorphNav"
 import { generateDungeon } from "./dungeon"
 import { describeDungeonRoom } from "./roomDescribe"
@@ -23,6 +23,13 @@ export default function GeomorphDungeonPage() {
   const [dungeon, setDungeon] = useState(() => generateDungeon(20, 18))
   const [seedInput, setSeedInput] = useState("") // blank = fresh random seed each Regenerate; a value = reproduce that seed
   const [selectedRoom, setSelectedRoom] = useState<number | null>(null) // room num shown in the description inspector
+  const mapWrapRef = useRef<HTMLDivElement>(null) // the scrollable map viewport (U1 mini-map reads its scroll)
+  const miniRef = useRef<HTMLCanvasElement>(null) // mini-map canvas
+  const [view, setView] = useState({ sl: 0, st: 0, cw: 0, ch: 0 }) // map wrapper scroll + client size → viewport rect
+  // U2: an "outer zone" gutter around the map so any room (edges incl.) can scroll to the viewport centre.
+  // Viewport-based (≥ half any visible map dimension) + stable (doesn't shift when the drawer opens).
+  const [pad, setPad] = useState(() => ({ x: Math.ceil(window.innerWidth / 2), y: Math.ceil(window.innerHeight / 2) }))
+  const [winW, setWinW] = useState(() => window.innerWidth)
   const { grid, pillars, rooms, stairs, levels, portals, edges } = dungeon
 
   // Curve-art visibility (default on): hide a feature group's corner tiles → its cells revert to raw
@@ -112,6 +119,8 @@ export default function GeomorphDungeonPage() {
   const [hoverRoom, setHoverRoom] = useState<number | null>(null) // room number whose name popup is showing
   const [navOpen, setNavOpen] = useState(false) // hamburger nav flyout
   const [settingsOpen, setSettingsOpen] = useState(false) // settings (layer toggles) flyout
+  const [miniOpen, setMiniOpen] = useState(true) // mini-map show/hide
+  const [dragging, setDragging] = useState(false) // big-map drag-to-pan (for the grab cursor)
 
   // Level → colour ramp (cool = lower, warm = higher), scaled to this dungeon's range.
   // Range is taken over every open cell's level (halls included), not just rooms.
@@ -542,19 +551,104 @@ export default function GeomorphDungeonPage() {
     </div>
   )
 
+  // U1 mini-map: px-per-cell for the miniature (longest side ≈ MINI_MAX).
+  const MINI_MAX = 200
+  const MC = Math.max(2, Math.floor(MINI_MAX / Math.max(cols, rows)))
+  // Keep the viewport rectangle synced with the map wrapper's scroll + client size.
+  const syncView = () => { const el = mapWrapRef.current; if (el) setView({ sl: el.scrollLeft, st: el.scrollTop, cw: el.clientWidth, ch: el.clientHeight }) }
+  // U2 step 2 — drag-to-pan the big map. Threshold (4px) so a click on a room pill still registers as a click.
+  const onMapPointerDown = (e: ReactPointerEvent) => {
+    const el = mapWrapRef.current; if (!el) return
+    const start = { x: e.clientX, y: e.clientY, sl: el.scrollLeft, st: el.scrollTop }
+    let moved = false
+    const move = (ev: PointerEvent) => {
+      const dx = ev.clientX - start.x, dy = ev.clientY - start.y
+      if (!moved && Math.abs(dx) + Math.abs(dy) < 4) return
+      if (!moved) { moved = true; setDragging(true) }
+      el.scrollLeft = start.sl - dx; el.scrollTop = start.st - dy
+      ev.preventDefault()
+    }
+    const up = () => {
+      window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up)
+      setDragging(false)
+    }
+    window.addEventListener("pointermove", move); window.addEventListener("pointerup", up)
+  }
+  // U2 step 2 — click/drag on the mini-map to recenter the main view on that point.
+  const panFromMini = (clientX: number, clientY: number) => {
+    const cv = miniRef.current, el = mapWrapRef.current; if (!cv || !el) return
+    const r = cv.getBoundingClientRect()
+    const mapPxX = ((clientX - r.left) / MC) * S, mapPxY = ((clientY - r.top) / MC) * S
+    el.scrollTo({ left: pad.x + mapPxX - el.clientWidth / 2, top: pad.y + mapPxY - el.clientHeight / 2 })
+  }
+  const onMiniPointerDown = (e: ReactPointerEvent) => {
+    panFromMini(e.clientX, e.clientY)
+    const move = (ev: PointerEvent) => panFromMini(ev.clientX, ev.clientY)
+    const up = () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up) }
+    window.addEventListener("pointermove", move); window.addEventListener("pointerup", up)
+  }
+  useEffect(() => {
+    const onResize = () => { syncView(); setPad({ x: Math.ceil(window.innerWidth / 2), y: Math.ceil(window.innerHeight / 2) }); setWinW(window.innerWidth) }
+    onResize()
+    window.addEventListener("resize", onResize)
+    return () => window.removeEventListener("resize", onResize)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dungeon, cols, rows])
+  // U2: keep the map at its top-left origin by default (scroll past the top-left gutter). Skipped while a
+  // room is selected so it doesn't fight click-to-center. Runs before paint → no flash.
+  useLayoutEffect(() => {
+    if (selectedRoom == null) mapWrapRef.current?.scrollTo(pad.x, pad.y)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pad, dungeon, cols, rows])
+  // Draw the miniature: one filled rect per base cell, coloured by raw material.
+  useEffect(() => {
+    const cv = miniRef.current; if (!cv) return
+    const ctx = cv.getContext("2d"); if (!ctx) return
+    ctx.clearRect(0, 0, cv.width, cv.height)
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      ctx.fillStyle = MATERIAL_COLOR[grid[r][c]]
+      ctx.fillRect(c * MC, r * MC, MC, MC)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dungeon, cols, rows, miniOpen])
+
+  // U2: when a room is selected, recenter the map on it (runs after the inspector drawer narrows the
+  // content column, so clientWidth is the visible map width). Smooth-scroll the map wrapper.
+  useEffect(() => {
+    if (selectedRoom == null) return
+    const rm = rooms.find(r => r.num === selectedRoom); if (!rm) return
+    const cx = (rm.x + rm.w / 2) * S, cy = (rm.y + rm.h / 2) * S
+    // Wait out the 0.2s drawer-width transition so clientWidth is the narrowed visible width.
+    const t = setTimeout(() => {
+      const el = mapWrapRef.current; if (!el) return
+      el.scrollTo({ left: pad.x + cx - el.clientWidth / 2, top: pad.y + cy - el.clientHeight / 2, behavior: "smooth" })
+    }, 230)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRoom])
+
   // P4: the selected room's info + its description, memoized so hovering (which re-renders the page)
   // doesn't re-run describeDungeonRoom on every mouse-move.
   const selectedRoomInfo = selectedRoom != null ? rooms.find(r => r.num === selectedRoom) ?? null : null
   const inspectorDesc = useMemo(() => selectedRoomInfo ? describeDungeonRoom(selectedRoomInfo, dungeon.seed) : [], [selectedRoom, dungeon]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Responsive inspector-drawer width: smaller at standard breakpoints; on tiny
+  // screens fit within the window (winW - 32) so the panel never overflows.
+  const drawerW = winW >= 1024 ? 360 : winW >= 768 ? 320 : winW >= 480 ? 280 : Math.max(200, winW - 32)
+
   return (
-    <div style={{ padding: 16 }}>
+    <div style={{ display: "flex", alignItems: "flex-start" }}>
+      <div style={{ flex: 1, minWidth: 0, padding: 16 }}>
       <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8, position: "relative" }}>
         <button aria-label="Navigation" title="Navigation" style={iconBtn}
           onClick={() => { setNavOpen(o => !o); setSettingsOpen(false) }}>☰</button>
         <button aria-label="Settings" title="Layer settings" style={iconBtn}
           onClick={() => { setSettingsOpen(o => !o); setNavOpen(false) }}>⚙</button>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Dungeon — multi-material bitmask</h2>
+        <button aria-label="Regenerate" title="Regenerate" style={iconBtn}
+          onClick={() => regenerate()}>↻</button>
+        <button aria-label="Download JSON" title="Export this dungeon as JSON" style={iconBtn}
+          onClick={downloadJson}>⤓</button>
+        <h2 style={{ margin: 0, fontSize: 18 }}>Bitmask Dungeon</h2>
 
         {navOpen && (<>
           <div style={backdrop} onClick={() => setNavOpen(false)} />
@@ -577,21 +671,12 @@ export default function GeomorphDungeonPage() {
         <label>Rows: {rows}&nbsp;
           <input type="range" min={4} max={30} value={rows} onChange={e => handleRows(Number(e.target.value))} />
         </label>
-        <button onClick={() => regenerate()}>Regenerate</button>
-        <label>Seed:&nbsp;
-          <input type="number" value={seedInput} placeholder="random"
-            onChange={e => setSeedInput(e.target.value)} style={{ width: 120 }} />
-        </label>
-        <span style={{ color: "#888", fontSize: 12 }}>
-          current:&nbsp;
-          <code style={{ cursor: "pointer" }} title="Click to reuse this seed"
-            onClick={() => setSeedInput(String(dungeon.seed))}>{dungeon.seed}</code>
-        </span>
-        <button onClick={downloadJson} title="Export this dungeon as JSON">Download JSON</button>
       </div>
 
-      <div style={{ overflow: "auto" }}>
-        <div style={{ position: "relative", width: cols * S, height: rows * S }}>
+      <div style={{ position: "relative", minWidth: 0 }}>
+        <div ref={mapWrapRef} onScroll={syncView} onPointerDown={onMapPointerDown} style={{ overflow: "auto", maxHeight: "72vh", maxWidth: "min(72vw, 100%)", minWidth: 0, cursor: dragging ? "grabbing" : "grab" }}>
+          <div style={{ position: "relative", width: cols * S + 2 * pad.x, height: rows * S + 2 * pad.y }}>
+          <div style={{ position: "absolute", left: pad.x, top: pad.y, width: cols * S, height: rows * S }}>
           {baseCells}
           {stairTiles}
           {waterDetailTiles}
@@ -604,32 +689,65 @@ export default function GeomorphDungeonPage() {
           {shapeTiles}
           {gridOverlay}
           {roomNumberTiles}
+          </div>
+          </div>
         </div>
+        {miniOpen ? (
+        <div style={{ position: "absolute", top: 8, left: 8, zIndex: 5, width: cols * MC, height: rows * MC, overflow: "hidden", pointerEvents: "none", boxShadow: "0 1px 6px rgba(0,0,0,0.5)" }}>
+          <canvas ref={miniRef} width={cols * MC} height={rows * MC} onPointerDown={onMiniPointerDown} style={{ display: "block", border: "1px solid #555", pointerEvents: "auto", cursor: "grab" }} />
+          <div style={{
+            position: "absolute",
+            left: ((view.sl - pad.x) / S) * MC, top: ((view.st - pad.y) / S) * MC,
+            width: Math.min(cols * MC, (view.cw / S) * MC), height: Math.min(rows * MC, (view.ch / S) * MC),
+            border: "1.5px solid #fff", boxShadow: "0 0 0 1px #000, 0 0 0 9999px rgba(36,36,36,0.55)", boxSizing: "border-box", pointerEvents: "none",
+          }} />
+          <button onClick={() => setMiniOpen(false)} title="Hide mini-map" aria-label="Hide mini-map"
+            style={{ position: "absolute", top: 0, right: 0, zIndex: 6, pointerEvents: "auto", width: 16, height: 16, padding: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.5)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, lineHeight: 1 }}>×</button>
+        </div>
+        ) : (
+          <button onClick={() => setMiniOpen(true)} title="Show mini-map" aria-label="Show mini-map"
+            style={{ position: "absolute", top: 8, left: 8, zIndex: 5, pointerEvents: "auto", width: 24, height: 24, padding: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "#242424", color: "#eee", border: "1px solid #555", borderRadius: 4, cursor: "pointer", fontSize: 14, lineHeight: 1 }}>▦</button>
+        )}
       </div>
 
-      {(() => {
-        const sel = selectedRoomInfo
-        return (
-          <div style={{ marginTop: 12, padding: "10px 12px", border: "1px solid #ddd", borderRadius: 6, maxWidth: 640, font: "14px/1.55 sans-serif" }}>
-            {!sel ? (
-              <span style={{ color: "#888" }}>Click a room number to inspect it — name, profile, and a generated description.</span>
-            ) : (
-              <>
-                <div style={{ fontWeight: 700, marginBottom: 2 }}>#{sel.num} · {sel.name}</div>
-                {sel.profile && (
-                  <div style={{ color: "#888", fontSize: 12, marginBottom: 6 }}>
-                    {sel.profile.type} · {sel.profile.size} · {sel.profile.water} · {sel.profile.connectors} way{sel.profile.connectors === 1 ? "" : "s"}
-                    {sel.profile.features.length ? ` · ${sel.profile.features.join(", ")}` : ""}
-                  </div>
-                )}
-                {inspectorDesc.map((para, i) => <p key={i} style={{ margin: "6px 0" }}>{para}</p>)}
-              </>
-            )}
-          </div>
-        )
-      })()}
-
       {legend}
+
+      <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap", marginTop: 8 }}>
+        <label>Seed:&nbsp;
+          <input type="number" value={seedInput} placeholder="random"
+            onChange={e => setSeedInput(e.target.value)} style={{ width: 120 }} />
+        </label>
+        <span style={{ color: "#888", fontSize: 12 }}>
+          current:&nbsp;
+          <code style={{ cursor: "pointer" }} title="Click to reuse this seed"
+            onClick={() => setSeedInput(String(dungeon.seed))}>{dungeon.seed}</code>
+        </span>
+      </div>
+      </div>
+
+      {/* U2: slide-out inspector drawer (right). Push layout — narrows the content column above; keeps
+          the mini-map visible. Its own scroll so the page never scrolls. */}
+      <div style={{ width: selectedRoomInfo ? drawerW : 0, height: selectedRoomInfo ? "100vh" : 0, flexShrink: 0, overflow: "hidden", transition: "width 0.2s ease", position: "sticky", top: 0 }}>
+        <div style={{
+          width: drawerW, height: "100%", boxSizing: "border-box", overflowY: "auto",
+          background: "#242424", color: "#eee", borderLeft: "1px solid #555", padding: 16, font: "14px/1.55 sans-serif",
+        }}>
+          <button onClick={() => setSelectedRoom(null)} title="Close" aria-label="Close"
+            style={{ float: "right", fontSize: 18, lineHeight: 1, background: "none", border: "none", color: "#aaa", cursor: "pointer" }}>×</button>
+          {selectedRoomInfo && (
+            <>
+              <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 2 }}>#{selectedRoomInfo.num} · {selectedRoomInfo.name}</div>
+              {selectedRoomInfo.profile && (
+                <div style={{ color: "#999", fontSize: 12, marginBottom: 8 }}>
+                  {selectedRoomInfo.profile.type} · {selectedRoomInfo.profile.size} · {selectedRoomInfo.profile.water} · {selectedRoomInfo.profile.connectors} way{selectedRoomInfo.profile.connectors === 1 ? "" : "s"}
+                  {selectedRoomInfo.profile.features.length ? ` · ${selectedRoomInfo.profile.features.join(", ")}` : ""}
+                </div>
+              )}
+              {inspectorDesc.map((para, i) => <p key={i} style={{ margin: "8px 0" }}>{para}</p>)}
+            </>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
