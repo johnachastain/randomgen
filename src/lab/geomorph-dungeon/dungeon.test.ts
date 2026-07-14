@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest"
 import { generateDungeon } from "./dungeon"
+import { describeElement } from "./elementDescribe"
 import { Material, EDGE } from "./types"
 import type { DungeonResult, EdgeGrids, MaterialGrid } from "./types"
 
@@ -263,5 +264,137 @@ describe("room profiles (Idea 10)", () => {
       if (/[{}]|undefined/.test(rm.name)) bad.push(`dungeon ${di} room ${ri}: bad name "${rm.name}"`)
     })
     expect(bad.slice(0, 5)).toEqual([])
+  })
+})
+
+// Idea 12: non-room map elements (halls/connectors/stairs/portals) each get a derived profile,
+// exposed on DungeonResult.elements. Additive — the grids/portals[] stay the render source.
+const EDGES: string[] = ["n", "s", "e", "w"]
+describe("map-element profiles (Idea 12)", () => {
+  it("every element is well-formed for its kind", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => {
+      const ids = new Set<string>()
+      const nRooms = d.rooms.length
+      const validRoom = (n: number) => n === -1 || (n >= 1 && n <= nRooms)
+      for (const el of d.elements) {
+        if (!el.id || ids.has(el.id)) bad.push(`dungeon ${di}: bad/duplicate id "${el.id}"`)
+        ids.add(el.id)
+        if (el.kind === "hall") {
+          if (el.cells.length < 1) bad.push(`dungeon ${di} ${el.id}: empty hall`)
+          if (!(el.profile.connects[0] >= 1 && el.profile.connects[0] <= nRooms && el.profile.connects[1] >= 1 && el.profile.connects[1] <= nRooms))
+            bad.push(`dungeon ${di} ${el.id}: hall connects out of range ${el.profile.connects}`)
+        } else if (el.kind === "stair") {
+          if (el.profile.levelDelta === 0) bad.push(`dungeon ${di} ${el.id}: stair with zero levelDelta`)
+          if (el.profile.steps < 1) bad.push(`dungeon ${di} ${el.id}: stair with no steps`)
+          if (!EDGES.includes(el.profile.direction)) bad.push(`dungeon ${di} ${el.id}: bad direction ${el.profile.direction}`)
+          if (!validRoom(el.profile.connects[0]) || !validRoom(el.profile.connects[1])) bad.push(`dungeon ${di} ${el.id}: stair connects invalid ${el.profile.connects}`)
+        } else if (el.kind === "connector") {
+          if (el.profile.orientation !== "v" && el.profile.orientation !== "h") bad.push(`dungeon ${di} ${el.id}: bad orientation`)
+          if (!inb(d.grid, el.c, el.r) && !(el.c === dims(d.grid).cols)) bad.push(`dungeon ${di} ${el.id}: door cell out of bounds`)
+          if (!validRoom(el.profile.joins[0]) || !validRoom(el.profile.joins[1])) bad.push(`dungeon ${di} ${el.id}: door joins invalid ${el.profile.joins}`)
+        } else if (el.kind === "portal") {
+          if (!EDGES.includes(el.profile.side)) bad.push(`dungeon ${di} ${el.id}: bad side ${el.profile.side}`)
+        }
+      }
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("portal elements mirror portals[] 1:1", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => {
+      const portalEls = d.elements.filter(e => e.kind === "portal")
+      if (portalEls.length !== d.portals.length) bad.push(`dungeon ${di}: ${portalEls.length} portal elements vs ${d.portals.length} portals`)
+      for (const p of d.portals) {
+        if (!portalEls.some(e => e.kind === "portal" && e.c === p.c && e.r === p.r && e.profile.portalKind === p.kind))
+          bad.push(`dungeon ${di}: no element for portal (${p.c},${p.r},${p.kind})`)
+      }
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("connector elements match the EDGE.door count", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => {
+      let doors = 0
+      for (const row of d.edges.v) for (const e of row) if (e === EDGE.door) doors++
+      for (const row of d.edges.h) for (const e of row) if (e === EDGE.door) doors++
+      const conns = d.elements.filter(e => e.kind === "connector").length
+      if (conns !== doors) bad.push(`dungeon ${di}: ${conns} connector elements vs ${doors} door edges`)
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("elements are deterministic for a fixed seed", () => {
+    const a = generateDungeon(20, 18, 12345)
+    const b = generateDungeon(20, 18, 12345)
+    expect(JSON.stringify(b.elements)).toBe(JSON.stringify(a.elements))
+    expect(b.elements.map(e => e.name)).toEqual(a.elements.map(e => e.name))
+  })
+})
+
+// Idea 12 increment 2: every element gets a per-kind number, a generated name, and a description.
+describe("map-element numbers, names & descriptions (Idea 12)", () => {
+  it("per-kind numbers are the sequence 1..count", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => {
+      for (const kind of ["hall", "stair", "connector", "portal"]) {
+        const nums = d.elements.filter(e => e.kind === kind).map(e => e.num)
+        const expected = nums.map((_, i) => i + 1)
+        if (JSON.stringify(nums) !== JSON.stringify(expected)) bad.push(`dungeon ${di} ${kind}: nums ${nums} ≠ ${expected}`)
+      }
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("every element has a well-formed name (non-empty, no unresolved templates)", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => {
+      for (const el of d.elements) {
+        if (!el.name || !el.name.trim()) bad.push(`dungeon ${di} ${el.id}: empty name`)
+        if (/[{}#]|undefined/.test(el.name)) bad.push(`dungeon ${di} ${el.id}: bad name "${el.name}"`)
+      }
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("describeElement yields non-empty text with no unresolved #sym#/{slot}/undefined", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => {
+      for (const el of d.elements) {
+        const desc = describeElement(el, d.seed)
+        if (!desc.length || desc.some(p => !p.trim())) { bad.push(`dungeon ${di} ${el.id}: empty description`); continue }
+        for (const p of desc) if (/[{}#]|undefined/.test(p)) bad.push(`dungeon ${di} ${el.id}: unresolved "${p}"`)
+      }
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("descriptions are deterministic per seed", () => {
+    const d = generateDungeon(20, 18, 777)
+    for (const el of d.elements) expect(describeElement(el, d.seed)).toEqual(describeElement(el, d.seed))
+  })
+})
+
+// Dungeon-level config object: the whole dungeon gets a generated name (shown in the page header).
+describe("dungeon name (top-level config object)", () => {
+  it("every dungeon has a well-formed name", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => {
+      if (!d.name || !d.name.trim()) bad.push(`dungeon ${di}: empty name`)
+      if (/[{}#]|undefined/.test(d.name)) bad.push(`dungeon ${di}: bad name "${d.name}"`)
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("the name is deterministic per seed", () => {
+    expect(generateDungeon(20, 18, 12345).name).toBe(generateDungeon(20, 18, 12345).name)
+  })
+
+  it("has a type from the known set, deterministic per seed", () => {
+    const TYPES = new Set(["crypt", "cistern", "warren", "mine", "prison", "vault"])
+    CORPUS.forEach((d, di) => { if (!TYPES.has(d.type)) throw new Error(`dungeon ${di}: bad type "${d.type}"`) })
+    expect(generateDungeon(20, 18, 12345).type).toBe(generateDungeon(20, 18, 12345).type)
   })
 })

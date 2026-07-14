@@ -1,11 +1,13 @@
-import { useState, useMemo, useRef, useEffect, useLayoutEffect, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react"
+import { useState, useMemo, useRef, useEffect, useLayoutEffect, type PointerEvent as ReactPointerEvent } from "react"
 import { GeomorphNav } from "../../legacy/refactorGeomorphs/geomorph-shared/GeomorphNav"
+import styles from "./Page.module.css"
 import { generateDungeon } from "./dungeon"
 import { describeDungeonRoom } from "./roomDescribe"
+import { describeElement } from "./elementDescribe"
 import { SUB, trimIndexFor } from "./bitmask"
 import { TRIM_WALL, TRIM_WATER, PILLAR_TILE, STAIR_TILES, PORTAL_TILES, ROUND_CORNER_TILES, ROUND_TRIM_TILES, ROUNDED_CORNER_TILES, ROUNDED_TRIM_TILES, ALCOVE_BASE_TILES, ALCOVE_TRIM_TILES } from "./tileConfig"
 import { MATERIAL_COLOR, MATERIAL_LABEL, DETAIL_MATERIALS, PORTAL_STYLE } from "./materials"
-import { Material, Edge, EDGE, Corner } from "./types"
+import { Material, Edge, EDGE, Corner, type MapElement } from "./types"
 
 const S = 32 // px per base cell
 const s = S / SUB // px per fine (detail) cell
@@ -17,12 +19,33 @@ const SHAPE_COLOR: Record<string, string> = { circle: "#e64980", rounded: "#f08c
 
 const DIRS8: [number, number][] = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]
 
+// Unified inspector selection — a room or a non-room element, identified by kind + per-kind number.
+type Sel = { kind: "room" | "hall" | "stair" | "connector" | "portal"; num: number } | null
+// Element number-pill styling per kind: a letter prefix + a distinct colour so they read apart from
+// the black room pills. (Doors get no map pill for now — halls/stairs/portals only.)
+const ELEM_PILL: Record<string, { prefix: string; color: string }> = {
+  hall: { prefix: "H", color: "#2b8a3e" },
+  stair: { prefix: "S", color: "#e8590c" },
+  portal: { prefix: "P", color: "#9c36b5" },
+}
+// Inspector title + one-line profile summary for a selected element (parallels the room profile line).
+const elementKindLabel = (el: MapElement) => (el.kind === "connector" ? "Door" : el.kind[0].toUpperCase() + el.kind.slice(1))
+function elementSummary(el: MapElement): string {
+  switch (el.kind) {
+    case "hall": return `${el.profile.type} · length ${el.profile.length}${el.profile.water ? " · watery" : ""}${el.profile.levelChange ? ` · Δ${el.profile.levelChange}` : ""} · rooms ${el.profile.connects.join("–")}`
+    case "stair": return `${el.profile.type} · ${el.profile.steps} step${el.profile.steps === 1 ? "" : "s"} · Δ${el.profile.levelDelta} · ${el.profile.direction}`
+    case "connector": return `door · ${el.profile.orientation === "v" ? "vertical" : "horizontal"} · joins ${el.profile.joins.join("–")}`
+    case "portal": return `${el.profile.portalKind} · ${el.profile.side} edge · ${el.profile.direction}`
+  }
+}
+
 export default function GeomorphDungeonPage() {
   const [cols, setCols] = useState(20)
   const [rows, setRows] = useState(18)
   const [dungeon, setDungeon] = useState(() => generateDungeon(20, 18))
   const [seedInput, setSeedInput] = useState("") // blank = fresh random seed each Regenerate; a value = reproduce that seed
-  const [selectedRoom, setSelectedRoom] = useState<number | null>(null) // room num shown in the description inspector
+  // Unified inspector selection: a room OR a non-room element, by (kind, per-kind num). null = nothing selected.
+  const [selected, setSelected] = useState<Sel>(null)
   const mapWrapRef = useRef<HTMLDivElement>(null) // the scrollable map viewport (U1 mini-map reads its scroll)
   const miniRef = useRef<HTMLCanvasElement>(null) // mini-map canvas
   const [view, setView] = useState({ sl: 0, st: 0, cw: 0, ch: 0 }) // map wrapper scroll + client size → viewport rect
@@ -30,7 +53,7 @@ export default function GeomorphDungeonPage() {
   // Viewport-based (≥ half any visible map dimension) + stable (doesn't shift when the drawer opens).
   const [pad, setPad] = useState(() => ({ x: Math.ceil(window.innerWidth / 2), y: Math.ceil(window.innerHeight / 2) }))
   const [winW, setWinW] = useState(() => window.innerWidth)
-  const { grid, pillars, rooms, stairs, levels, portals, edges } = dungeon
+  const { grid, pillars, rooms, stairs, levels, portals, edges, elements } = dungeon
 
   // Curve-art visibility (default on): hide a feature group's corner tiles → its cells revert to raw
   // material + normal trim. Declared here so the block loop below can filter by them.
@@ -116,7 +139,11 @@ export default function GeomorphDungeonPage() {
   const [showShapes, setShowShapes] = useState(false) // debug overlay: mark non-rect room footprints
   const [showGrid, setShowGrid] = useState(false) // graph-paper grid aligned to the base cell grid
   const [showRoomNumbers, setShowRoomNumbers] = useState(true) // black pill w/ the room number at each room centre
+  const [showHallLabels, setShowHallLabels] = useState(false)   // element pills — default off to keep the map uncluttered
+  const [showStairLabels, setShowStairLabels] = useState(false)
+  const [showPortalLabels, setShowPortalLabels] = useState(false)
   const [hoverRoom, setHoverRoom] = useState<number | null>(null) // room number whose name popup is showing
+  const [hoverEl, setHoverEl] = useState<string | null>(null)     // element id whose name popup is showing
   const [navOpen, setNavOpen] = useState(false) // hamburger nav flyout
   const [settingsOpen, setSettingsOpen] = useState(false) // settings (layer toggles) flyout
   const [miniOpen, setMiniOpen] = useState(true) // mini-map show/hide
@@ -135,7 +162,7 @@ export default function GeomorphDungeonPage() {
 
   // blank seed input → undefined → generateDungeon rolls a fresh random seed; a number → reproduce it.
   const seedArg = () => { const t = seedInput.trim(); return t === "" ? undefined : Number(t) }
-  const regenerate = (c = cols, r = rows) => { setDungeon(generateDungeon(c, r, seedArg())); setSelectedRoom(null) }
+  const regenerate = (c = cols, r = rows) => { setDungeon(generateDungeon(c, r, seedArg())); setSelected(null) }
 
   // Idea 6: export the current dungeon (fully serialisable DungeonResult + repro metadata) as a JSON file.
   const downloadJson = () => {
@@ -379,11 +406,11 @@ export default function GeomorphDungeonPage() {
       const cx = (rm.x + rm.w / 2) * S, cy = (rm.y + rm.h / 2) * S
       roomNumberTiles.push(
         <div key={`rn${rm.num}`} onMouseEnter={() => setHoverRoom(rm.num)} onMouseLeave={() => setHoverRoom(null)}
-          onClick={() => setSelectedRoom(n => n === rm.num ? null : rm.num)} style={{
+          onClick={() => setSelected(s => s?.kind === "room" && s.num === rm.num ? null : { kind: "room", num: rm.num })} style={{
           position: "absolute", left: cx, top: cy,
           transform: "translate(-50%, -50%)", display: "inline-flex", alignItems: "center", justifyContent: "center",
           height: 16, minWidth: 16, padding: "0 5px", boxSizing: "border-box", borderRadius: 999,
-          background: selectedRoom === rm.num ? "#1e5fbf" : "#000", color: "#fff", font: "600 11px sans-serif", lineHeight: 1,
+          background: selected?.kind === "room" && selected.num === rm.num ? "#1e5fbf" : "#000", color: "#fff", font: "600 11px sans-serif", lineHeight: 1,
           pointerEvents: "auto", cursor: "pointer",
         }}>{rm.num}</div>
       )
@@ -406,6 +433,40 @@ export default function GeomorphDungeonPage() {
           </div>
         )
       }
+    }
+  }
+
+  // Element indicators (Idea 12 UI): numbered pills for halls / stairs / portals (NOT doors), each at
+  // the element's representative cell (path/run midpoint; portal cell), gated per-kind (default off).
+  // Same pill shape as rooms, coloured + letter-prefixed by kind; name popup on hover; click → inspector.
+  const elementNumberTiles = []
+  const elemShown: Record<string, boolean> = { hall: showHallLabels, stair: showStairLabels, portal: showPortalLabels }
+  for (const el of elements) {
+    if (!elemShown[el.kind]) continue
+    const pill = ELEM_PILL[el.kind]; if (!pill) continue
+    let mc: number, mr: number
+    if (el.kind === "hall" || el.kind === "stair") { const mid = el.cells[Math.floor(el.cells.length / 2)]; mc = mid[0]; mr = mid[1] }
+    else { mc = el.c; mr = el.r }
+    const cx = (mc + 0.5) * S, cy = (mr + 0.5) * S
+    const isSel = selected?.kind === el.kind && selected.num === el.num
+    elementNumberTiles.push(
+      <div key={el.id} onMouseEnter={() => setHoverEl(el.id)} onMouseLeave={() => setHoverEl(null)}
+        onClick={() => setSelected(s => s?.kind === el.kind && s.num === el.num ? null : { kind: el.kind, num: el.num })} style={{
+        position: "absolute", left: cx, top: cy,
+        transform: "translate(-50%, -50%)", display: "inline-flex", alignItems: "center", justifyContent: "center",
+        height: 16, minWidth: 16, padding: "0 5px", boxSizing: "border-box", borderRadius: 999,
+        background: isSel ? "#1e5fbf" : pill.color, color: "#fff", font: "600 11px sans-serif", lineHeight: 1,
+        border: "1px solid rgba(255,255,255,0.5)", pointerEvents: "auto", cursor: "pointer",
+      }}>{pill.prefix}{el.num}</div>
+    )
+    if (hoverEl === el.id) {
+      elementNumberTiles.push(
+        <div key={`${el.id}-lbl`} style={{
+          position: "absolute", left: cx, top: cy - 13, transform: "translate(-50%, -100%)",
+          background: "#000", color: "#fff", padding: "3px 7px", borderRadius: 4,
+          font: "600 11px sans-serif", whiteSpace: "nowrap", pointerEvents: "none", zIndex: 20, textAlign: "center",
+        }}>{el.name}</div>
+      )
     }
   }
 
@@ -494,13 +555,7 @@ export default function GeomorphDungeonPage() {
   ) : null
 
   // Flyout chrome (hamburger nav + settings). A fixed transparent backdrop closes on click; the
-  // panel is a sibling that drops under the top bar.
-  const iconBtn: CSSProperties = { fontSize: 18, lineHeight: 1, width: 34, height: 30, cursor: "pointer", padding: 0, display: "flex", alignItems: "center", justifyContent: "center" }
-  const backdrop: CSSProperties = { position: "fixed", inset: 0, zIndex: 10 }
-  const panel: CSSProperties = {
-    position: "absolute", top: "100%", left: 0, marginTop: 4, zIndex: 11, background: "#242424",
-    border: "1px solid #555", borderRadius: 6, boxShadow: "0 6px 20px rgba(0,0,0,0.5)", padding: 12, maxWidth: 320,
-  }
+  // panel is a sibling that drops under the top bar. (Styling → Page.module.css: .backdrop / .panel.)
   const settingToggles: [string, boolean, (v: boolean) => void][] = [
     ["Base", showBase, setShowBase], ["Wall detail", showWall, setShowWall], ["Water", showWater, setShowWater],
     ["Doors", showDoors, setShowDoors], ["Stairs", showStairs, setShowStairs], ["Pillars", showPillars, setShowPillars],
@@ -508,24 +563,26 @@ export default function GeomorphDungeonPage() {
     ["Grid", showGrid, setShowGrid], ["Rounded corners", showRounded, setShowRounded],
     ["Round rooms", showCircles, setShowCircles], ["Apses", showApses, setShowApses], ["Alcoves", showAlcoves, setShowAlcoves],
     ["Room numbers", showRoomNumbers, setShowRoomNumbers],
+    ["Hall labels", showHallLabels, setShowHallLabels], ["Stair labels", showStairLabels, setShowStairLabels],
+    ["Portal labels", showPortalLabels, setShowPortalLabels],
   ]
 
   const legend = (
-    <div style={{ display: "flex", gap: 12, marginTop: 12, flexWrap: "wrap", fontSize: 12 }}>
+    <div className={styles.legend}>
       {([Material.Floor, Material.Wall, Material.Water, Material.Door, Material.Stairs] as Material[]).map(m => (
-        <span key={m} style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <span style={{ width: 12, height: 12, background: MATERIAL_COLOR[m], display: "inline-block", border: "1px solid #0003" }} />
+        <span key={m} className={styles.legendItem}>
+          <span className={styles.swatch} style={{ background: MATERIAL_COLOR[m], border: "1px solid #0003" }} />
           {MATERIAL_LABEL[m]}
         </span>
       ))}
-      <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-        <span style={{ width: 12, height: 12, background: "#4d525c", borderRadius: "50%", display: "inline-block", border: "1px solid #0002" }} />
+      <span className={styles.legendItem}>
+        <span className={styles.swatch} style={{ background: "#4d525c", borderRadius: "50%", border: "1px solid #0002" }} />
         Pillar
       </span>
-      <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-        <span style={{ width: 12, height: 12, background: PORTAL_STYLE.entrance, borderRadius: "50%", display: "inline-block" }} />
+      <span className={styles.legendItem}>
+        <span className={styles.swatch} style={{ background: PORTAL_STYLE.entrance, borderRadius: "50%" }} />
         Entrance
-        <span style={{ width: 12, height: 12, background: PORTAL_STYLE.exit, borderRadius: "50%", display: "inline-block", marginLeft: 6 }} />
+        <span className={styles.swatch} style={{ background: PORTAL_STYLE.exit, borderRadius: "50%", marginLeft: 6 }} />
         Exit
       </span>
       {showLevels && (
@@ -533,7 +590,7 @@ export default function GeomorphDungeonPage() {
           <span style={{ color: "#555" }}>Levels:</span>
           {Array.from({ length: zMax - zMin + 1 }, (_, k) => zMin + k).map(z => (
             <span key={z} style={{ display: "flex", alignItems: "center", gap: 2 }}>
-              <span style={{ width: 12, height: 12, background: levelColor(z), display: "inline-block", border: "1px solid #0003" }} />
+              <span className={styles.swatch} style={{ background: levelColor(z), border: "1px solid #0003" }} />
               z{z}
             </span>
           ))}
@@ -544,8 +601,8 @@ export default function GeomorphDungeonPage() {
           <span style={{ color: "#555" }}>
             Shaped rooms: {shapedRooms.length} ({shapedRooms.filter(r => r.shape === "circle").length} circle / {shapedRooms.filter(r => r.shape === "rounded").length} rounded)
           </span>
-          <span style={{ width: 12, height: 12, background: "#e64980", opacity: 0.6, display: "inline-block" }} />footprint
-          <span style={{ width: 12, height: 12, background: "#ff0000", opacity: 0.6, display: "inline-block" }} />cut corner
+          <span className={styles.swatch} style={{ background: "#e64980", opacity: 0.6 }} />footprint
+          <span className={styles.swatch} style={{ background: "#ff0000", opacity: 0.6 }} />cut corner
         </span>
       )}
     </div>
@@ -594,10 +651,10 @@ export default function GeomorphDungeonPage() {
     return () => window.removeEventListener("resize", onResize)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dungeon, cols, rows])
-  // U2: keep the map at its top-left origin by default (scroll past the top-left gutter). Skipped while a
-  // room is selected so it doesn't fight click-to-center. Runs before paint → no flash.
+  // U2: keep the map at its top-left origin by default (scroll past the top-left gutter). Skipped while
+  // something is selected so it doesn't fight click-to-center. Runs before paint → no flash.
   useLayoutEffect(() => {
-    if (selectedRoom == null) mapWrapRef.current?.scrollTo(pad.x, pad.y)
+    if (selected == null) mapWrapRef.current?.scrollTo(pad.x, pad.y)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pad, dungeon, cols, rows])
   // Draw the miniature: one filled rect per base cell, coloured by raw material.
@@ -612,51 +669,64 @@ export default function GeomorphDungeonPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dungeon, cols, rows, miniOpen])
 
-  // U2: when a room is selected, recenter the map on it (runs after the inspector drawer narrows the
-  // content column, so clientWidth is the visible map width). Smooth-scroll the map wrapper.
+  // U2: when something is selected, recenter the map on it (runs after the inspector drawer narrows the
+  // content column, so clientWidth is the visible map width). Smooth-scroll the map wrapper. Works for a
+  // room (bbox centre) or an element (path/run midpoint; portal cell).
   useEffect(() => {
-    if (selectedRoom == null) return
-    const rm = rooms.find(r => r.num === selectedRoom); if (!rm) return
-    const cx = (rm.x + rm.w / 2) * S, cy = (rm.y + rm.h / 2) * S
+    if (selected == null) return
+    let cx = 0, cy = 0
+    if (selected.kind === "room") {
+      const rm = rooms.find(r => r.num === selected.num); if (!rm) return
+      cx = (rm.x + rm.w / 2) * S; cy = (rm.y + rm.h / 2) * S
+    } else {
+      const el = elements.find(e => e.kind === selected.kind && e.num === selected.num); if (!el) return
+      if (el.kind === "hall" || el.kind === "stair") { const m = el.cells[Math.floor(el.cells.length / 2)]; cx = (m[0] + 0.5) * S; cy = (m[1] + 0.5) * S }
+      else { cx = (el.c + 0.5) * S; cy = (el.r + 0.5) * S }
+    }
     // Wait out the 0.2s drawer-width transition so clientWidth is the narrowed visible width.
     const t = setTimeout(() => {
-      const el = mapWrapRef.current; if (!el) return
-      el.scrollTo({ left: pad.x + cx - el.clientWidth / 2, top: pad.y + cy - el.clientHeight / 2, behavior: "smooth" })
+      const elw = mapWrapRef.current; if (!elw) return
+      elw.scrollTo({ left: pad.x + cx - elw.clientWidth / 2, top: pad.y + cy - elw.clientHeight / 2, behavior: "smooth" })
     }, 230)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedRoom])
+  }, [selected])
 
-  // P4: the selected room's info + its description, memoized so hovering (which re-renders the page)
-  // doesn't re-run describeDungeonRoom on every mouse-move.
-  const selectedRoomInfo = selectedRoom != null ? rooms.find(r => r.num === selectedRoom) ?? null : null
-  const inspectorDesc = useMemo(() => selectedRoomInfo ? describeDungeonRoom(selectedRoomInfo, dungeon.seed) : [], [selectedRoom, dungeon]) // eslint-disable-line react-hooks/exhaustive-deps
+  // P4: resolve the selection to a room OR an element + its inspector description, memoized so hovering
+  // (which re-renders the page) doesn't re-run the description generator on every mouse-move.
+  const selRoom = selected?.kind === "room" ? rooms.find(r => r.num === selected.num) ?? null : null
+  const selElement = selected && selected.kind !== "room" ? elements.find(e => e.kind === selected.kind && e.num === selected.num) ?? null : null
+  const hasSelection = !!(selRoom || selElement)
+  const inspectorDesc = useMemo(
+    () => selRoom ? describeDungeonRoom(selRoom, dungeon.seed) : selElement ? describeElement(selElement, dungeon.seed) : [],
+    [selected, dungeon]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Responsive inspector-drawer width: smaller at standard breakpoints; on tiny
   // screens fit within the window (winW - 32) so the panel never overflows.
   const drawerW = winW >= 1024 ? 360 : winW >= 768 ? 320 : winW >= 480 ? 280 : Math.max(200, winW - 32)
 
   return (
-    <div style={{ display: "flex", alignItems: "flex-start" }}>
-      <div style={{ flex: 1, minWidth: 0, padding: 16 }}>
-      <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8, position: "relative" }}>
-        <button aria-label="Navigation" title="Navigation" style={iconBtn}
+    <div className={styles.page}>
+      <div className={styles.content}>
+      <div className={styles.topbar}>
+        <button aria-label="Navigation" title="Navigation" className={styles.iconBtn}
           onClick={() => { setNavOpen(o => !o); setSettingsOpen(false) }}>☰</button>
-        <button aria-label="Settings" title="Layer settings" style={iconBtn}
+        <button aria-label="Settings" title="Layer settings" className={styles.iconBtn}
           onClick={() => { setSettingsOpen(o => !o); setNavOpen(false) }}>⚙</button>
-        <button aria-label="Regenerate" title="Regenerate" style={iconBtn}
+        <button aria-label="Regenerate" title="Regenerate" className={styles.iconBtn}
           onClick={() => regenerate()}>↻</button>
-        <button aria-label="Download JSON" title="Export this dungeon as JSON" style={iconBtn}
+        <button aria-label="Download JSON" title="Export this dungeon as JSON" className={styles.iconBtn}
           onClick={downloadJson}>⤓</button>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Bitmask Dungeon</h2>
+        <h2 className={styles.title}>{dungeon.name}</h2>
+        <span style={{ color: "#888", fontSize: 12, alignSelf: "center" }}>· {dungeon.type}</span>
 
         {navOpen && (<>
-          <div style={backdrop} onClick={() => setNavOpen(false)} />
-          <div style={panel}><GeomorphNav /></div>
+          <div className={styles.backdrop} onClick={() => setNavOpen(false)} />
+          <div className={styles.panel}><GeomorphNav /></div>
         </>)}
         {settingsOpen && (<>
-          <div style={backdrop} onClick={() => setSettingsOpen(false)} />
-          <div style={{ ...panel, display: "flex", flexDirection: "column", gap: 6 }}>
+          <div className={styles.backdrop} onClick={() => setSettingsOpen(false)} />
+          <div className={styles.panelSettings}>
             {settingToggles.map(([label, on, set]) => (
               <label key={label}><input type="checkbox" checked={on} onChange={e => set(e.target.checked)} />&nbsp;{label}</label>
             ))}
@@ -664,7 +734,7 @@ export default function GeomorphDungeonPage() {
         </>)}
       </div>
 
-      <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 8, flexWrap: "wrap" }}>
+      <div className={styles.controls}>
         <label>Columns: {cols}&nbsp;
           <input type="range" min={4} max={40} value={cols} onChange={e => handleCols(Number(e.target.value))} />
         </label>
@@ -673,8 +743,8 @@ export default function GeomorphDungeonPage() {
         </label>
       </div>
 
-      <div style={{ position: "relative", minWidth: 0 }}>
-        <div ref={mapWrapRef} onScroll={syncView} onPointerDown={onMapPointerDown} style={{ overflow: "auto", maxHeight: "72vh", maxWidth: "min(72vw, 100%)", minWidth: 0, cursor: dragging ? "grabbing" : "grab" }}>
+      <div className={styles.mapArea}>
+        <div ref={mapWrapRef} onScroll={syncView} onPointerDown={onMapPointerDown} className={styles.mapWrap} style={{ cursor: dragging ? "grabbing" : "grab" }}>
           <div style={{ position: "relative", width: cols * S + 2 * pad.x, height: rows * S + 2 * pad.y }}>
           <div style={{ position: "absolute", left: pad.x, top: pad.y, width: cols * S, height: rows * S }}>
           {baseCells}
@@ -689,37 +759,36 @@ export default function GeomorphDungeonPage() {
           {shapeTiles}
           {gridOverlay}
           {roomNumberTiles}
+          {elementNumberTiles}
           </div>
           </div>
         </div>
         {miniOpen ? (
-        <div style={{ position: "absolute", top: 8, left: 8, zIndex: 5, width: cols * MC, height: rows * MC, overflow: "hidden", pointerEvents: "none", boxShadow: "0 1px 6px rgba(0,0,0,0.5)" }}>
-          <canvas ref={miniRef} width={cols * MC} height={rows * MC} onPointerDown={onMiniPointerDown} style={{ display: "block", border: "1px solid #555", pointerEvents: "auto", cursor: "grab" }} />
-          <div style={{
-            position: "absolute",
+        <div className={styles.mini} style={{ width: cols * MC, height: rows * MC }}>
+          <canvas ref={miniRef} width={cols * MC} height={rows * MC} onPointerDown={onMiniPointerDown} className={styles.miniCanvas} />
+          <div className={styles.miniRect} style={{
             left: ((view.sl - pad.x) / S) * MC, top: ((view.st - pad.y) / S) * MC,
             width: Math.min(cols * MC, (view.cw / S) * MC), height: Math.min(rows * MC, (view.ch / S) * MC),
-            border: "1.5px solid #fff", boxShadow: "0 0 0 1px #000, 0 0 0 9999px rgba(36,36,36,0.55)", boxSizing: "border-box", pointerEvents: "none",
           }} />
           <button onClick={() => setMiniOpen(false)} title="Hide mini-map" aria-label="Hide mini-map"
-            style={{ position: "absolute", top: 0, right: 0, zIndex: 6, pointerEvents: "auto", width: 16, height: 16, padding: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.5)", color: "#fff", border: "none", cursor: "pointer", fontSize: 12, lineHeight: 1 }}>×</button>
+            className={styles.miniClose}>×</button>
         </div>
         ) : (
           <button onClick={() => setMiniOpen(true)} title="Show mini-map" aria-label="Show mini-map"
-            style={{ position: "absolute", top: 8, left: 8, zIndex: 5, pointerEvents: "auto", width: 24, height: 24, padding: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "#242424", color: "#eee", border: "1px solid #555", borderRadius: 4, cursor: "pointer", fontSize: 14, lineHeight: 1 }}>▦</button>
+            className={styles.miniOpen}>▦</button>
         )}
       </div>
 
       {legend}
 
-      <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap", marginTop: 8 }}>
+      <div className={styles.footer}>
         <label>Seed:&nbsp;
           <input type="number" value={seedInput} placeholder="random"
-            onChange={e => setSeedInput(e.target.value)} style={{ width: 120 }} />
+            onChange={e => setSeedInput(e.target.value)} className={styles.seedInput} />
         </label>
-        <span style={{ color: "#888", fontSize: 12 }}>
+        <span className={styles.seedCurrent}>
           current:&nbsp;
-          <code style={{ cursor: "pointer" }} title="Click to reuse this seed"
+          <code className={styles.seedCode} title="Click to reuse this seed"
             onClick={() => setSeedInput(String(dungeon.seed))}>{dungeon.seed}</code>
         </span>
       </div>
@@ -727,23 +796,27 @@ export default function GeomorphDungeonPage() {
 
       {/* U2: slide-out inspector drawer (right). Push layout — narrows the content column above; keeps
           the mini-map visible. Its own scroll so the page never scrolls. */}
-      <div style={{ width: selectedRoomInfo ? drawerW : 0, height: selectedRoomInfo ? "100vh" : 0, flexShrink: 0, overflow: "hidden", transition: "width 0.2s ease", position: "sticky", top: 0 }}>
-        <div style={{
-          width: drawerW, height: "100%", boxSizing: "border-box", overflowY: "auto",
-          background: "#242424", color: "#eee", borderLeft: "1px solid #555", padding: 16, font: "14px/1.55 sans-serif",
-        }}>
-          <button onClick={() => setSelectedRoom(null)} title="Close" aria-label="Close"
-            style={{ float: "right", fontSize: 18, lineHeight: 1, background: "none", border: "none", color: "#aaa", cursor: "pointer" }}>×</button>
-          {selectedRoomInfo && (
+      <div className={styles.drawer} style={{ width: hasSelection ? drawerW : 0, height: hasSelection ? "100vh" : 0 }}>
+        <div className={styles.drawerInner} style={{ width: drawerW }}>
+          <button onClick={() => setSelected(null)} title="Close" aria-label="Close"
+            className={styles.drawerClose}>×</button>
+          {selRoom && (
             <>
-              <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 2 }}>#{selectedRoomInfo.num} · {selectedRoomInfo.name}</div>
-              {selectedRoomInfo.profile && (
-                <div style={{ color: "#999", fontSize: 12, marginBottom: 8 }}>
-                  {selectedRoomInfo.profile.type} · {selectedRoomInfo.profile.size} · {selectedRoomInfo.profile.water} · {selectedRoomInfo.profile.connectors} way{selectedRoomInfo.profile.connectors === 1 ? "" : "s"}
-                  {selectedRoomInfo.profile.features.length ? ` · ${selectedRoomInfo.profile.features.join(", ")}` : ""}
+              <div className={styles.roomName}>#{selRoom.num} · {selRoom.name}</div>
+              {selRoom.profile && (
+                <div className={styles.roomProfile}>
+                  {selRoom.profile.type} · {selRoom.profile.size} · {selRoom.profile.water} · {selRoom.profile.connectors} way{selRoom.profile.connectors === 1 ? "" : "s"}
+                  {selRoom.profile.features.length ? ` · ${selRoom.profile.features.join(", ")}` : ""}
                 </div>
               )}
-              {inspectorDesc.map((para, i) => <p key={i} style={{ margin: "8px 0" }}>{para}</p>)}
+              {inspectorDesc.map((para, i) => <p key={i} className={styles.roomPara}>{para}</p>)}
+            </>
+          )}
+          {selElement && (
+            <>
+              <div className={styles.roomName}>{elementKindLabel(selElement)} #{selElement.num} · {selElement.name}</div>
+              <div className={styles.roomProfile}>{elementSummary(selElement)}</div>
+              {inspectorDesc.map((para, i) => <p key={i} className={styles.roomPara}>{para}</p>)}
             </>
           )}
         </div>

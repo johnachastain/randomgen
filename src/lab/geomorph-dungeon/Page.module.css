@@ -1,0 +1,264 @@
+/* Static chrome for the Bitmask Dungeon page (src/lab/geomorph-dungeon/Page.tsx).
+   Only the presentation of fixed UI elements lives here — the per-cell TILE styles
+   (left/top/background/width computed from generation) stay inline in Page.tsx.
+   Tweak spacing, colours, sizes, fonts here without touching the component. */
+
+/* ── Layout shell ─────────────────────────────────────────────────────────── */
+.page {
+  display: flex;
+  align-items: flex-start;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 16px;
+}
+
+/* ── Top bar (icon buttons + title + flyouts) ─────────────────────────────── */
+.topbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.iconBtn {
+  font-size: 18px;
+  line-height: 1;
+  width: 34px;
+  height: 30px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 32px;
+  line-height: 1;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+}
+
+.panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  z-index: 11;
+  background: #242424;
+  border: 1px solid #555;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  padding: 12px;
+  max-width: 320px;
+}
+
+.panelSettings {
+  composes: panel;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Controls row (Columns / Rows sliders) ────────────────────────────────── */
+.controls {
+  font-family: var(--font-caption);
+  line-height: 1;
+  text-transform: lowercase;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.controls label {
+  display: inline-flex; 
+  align-items: center;  
+  gap: 12px;  
+}
+
+/* ── Map area + mini-map ──────────────────────────────────────────────────── */
+.mapArea {
+  position: relative;
+  min-width: 0;
+}
+
+/* NB: `cursor` is set inline (grab/grabbing while dragging). */
+.mapWrap {
+  overflow: auto;
+  max-height: 72vh;
+  max-width: min(72vw, 100%);
+  min-width: 0;
+}
+
+/* NB: width/height set inline (cols*MC × rows*MC). */
+.mini {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+.miniCanvas {
+  display: block;
+  border: 1px solid #555;
+  pointer-events: auto;
+  cursor: grab;
+}
+
+/* NB: left/top/width/height set inline (viewport rect tracks scroll). */
+.miniRect {
+  position: absolute;
+  border: 1.5px solid #fff;
+  box-shadow: 0 0 0 1px #000, 0 0 0 9999px rgba(36, 36, 36, 0.55);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.miniClose {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 6;
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.miniOpen {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5;
+  pointer-events: auto;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #242424;
+  color: #eee;
+  border: 1px solid #555;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ── Legend ───────────────────────────────────────────────────────────────── */
+.legend {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* NB: `background` (and per-swatch border-radius/border) set inline. */
+.swatch {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+}
+
+/* ── Seed footer ──────────────────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.seedInput {
+  width: 120px;
+}
+
+.seedCurrent {
+  color: #888;
+  font-size: 12px;
+}
+
+.seedCode {
+  cursor: pointer;
+}
+
+/* ── Inspector drawer ─────────────────────────────────────────────────────── */
+/* NB: width/height set inline (0 when closed; responsive drawerW when open). */
+.drawer {
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: width 0.2s ease;
+  position: sticky;
+  top: 0;
+}
+
+/* NB: width set inline (responsive drawerW). */
+.drawerInner {
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: #242424;
+  color: #eee;
+  border-left: 1px solid #555;
+  padding: 16px;
+  font: 14px/1.55 var(--font-body);
+}
+
+.drawerClose {
+  float: right;
+  font-size: 18px;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.roomName {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.roomProfile {
+  color: #999;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.roomPara {
+  margin: 8px 0;
+}

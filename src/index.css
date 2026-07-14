@@ -1,5 +1,19 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* ── Custom font pairing (edit these two lines to test pairings) ──────────────
+     Available in the Typekit kit (ysm3xbo): antiquarian, adhesive-nr-eight,
+     adhesive-nr-seven, de-walpergens-pica, de-walpergens-pica-sc.
+     --font-body  → body copy / longer text (via var(--font-body))
+     --font-heading → h1–h3 headers & subheaders
+     Small "special UI" labels stay literal sans-serif and are unaffected.        */
+  --font-body: de-walpergens-pica, sans-serif;
+  /* antiquarian */
+
+  --font-heading: adhesive-nr-eight, sans-serif;
+  /* adhesive-nr-eight */
+
+  --font-caption: de-walpergens-pica-sc, sans-serif;
+  /* small caps */
+
   line-height: 1.5;
   font-weight: 400;
 
@@ -28,6 +42,14 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
 }
 
 h1 {

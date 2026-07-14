@@ -1,6 +1,8 @@
-import { Material, MaterialGrid, PillarGrid, StairGrid, LevelGrid, RoomInfo, RoomShape, Edge, Apse, Alcove, Portal, PortalKind, EDGE, EdgeKind, EdgeGrids, Corner, DungeonResult, WaterCondition, RoomSize } from "./types"
-import { rootContext } from "../../core/model" // GenContext flows dungeon → room (Step 4)
+import { Material, MaterialGrid, PillarGrid, StairGrid, LevelGrid, RoomInfo, RoomShape, Edge, Apse, Alcove, Portal, PortalKind, EDGE, EdgeKind, EdgeGrids, Corner, DungeonResult, WaterCondition, RoomSize, MapElement } from "./types"
+import { rootContext, childContext } from "../../core/model" // GenContext flows dungeon → room (Step 4)
 import { buildRoomObject } from "./roomObject" // a room as a config object on core/config (Step 8)
+import { buildElementObject } from "./elementObject" // a non-room element as a config object (Idea 12)
+import { buildDungeonObject, dungeonToTags } from "./dungeonObject" // the dungeon-as-a-whole = the tree ROOT object
 import { mulberry32, randomSeed, type Rng } from "../../core/rng" // T1: seeded generation
 
 // Seeded PRNG for this module. Reassigned at the top of generateDungeon (synchronous, single-run
@@ -1015,6 +1017,11 @@ export function generateDungeon(cols: number, rows: number, seed: number = rando
   // Dungeon-level context (Step 4). Level themes flow in via its tags in Step 8; for now the root
   // just carries the seed and each room adds its own profile tags.
   const rootCtx = rootContext(seed)
+  // The dungeon-as-a-whole is the ROOT config object: it generates a `type` (theme) and a themed `name`
+  // (shown in the page header). The type flows DOWN into every child's context (childRoot) — so rooms and
+  // elements inherit the dungeon theme and their names take on its mood (parent → child tag inheritance).
+  const dungeonObj = buildDungeonObject(rootCtx, rng)
+  const childRoot = childContext(rootCtx, dungeonToTags(dungeonObj))
   rooms.forEach((rm, i) => {
     // Footprint tally over the room's own cells.
     let area = 0, waterCells = 0, hasStairs = false
@@ -1081,9 +1088,62 @@ export function generateDungeon(cols: number, rows: number, seed: number = rando
     // rng makes it reproducible (T1) AND context-aware (a cistern reads watery, a rotunda round). The
     // name is one property today; richer content = more rules reading the same context.
     rm.num = i + 1
-    const roomObj = buildRoomObject(rm.profile, rootCtx, rng, rm.num)
+    const roomObj = buildRoomObject(rm.profile, childRoot, rng, rm.num)
     rm.name = roomObj.properties.name
   })
 
-  return { grid, pillars, rooms, stairs, levels, portals, edges, seed }
+  // Idea 12: derive semantic profiles for the NON-room map elements the generator would otherwise
+  // discard — halls (the chosen corridor edges), stairs (runs with a level change), connectors (door
+  // edges), and level-portals. Additive object-model overlay, mirroring the room pass above; the grids
+  // stay the render source. Room identity uses the public 1-based number (or -1 for a non-room end).
+  const elements: MapElement[] = []
+  const roomNumAt = (c: number, r: number) => (inb(c, r) && roomAt[r][c] >= 0 ? roomAt[r][c] + 1 : -1)
+
+  // Halls: one element per chosen corridor edge (knows its two room endpoints + cell path).
+  chosen.forEach((e, k) => {
+    const [sc, sr] = e.path[0], [ec, er] = e.path[e.path.length - 1]
+    const length = e.path.length
+    const water = e.path.some(([c, r]) => grid[r]?.[c] === Material.Water)
+    const levelChange = (levels[er]?.[ec] ?? 0) - (levels[sr]?.[sc] ?? 0)
+    const type = water ? "flooded-channel" : length >= 8 ? "gallery" : "passage"
+    elements.push({ id: `hall-${k}`, num: k + 1, name: "", kind: "hall", cells: e.path, profile: { connects: [e.ai + 1, e.bi + 1], length, water, levelChange, type } })
+  })
+
+  // Stairs: one element per corridor run that realized a level change (runDelta ≠ 0).
+  let stairCount = 0
+  runs.forEach(run => {
+    const levelDelta = runDelta[run.id]
+    if (levelDelta === 0) return
+    let direction: Edge = "n"
+    for (const [cc, rr] of run.cells) { const up = stairs[rr]?.[cc]; if (up) { direction = up; break } }
+    const steps = run.cells.length
+    const idx = stairCount++
+    elements.push({ id: `stair-${idx}`, num: idx + 1, name: "", kind: "stair", cells: run.cells, profile: { connects: [roomNumAt(run.endA[0], run.endA[1]), roomNumAt(run.endB[0], run.endB[1])], steps, levelDelta, direction, type: steps >= 4 ? "flight" : "stair" } })
+  })
+
+  // Connectors (doors): one element per EDGE.door boundary (each edge is stored once).
+  let doorCount = 0
+  for (let r = 0; r < rows; r++) for (let c = 0; c <= cols; c++) {
+    if (edges.v[r]?.[c] !== EDGE.door) continue
+    const idx = doorCount++
+    elements.push({ id: `door-${idx}`, num: idx + 1, name: "", kind: "connector", c, r, profile: { joins: [roomNumAt(c - 1, r), roomNumAt(c, r)], orientation: "v", style: "door" } })
+  }
+  for (let r = 0; r <= rows; r++) for (let c = 0; c < cols; c++) {
+    if (edges.h[r]?.[c] !== EDGE.door) continue
+    const idx = doorCount++
+    elements.push({ id: `door-${idx}`, num: idx + 1, name: "", kind: "connector", c, r, profile: { joins: [roomNumAt(c, r - 1), roomNumAt(c, r)], orientation: "h", style: "door" } })
+  }
+
+  // Portals: one element per level-portal (an entrance up/out or exit deeper, at the map edge).
+  portals.forEach((p, k) => {
+    const side: Edge = p.c === 0 ? "w" : p.c === cols - 1 ? "e" : p.r === 0 ? "n" : "s"
+    elements.push({ id: `portal-${k}`, num: k + 1, name: "", kind: "portal", c: p.c, r: p.r, profile: { portalKind: p.kind, side, direction: p.kind === "entrance" ? "up-out" : "down-deeper" } })
+  })
+
+  // Name each element as a config object (mirrors the room naming above): its context = the dungeon
+  // root ⊕ the element's tags, seeded via the shared rng → reproducible + on-theme. Draws happen at the
+  // very end (after room naming), so earlier draws — and all room names — are untouched.
+  elements.forEach(el => { el.name = buildElementObject(el, childRoot, rng).properties.name })
+
+  return { grid, pillars, rooms, stairs, levels, portals, edges, elements, name: dungeonObj.properties.name, type: dungeonObj.properties.type, seed }
 }

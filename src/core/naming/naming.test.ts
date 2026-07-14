@@ -54,4 +54,26 @@ describe("core/naming — roomName via core/select (Steps 3–4)", () => {
     expect(watery / withDesc).toBeGreaterThan(0.4) // clearly boosted
     expect(watery / withDesc).toBeLessThan(0.95)   // not exclusive
   })
+
+  // Parent → child tag inheritance: an inherited (ancestor / dungeon) theme colors the descriptor MOOD
+  // while the room's OWN (last) theme still drives the structure noun.
+  it("an inherited theme colors the descriptor but the OWN theme keeps the structure noun", () => {
+    const cellNouns = ["Cell", "Oubliette", "Gaol", "Pit", "Den"] // the "cell" structure pool
+    const cryptMood = new Set(["Silent", "Grim", "Forgotten", "Withered", "Hollow", "Bloodied"]) // crypt-tagged descriptors
+    const inheritRng = mulberry32(7), baseRng = mulberry32(7)
+    let cryptDesc = 0, baseDesc = 0, withDescInherit = 0, withDescBase = 0
+    for (let i = 0; i < 4000; i++) {
+      // parent = crypt (inherited, first), own = cell (last) → structure stays cell, mood leans crypt
+      const n = roomName([theme("crypt"), theme("cell")], inheritRng)
+      expect(cellNouns.some(w => n.includes(w))).toBe(true) // OWN theme wins for structure — no leak
+      const m = n.match(/^The (\w+) /)
+      if (m) { withDescInherit++; if (cryptMood.has(m[1])) cryptDesc++ }
+      // baseline: same own theme, NO parent → no mood boost
+      const b = roomName([theme("cell")], baseRng)
+      const mb = b.match(/^The (\w+) /)
+      if (mb) { withDescBase++; if (cryptMood.has(mb[1])) baseDesc++ }
+    }
+    // crypt mood clearly more common under the crypt parent than with no parent
+    expect(cryptDesc / withDescInherit).toBeGreaterThan((baseDesc / withDescBase) * 1.5)
+  })
 })

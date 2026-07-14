@@ -86,6 +86,24 @@ export type Apse = { wall: Edge; center: number; radius: number; variant: "bay" 
 // (lg like the bay, sm like the bump).
 export type Alcove = { wall: Edge; center: number; size: "sm" | "lg" }
 
-export type DungeonResult = { grid: MaterialGrid; pillars: PillarGrid; rooms: RoomInfo[]; stairs: StairGrid; levels: LevelGrid; portals: Portal[]; edges: EdgeGrids; seed: number }
+// Idea 12: non-room map elements get their own derived profiles, mirroring RoomProfile — a semantic
+// summary of each hall/connector/stair/portal, derived in the same post-generation pass by reading the
+// finished graph the generator would otherwise discard. Additive overlay: the grids/portals[] stay the
+// render source; `elements` is the object-model view. Room identity in connects/joins is the public
+// room NUMBER (1-based, matching roomObject's `room-${num}`); a non-room endpoint is -1.
+export type HallProfile      = { connects: [number, number]; length: number; water: boolean; levelChange: number; type: string } // passage | gallery | flooded-channel
+export type StairProfile     = { connects: [number, number]; steps: number; levelDelta: number; direction: Edge; type: string }   // stair | flight
+export type ConnectorProfile = { joins: [number, number]; orientation: "v" | "h"; style: string }                                  // style: "door" (portcullis/archway = Idea 9a)
+export type PortalProfile    = { portalKind: PortalKind; side: Edge; direction: "up-out" | "down-deeper" }
+
+// `num` = per-kind 1-based index (like RoomInfo.num); `name` = generated via core/naming (elementName).
+type ElementBase = { id: string; num: number; name: string }
+export type MapElement =
+  | (ElementBase & { kind: "hall";      cells: [number, number][]; profile: HallProfile })
+  | (ElementBase & { kind: "stair";     cells: [number, number][]; profile: StairProfile })
+  | (ElementBase & { kind: "connector"; c: number; r: number;      profile: ConnectorProfile })
+  | (ElementBase & { kind: "portal";    c: number; r: number;      profile: PortalProfile })
+
+export type DungeonResult = { grid: MaterialGrid; pillars: PillarGrid; rooms: RoomInfo[]; stairs: StairGrid; levels: LevelGrid; portals: Portal[]; edges: EdgeGrids; elements: MapElement[]; name: string; type: string; seed: number }
 
 export type Dims = { cols: number; rows: number }

@@ -76,7 +76,7 @@ const GROUPS: Group[] = [
 
 export function Home() {
   return (
-    <div style={{ padding: 24, fontFamily: "sans-serif", lineHeight: 1.6 }}>
+    <div style={{ padding: 24, lineHeight: 1.6 }}>
       <h2>randomgen — page index</h2>
       {GROUPS.map(group => (
         <section key={group.title} style={{ marginBottom: 20 }}>
