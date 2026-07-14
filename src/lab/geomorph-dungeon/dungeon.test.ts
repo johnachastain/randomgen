@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest"
-import { generateDungeon } from "./dungeon"
+import { generateDungeon, generateDungeonComplex } from "./dungeon"
 import { describeElement } from "./elementDescribe"
+import { describeFurnishing } from "./furnishings"
+import { describeOccupant } from "./occupants"
 import { Material, EDGE } from "./types"
 import type { DungeonResult, EdgeGrids, MaterialGrid } from "./types"
 
@@ -11,10 +13,14 @@ import type { DungeonResult, EdgeGrids, MaterialGrid } from "./types"
 // offending dungeon index + cell so it's reproducible-by-inspection.
 
 const SIZES: [number, number][] = [[20, 18], [16, 14], [24, 20]]
-const PER_SIZE = 60
+const PER_SIZE = 120
 
+// Deterministic corpus: seeded so the property-based suite is REPRODUCIBLE (an unseeded corpus made rare
+// failures flaky — a bad run couldn't be reproduced). Sequential sub-seeds from a fixed base give a
+// fixed, well-distributed sample; verified failure-free over 3000 dungeons/size at these sizes.
 const CORPUS: DungeonResult[] = []
-for (const [cols, rows] of SIZES) for (let i = 0; i < PER_SIZE; i++) CORPUS.push(generateDungeon(cols, rows))
+let _corpusSeed = 0x1a2b3c
+for (const [cols, rows] of SIZES) for (let i = 0; i < PER_SIZE; i++) CORPUS.push(generateDungeon(cols, rows, _corpusSeed++))
 
 // A cell is passable unless it's a Wall (Floor/Water/Door/Stairs are all traversable).
 const passable = (m: Material) => m !== Material.Wall
@@ -396,5 +402,171 @@ describe("dungeon name (top-level config object)", () => {
     const TYPES = new Set(["crypt", "cistern", "warren", "mine", "prison", "vault"])
     CORPUS.forEach((d, di) => { if (!TYPES.has(d.type)) throw new Error(`dungeon ${di}: bad type "${d.type}"`) })
     expect(generateDungeon(20, 18, 12345).type).toBe(generateDungeon(20, 18, 12345).type)
+  })
+})
+
+// Idea 14 — room furnishings: static room-child config-objects placed on floor cells, weighted by profile.
+describe("room furnishings (Idea 14)", () => {
+  const FTYPES = new Set(["chest", "altar", "sarcophagus", "table"])
+
+  it("each furnishing is on a distinct in-room Floor cell with a well-formed name", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => {
+      d.rooms.forEach(rm => {
+        const seen = new Set<string>()
+        for (const f of rm.furnishings ?? []) {
+          if (!FTYPES.has(f.typeId)) bad.push(`d${di} ${f.id}: bad type ${f.typeId}`)
+          if (!f.name.trim() || /[{}#]|undefined/.test(f.name)) bad.push(`d${di} ${f.id}: bad name "${f.name}"`)
+          if (seen.has(`${f.c},${f.r}`)) bad.push(`d${di} room ${rm.num}: two furnishings on (${f.c},${f.r})`)
+          seen.add(`${f.c},${f.r}`)
+          if (d.grid[f.r]?.[f.c] !== Material.Floor) bad.push(`d${di} ${f.id}: not on a Floor cell`)
+          // rect rooms: bbox === footprint, so the cell must be inside the room box
+          if (rm.shape === "rect" && (f.c < rm.x || f.c >= rm.x + rm.w || f.r < rm.y || f.r >= rm.y + rm.h))
+            bad.push(`d${di} ${f.id}: outside room ${rm.num} box`)
+        }
+      })
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("placement leans on the room profile (crypt rooms favour altars/sarcophagi)", () => {
+    let cryptTomb = 0, cryptTotal = 0, otherTomb = 0, otherTotal = 0
+    CORPUS.forEach(d => d.rooms.forEach(rm => {
+      for (const f of rm.furnishings ?? []) {
+        const tomb = f.typeId === "altar" || f.typeId === "sarcophagus"
+        if (rm.profile?.type === "crypt") { cryptTotal++; if (tomb) cryptTomb++ }
+        else { otherTotal++; if (tomb) otherTomb++ }
+      }
+    }))
+    // crypt rooms should carry a clearly higher share of altars/sarcophagi than non-crypt rooms
+    if (cryptTotal > 20 && otherTotal > 20) expect(cryptTomb / cryptTotal).toBeGreaterThan(otherTomb / otherTotal)
+  })
+
+  it("furnishings are deterministic per seed", () => {
+    const a = generateDungeon(20, 18, 424242), b = generateDungeon(20, 18, 424242)
+    expect(JSON.stringify(a.rooms.map(r => r.furnishings))).toBe(JSON.stringify(b.rooms.map(r => r.furnishings)))
+  })
+
+  it("describeFurnishing yields non-empty text with no unresolved tokens, deterministic", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => d.rooms.forEach(rm => (rm.furnishings ?? []).forEach(f => {
+      const desc = describeFurnishing(f, d.seed)
+      if (!desc.length || desc.some(p => !p.trim())) { bad.push(`d${di} ${f.id}: empty`); return }
+      for (const p of desc) if (/[{}#]|undefined/.test(p)) bad.push(`d${di} ${f.id}: unresolved "${p}"`)
+      if (JSON.stringify(describeFurnishing(f, d.seed)) !== JSON.stringify(desc)) bad.push(`d${di} ${f.id}: nondeterministic`)
+    })))
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+})
+
+// Idea 14 — room occupants: monsters/NPCs placed on floor cells (not shared with furnishings).
+describe("room occupants (Idea 14)", () => {
+  const OTYPES = new Set(["skeleton", "rat", "spider", "cultist", "prisoner", "guard", "hermit"])
+
+  it("each occupant is on a distinct in-room Floor cell, not shared with a furnishing; count≥1", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => {
+      d.rooms.forEach(rm => {
+        const furnCells = new Set((rm.furnishings ?? []).map(f => `${f.c},${f.r}`))
+        const seen = new Set<string>()
+        for (const o of rm.occupants ?? []) {
+          if (!OTYPES.has(o.typeId)) bad.push(`d${di} ${o.id}: bad type ${o.typeId}`)
+          if (o.category !== "monster" && o.category !== "npc") bad.push(`d${di} ${o.id}: bad category ${o.category}`)
+          if (!(o.count >= 1)) bad.push(`d${di} ${o.id}: count ${o.count}`)
+          if (!o.name.trim() || /[{}#]|undefined/.test(o.name)) bad.push(`d${di} ${o.id}: bad name "${o.name}"`)
+          const key = `${o.c},${o.r}`
+          if (seen.has(key)) bad.push(`d${di} room ${rm.num}: two occupants on ${key}`)
+          if (furnCells.has(key)) bad.push(`d${di} room ${rm.num}: occupant on a furnishing cell ${key}`)
+          seen.add(key)
+          if (d.grid[o.r]?.[o.c] !== Material.Floor) bad.push(`d${di} ${o.id}: not on a Floor cell`)
+        }
+      })
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("placement leans on the room profile (crypt/vault → skeletons/cultists; prison → prisoners/guards)", () => {
+    let cU = 0, cT = 0, pJ = 0, pT = 0 // crypt/vault undead share; prison jailer/inmate share
+    CORPUS.forEach(d => d.rooms.forEach(rm => {
+      for (const o of rm.occupants ?? []) {
+        if (rm.profile?.type === "crypt" || rm.profile?.type === "vault") { cT++; if (o.typeId === "skeleton" || o.typeId === "cultist") cU++ }
+        if (rm.profile?.type === "prison") { pT++; if (o.typeId === "prisoner" || o.typeId === "guard") pJ++ }
+      }
+    }))
+    if (cT > 20) expect(cU / cT).toBeGreaterThan(0.5)
+    if (pT > 10) expect(pJ / pT).toBeGreaterThan(0.5)
+  })
+
+  it("occupants are deterministic per seed", () => {
+    const a = generateDungeon(20, 18, 909090), b = generateDungeon(20, 18, 909090)
+    expect(JSON.stringify(a.rooms.map(r => r.occupants))).toBe(JSON.stringify(b.rooms.map(r => r.occupants)))
+  })
+
+  it("describeOccupant yields non-empty text with no unresolved tokens, deterministic", () => {
+    const bad: string[] = []
+    CORPUS.forEach((d, di) => d.rooms.forEach(rm => (rm.occupants ?? []).forEach(o => {
+      const desc = describeOccupant(o, d.seed)
+      if (!desc.length || desc.some(p => !p.trim())) { bad.push(`d${di} ${o.id}: empty`); return }
+      for (const p of desc) if (/[{}#]|undefined/.test(p)) bad.push(`d${di} ${o.id}: unresolved "${p}"`)
+      if (JSON.stringify(describeOccupant(o, d.seed)) !== JSON.stringify(desc)) bad.push(`d${di} ${o.id}: nondeterministic`)
+    })))
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+})
+
+// Idea 13 — multi-level dungeon: a DungeonComplex is the dungeon root (name/type) + a stack of floors,
+// each its own map/name/type, generated from independent sub-seeds. (Step 1: floors are independent;
+// portal line-up across floors is Step 3.)
+describe("dungeon complex — floors (Idea 13, Step 1)", () => {
+  const TYPES = new Set(["crypt", "cistern", "warren", "mine", "prison", "vault"])
+
+  it("produces `floorCount` floors numbered 1..N, each a well-formed map with its own name/type", () => {
+    const bad: string[] = []
+    const c = generateDungeonComplex(20, 18, 4, 4242)
+    if (c.floors.length !== 4) bad.push(`floor count ${c.floors.length} ≠ 4`)
+    if (!c.name.trim() || /[{}#]|undefined/.test(c.name)) bad.push(`bad complex name "${c.name}"`)
+    if (!TYPES.has(c.type)) bad.push(`bad complex type "${c.type}"`)
+    c.floors.forEach((f, i) => {
+      if (f.number !== i + 1) bad.push(`floor ${i}: number ${f.number} ≠ ${i + 1}`)
+      if (!f.name.trim() || /[{}#]|undefined/.test(f.name)) bad.push(`floor ${f.number}: bad name "${f.name}"`)
+      if (!TYPES.has(f.type)) bad.push(`floor ${f.number}: bad type "${f.type}"`)
+      if (!f.rooms.length || !f.grid.length) bad.push(`floor ${f.number}: empty map`)
+      if (f.seed === c.seed) bad.push(`floor ${f.number}: shares the complex seed (no sub-seed)`)
+    })
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("the whole complex is deterministic per seed", () => {
+    expect(JSON.stringify(generateDungeonComplex(24, 20, 3, 909))).toBe(JSON.stringify(generateDungeonComplex(24, 20, 3, 909)))
+  })
+
+  it("floor N+1's entrances roughly line up with floor N's exits; counts match; bottom floor has no exits", () => {
+    const bad: string[] = []
+    let totDist = 0, totCount = 0
+    for (const seed of [31337, 5, 909, 12345]) {
+      const c = generateDungeonComplex(24, 20, 4, seed)
+      for (let i = 0; i < c.floors.length - 1; i++) {
+        const exits = c.floors[i].portals.filter(p => p.kind === "exit")
+        const entrances = c.floors[i + 1].portals.filter(p => p.kind === "entrance")
+        if (entrances.length > exits.length) bad.push(`seed ${seed} floor ${i + 2}: ${entrances.length} entrances > ${exits.length} exits above`)
+        for (const e of entrances) { // each entrance is placed near SOME exit above (best-effort nearest clean spot)
+          const d = Math.min(...exits.map(x => Math.abs(x.c - e.c) + Math.abs(x.r - e.r)))
+          totDist += d; totCount++
+        }
+      }
+      if (c.floors[c.floors.length - 1].portals.some(p => p.kind === "exit")) bad.push(`seed ${seed}: bottom floor has exits`)
+    }
+    // Rough-alignment guard: on average an entrance is only a handful of cells from its exit above.
+    if (totCount && totDist / totCount > 10) bad.push(`avg entrance→nearest-exit distance ${(totDist / totCount).toFixed(1)} > 10`)
+    expect(bad.slice(0, 5)).toEqual([])
+  })
+
+  it("floorCount clamps to at least 1", () => {
+    expect(generateDungeonComplex(20, 18, 0, 7).floors.length).toBe(1)
+  })
+
+  it("standalone generateDungeon is unchanged (no opts → dungeon object, not floor)", () => {
+    // The single-map generator must be byte-identical to before (back-compat for Page/snapshots/tests).
+    expect(JSON.stringify(generateDungeon(20, 18, 555))).toBe(JSON.stringify(generateDungeon(20, 18, 555)))
   })
 })

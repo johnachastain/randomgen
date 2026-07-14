@@ -1,9 +1,13 @@
-import { Material, MaterialGrid, PillarGrid, StairGrid, LevelGrid, RoomInfo, RoomShape, Edge, Apse, Alcove, Portal, PortalKind, EDGE, EdgeKind, EdgeGrids, Corner, DungeonResult, WaterCondition, RoomSize, MapElement } from "./types"
-import { rootContext, childContext } from "../../core/model" // GenContext flows dungeon → room (Step 4)
+import { Material, MaterialGrid, PillarGrid, StairGrid, LevelGrid, RoomInfo, RoomShape, Edge, Apse, Alcove, Portal, PortalKind, EDGE, EdgeKind, EdgeGrids, Corner, DungeonResult, WaterCondition, RoomSize, MapElement, DungeonComplex, Floor } from "./types"
+import { rootContext, childContext, type GenContext } from "../../core/model" // GenContext flows dungeon → room (Step 4)
 import { buildRoomObject } from "./roomObject" // a room as a config object on core/config (Step 8)
 import { buildElementObject } from "./elementObject" // a non-room element as a config object (Idea 12)
 import { buildDungeonObject, dungeonToTags } from "./dungeonObject" // the dungeon-as-a-whole = the tree ROOT object
-import { mulberry32, randomSeed, type Rng } from "../../core/rng" // T1: seeded generation
+import { profileToTags } from "./roomTags" // RoomProfile → tags (for furnishing context inheritance)
+import { pickFurnishingType, buildFurnishing } from "./furnishings" // room furnishings (Idea 14 leaf layer)
+import { pickOccupantType, buildOccupant } from "./occupants" // room occupants — monsters/NPCs (Idea 14)
+import { buildFloorObject, floorChildContext } from "./floorObject" // a floor = a config-object child of the dungeon (Idea 13)
+import { mulberry32, randomSeed, subSeed, type Rng } from "../../core/rng" // T1: seeded generation
 
 // Seeded PRNG for this module. Reassigned at the top of generateDungeon (synchronous, single-run
 // generation → module-level state is safe). Defaults to Math.random so any use before seeding works.
@@ -127,7 +131,17 @@ function overlaps(a: Room, b: Room): boolean {
   )
 }
 
-export function generateDungeon(cols: number, rows: number, seed: number = randomSeed()): DungeonResult {
+// Idea 13: when generated as a FLOOR of a multi-level dungeon, `opts.floor` carries the parent (dungeon)
+// context + the floor's number (→ built as a floor config-object). `opts.portals` softly aligns floors:
+// `entranceTargets` biases this floor's entrances toward the given cells (the floor-above's exit
+// terminals) — each entrance uses the nearest CLEAN spot, so floors roughly line up without the
+// glitches a forced carve caused; `suppressExits` gives the bottom floor no exits. No opts → a standalone
+// dungeon with random independent portals (today's behavior, unchanged).
+export type GenDungeonOpts = {
+  floor?: { parentCtx: GenContext; number: number }
+  portals?: { entranceTargets?: [number, number][]; suppressExits?: boolean }
+}
+export function generateDungeon(cols: number, rows: number, seed: number = randomSeed(), opts: GenDungeonOpts = {}): DungeonResult {
   rng = mulberry32(seed) // T1: seed the module rng first → the whole generation (incl. room names) is reproducible
   const grid: MaterialGrid = Array.from({ length: rows }, () => Array(cols).fill(Material.Wall))
   const inb = (c: number, r: number) => c >= 0 && c < cols && r >= 0 && r < rows
@@ -926,20 +940,22 @@ export function generateDungeon(cols: number, rows: number, seed: number = rando
     }
     return false
   }
-  const carvePortal = (spots: Spot[], kind: PortalKind): boolean => {
-    for (const spot of spots) {
-      if (spot.flight.some(([c, r]) => !isWall(c, r) || nearStair(c, r))) continue // free + ≥1 tile from any stair
-      const [ax, ay] = spot.anchor
-      const anchorLevel = levels[ay][ax] ?? 0
-      const outward = upFromDir(spot.dx, spot.dy)
-      const up = kind === "entrance" ? outward : oppEdge(outward) // entrance points out (up=off-map), exit points in
-      for (const [c, r] of spot.flight) {
-        grid[r][c] = Material.Stairs; stairs[r][c] = up; levels[r][c] = anchorLevel
-      }
-      const [tx, ty] = spot.flight[spot.flight.length - 1]
-      portals.push({ c: tx, r: ty, kind })
-      return true
+  // A spot is carveable if its whole flight is still wall + ≥1 tile from any stair (re-checked at carve
+  // time since earlier carves mutate the grid). Carving stamps the flight as Stairs + records the portal.
+  const spotValid = (spot: Spot): boolean => spot.flight.every(([c, r]) => isWall(c, r) && !nearStair(c, r))
+  const carveSpot = (spot: Spot, kind: PortalKind) => {
+    const [ax, ay] = spot.anchor
+    const anchorLevel = levels[ay][ax] ?? 0
+    const outward = upFromDir(spot.dx, spot.dy)
+    const up = kind === "entrance" ? outward : oppEdge(outward) // entrance points out (up=off-map), exit points in
+    for (const [c, r] of spot.flight) {
+      grid[r][c] = Material.Stairs; stairs[r][c] = up; levels[r][c] = anchorLevel
     }
+    const [tx, ty] = spot.flight[spot.flight.length - 1]
+    portals.push({ c: tx, r: ty, kind })
+  }
+  const carvePortal = (spots: Spot[], kind: PortalKind): boolean => {
+    for (const spot of spots) if (spotValid(spot)) { carveSpot(spot, kind); return true }
     return false
   }
   // Per portal: ~PORTAL_EDGE_CHANCE prefer an edge spot, else interior; fall back to the other.
@@ -948,8 +964,30 @@ export function generateDungeon(cols: number, rows: number, seed: number = rando
     return carvePortal(first, kind) || carvePortal(second, kind)
   }
   const pickCount = () => { const x = rng(); return x < 0.6 ? 1 : x < 0.85 ? 2 : x < 0.96 ? 3 : 4 }
-  for (let i = 0, n = pickCount(); i < n; i++) if (!placePortal("entrance")) break
-  for (let i = 0, n = pickCount(); i < n; i++) if (!placePortal("exit")) break
+
+  // Idea 13: place ONE entrance near a target cell (the floor-above's exit) — the nearest CLEAN spot, so
+  // floors roughly line up while every stairwell still respects the apse/stair/1-wide constraints (no
+  // glitches). Best-effort: if no valid spot remains, this target gets no entrance.
+  const term = (s: Spot): [number, number] => s.flight[s.flight.length - 1]
+  const placeEntranceNear = ([tc, tr]: [number, number]): boolean => {
+    const cands = [...edgeSpots, ...interiorSpots].filter(spotValid)
+      .sort((a, b) => { const [ac, ar] = term(a), [bc, br] = term(b); return ((ac - tc) ** 2 + (ar - tr) ** 2) - ((bc - tc) ** 2 + (br - tr) ** 2) })
+    if (!cands.length) return false
+    carveSpot(cands[0], "entrance")
+    return true
+  }
+
+  const pOpts = opts.portals ?? {}
+  // Entrances: biased toward the floor-above's exits (Idea 13) or the standalone random placement.
+  if (pOpts.entranceTargets) {
+    for (const t of pOpts.entranceTargets) placeEntranceNear(t)
+  } else {
+    for (let i = 0, n = pickCount(); i < n; i++) if (!placePortal("entrance")) break
+  }
+  // Exits: none on the bottom floor; otherwise the usual varied placement.
+  if (!pOpts.suppressExits) {
+    for (let i = 0, n = pickCount(); i < n; i++) if (!placePortal("exit")) break
+  }
 
   // Re-validate ROUNDED (r=1) room corners against the FINAL grid: a later portal stairwell may
   // have carved a wall neighbour. (`cornerOk` already allows the corner cell to be open/Water.)
@@ -1017,11 +1055,21 @@ export function generateDungeon(cols: number, rows: number, seed: number = rando
   // Dungeon-level context (Step 4). Level themes flow in via its tags in Step 8; for now the root
   // just carries the seed and each room adds its own profile tags.
   const rootCtx = rootContext(seed)
-  // The dungeon-as-a-whole is the ROOT config object: it generates a `type` (theme) and a themed `name`
-  // (shown in the page header). The type flows DOWN into every child's context (childRoot) — so rooms and
-  // elements inherit the dungeon theme and their names take on its mood (parent → child tag inheritance).
-  const dungeonObj = buildDungeonObject(rootCtx, rng)
-  const childRoot = childContext(rootCtx, dungeonToTags(dungeonObj))
+  // Build the tree node this map represents: a FLOOR (child of the dungeon, inheriting its theme) when
+  // generated as part of a complex (Idea 13), else the standalone DUNGEON root object. Either way its
+  // `type` flows DOWN into every room/element context (childRoot) so their names take on its mood.
+  let childRoot: GenContext, resultName: string, resultType: string
+  if (opts.floor) {
+    const floorObj = buildFloorObject(opts.floor.parentCtx, opts.floor.number, rng)
+    childRoot = floorChildContext(opts.floor.parentCtx, floorObj)
+    resultName = floorObj.properties.name
+    resultType = floorObj.properties.type
+  } else {
+    const dungeonObj = buildDungeonObject(rootCtx, rng)
+    childRoot = childContext(rootCtx, dungeonToTags(dungeonObj))
+    resultName = dungeonObj.properties.name
+    resultType = dungeonObj.properties.type
+  }
   rooms.forEach((rm, i) => {
     // Footprint tally over the room's own cells.
     let area = 0, waterCells = 0, hasStairs = false
@@ -1145,5 +1193,77 @@ export function generateDungeon(cols: number, rows: number, seed: number = rando
   // very end (after room naming), so earlier draws — and all room names — are untouched.
   elements.forEach(el => { el.name = buildElementObject(el, childRoot, rng).properties.name })
 
-  return { grid, pillars, rooms, stairs, levels, portals, edges, elements, name: dungeonObj.properties.name, type: dungeonObj.properties.type, seed }
+  // Idea 14: place FURNISHINGS into rooms — static room-child config-objects, count by room size, type
+  // weighted by the room's profile (crypt → altars/sarcophagi, hall → tables), each named with the
+  // inherited dungeon⊕floor⊕room mood. Purely additive (markers, no grid change); drawn last.
+  rooms.forEach((rm, i) => {
+    if (!rm.profile) return
+    rm.furnishings = []
+    const free: [number, number][] = []
+    for (let r = rm.y; r < rm.y + rm.h; r++) for (let c = rm.x; c < rm.x + rm.w; c++) {
+      if (inb(c, r) && roomAt[r][c] === i && grid[r][c] === Material.Floor) free.push([c, r])
+    }
+    const max = rm.profile.size === "large" ? 3 : rm.profile.size === "medium" ? 2 : 1
+    const count = Math.min(free.length, Math.floor(rng() * (max + 1))) // 0..max
+    const roomCtx = childContext(childRoot, profileToTags(rm.profile))
+    for (let k = 0; k < count; k++) {
+      const [c, r] = free.splice(Math.floor(rng() * free.length), 1)[0] // distinct cell per furnishing
+      const def = pickFurnishingType(rm.profile, rng)
+      const id = `furn-${rm.num}-${k}`
+      const name = buildFurnishing(def.id, roomCtx, rng, id, `room-${rm.num}`).properties.name
+      rm.furnishings.push({ id, typeId: def.id, name, c, r })
+    }
+  })
+
+  // Idea 14: place OCCUPANTS (monsters/NPCs) into rooms — the movable branch of room contents. Static
+  // for this PoC. Weighted by profile (crypt → skeletons/cultists, prison → prisoners/guards); each a
+  // config-object with a mood-inherited name + a group count. Placed on floor cells NOT used by a
+  // furnishing (drawn after the furnishing pass).
+  rooms.forEach((rm, i) => {
+    if (!rm.profile) return
+    rm.occupants = []
+    const taken = new Set((rm.furnishings ?? []).map(f => `${f.c},${f.r}`))
+    const free: [number, number][] = []
+    for (let r = rm.y; r < rm.y + rm.h; r++) for (let c = rm.x; c < rm.x + rm.w; c++) {
+      if (inb(c, r) && roomAt[r][c] === i && grid[r][c] === Material.Floor && !taken.has(`${c},${r}`)) free.push([c, r])
+    }
+    const max = rm.profile.size === "large" ? 3 : rm.profile.size === "medium" ? 2 : 1
+    const count = Math.min(free.length, Math.floor(rng() * (max + 1))) // 0..max
+    const roomCtx = childContext(childRoot, profileToTags(rm.profile))
+    for (let k = 0; k < count; k++) {
+      const [c, r] = free.splice(Math.floor(rng() * free.length), 1)[0]
+      const def = pickOccupantType(rm.profile, rng)
+      const id = `occ-${rm.num}-${k}`
+      const obj = buildOccupant(def.id, roomCtx, rng, id, `room-${rm.num}`).properties
+      rm.occupants.push({ id, typeId: def.id, category: def.category, name: obj.name, count: obj.count, c, r })
+    }
+  })
+
+  return { grid, pillars, rooms, stairs, levels, portals, edges, elements, name: resultName, type: resultType, seed }
+}
+
+// Idea 13 — a multi-level dungeon: the dungeon root object (its name/type) + a stack of `floorCount`
+// descending floors. The dungeon `type` is rolled ONCE and inherited into every floor's context (so each
+// floor's own type + names take on the dungeon's mood), and each floor is generated from an independent
+// SUB-SEED so the whole complex is reproducible and floors don't shift when a sibling changes.
+// Floors are generated TOP→BOTTOM: floor N+1's entrances are biased toward floor N's exit cells (each
+// placed at the nearest clean spot), so a floor's entrances roughly line up with the exits above while
+// every stairwell keeps clean geometry. The top floor gets its own random surface entrances; the bottom
+// floor has no exits.
+export function generateDungeonComplex(cols: number, rows: number, floorCount: number, seed: number = randomSeed()): DungeonComplex {
+  const n = Math.max(1, floorCount)
+  const dungeonObj = buildDungeonObject(rootContext(seed), mulberry32(seed))
+  const dungeonCtx = childContext(rootContext(seed), dungeonToTags(dungeonObj))
+  const floors: Floor[] = []
+  let entranceTargets: [number, number][] | undefined = undefined // floor N's exit cells bias floor N+1's entrances
+  for (let i = 0; i < n; i++) {
+    const isLast = i === n - 1
+    const map = generateDungeon(cols, rows, subSeed(seed, i), {
+      floor: { parentCtx: dungeonCtx, number: i + 1 },
+      portals: { entranceTargets, suppressExits: isLast },
+    })
+    floors.push({ ...map, number: i + 1 })
+    entranceTargets = map.portals.filter(p => p.kind === "exit").map(p => [p.c, p.r] as [number, number])
+  }
+  return { seed, name: dungeonObj.properties.name, type: dungeonObj.properties.type, floors }
 }

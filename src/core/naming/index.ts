@@ -213,3 +213,12 @@ export function dungeonName(tags: readonly Tag[] = [], rng: Rng = Math.random): 
     rng,
   )
 }
+
+// A furnishing/prop name, e.g. "Silent Altar" / "Rusted Chest" — a mood descriptor + the type label. All
+// of `tags` are inherited context (dungeon ⊕ floor ⊕ room), so the whole place's mood colors the
+// descriptor. Seeded rng → reproducible.
+export function furnishingName(label: string, tags: readonly Tag[] = [], rng: Rng = Math.random): string {
+  const moodThemes = tags.filter(t => t.startsWith(THEME_PREFIX))
+  const desc = pickWeighted(descriptorTable, rng, boostCtx(moodThemes, tags.includes(TRAIT_WET)))[0]
+  return `${desc} ${label}`
+}

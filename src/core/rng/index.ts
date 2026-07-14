@@ -24,3 +24,8 @@ export function mulberry32(seed: number): Rng {
 export function randomSeed(): number {
   return (Math.random() * 4294967296) >>> 0
 }
+
+// Derive an independent sub-seed from a parent seed + an index/path — so a child (a dungeon floor,
+// a per-property re-roll) has its own reproducible stream that doesn't shift when siblings change.
+// Same mixing as the per-room sub-seed pattern; the foundation for Idea 11's `subRng(seed, path)`.
+export const subSeed = (seed: number, n: number): number => (seed ^ ((n + 1) * 0x9e3779b1)) >>> 0

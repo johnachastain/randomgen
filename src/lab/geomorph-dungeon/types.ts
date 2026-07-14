@@ -44,7 +44,15 @@ export type RoomProfile = {
 // round corner size in cells (0 rect, 1 rounded, 2–4 circle: a 2r×2r circle). `roundCorners` =
 // which corners are actually rounded (circle = all 4; rounded = the guarded subset). z starts 0.
 // `profile` (Idea 10) is filled by a post-generation pass — always present on a generated result.
-export type RoomInfo = { x: number; y: number; w: number; h: number; z: number; shape: RoomShape; cornerRadius: number; roundCorners: Corner[]; apses: Apse[]; alcoves: Alcove[]; num: number; name: string; profile?: RoomProfile }
+// A furnishing (Idea 14): a static room-child, placed on a floor cell, generated as a config-object
+// (its `name` inherits the dungeon⊕floor⊕room mood). `typeId` → a registered furnishing type.
+export type Furnishing = { id: string; typeId: string; name: string; c: number; r: number }
+
+// An occupant (Idea 14): a monster or NPC room-child (movable in the future play layer). Generated as a
+// config-object — `name` (mood-inherited) + `count` (group size). `typeId` → a registered occupant type.
+export type Occupant = { id: string; typeId: string; category: "monster" | "npc"; name: string; count: number; c: number; r: number }
+
+export type RoomInfo = { x: number; y: number; w: number; h: number; z: number; shape: RoomShape; cornerRadius: number; roundCorners: Corner[]; apses: Apse[]; alcoves: Alcove[]; num: number; name: string; profile?: RoomProfile; furnishings?: Furnishing[]; occupants?: Occupant[] }
 
 // Per-cell stair ascent direction (the "up" side, toward the higher room), or null
 // where the cell is not a staircase. Parallel [row][col] grid, like PillarGrid.
@@ -105,5 +113,11 @@ export type MapElement =
   | (ElementBase & { kind: "portal";    c: number; r: number;      profile: PortalProfile })
 
 export type DungeonResult = { grid: MaterialGrid; pillars: PillarGrid; rooms: RoomInfo[]; stairs: StairGrid; levels: LevelGrid; portals: Portal[]; edges: EdgeGrids; elements: MapElement[]; name: string; type: string; seed: number }
+
+// Idea 13 — multi-level dungeon. A Floor is one map (its own name/type/seed) plus its 1-based depth
+// number; a DungeonComplex is the root (its own name/type) holding the descending stack of floors.
+// (Distinct from `levels` = per-cell elevation/z WITHIN a map.)
+export type Floor = DungeonResult & { number: number }
+export type DungeonComplex = { seed: number; name: string; type: string; floors: Floor[] }
 
 export type Dims = { cols: number; rows: number }

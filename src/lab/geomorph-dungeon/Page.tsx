@@ -1,9 +1,11 @@
 import { useState, useMemo, useRef, useEffect, useLayoutEffect, type PointerEvent as ReactPointerEvent } from "react"
 import { GeomorphNav } from "../../legacy/refactorGeomorphs/geomorph-shared/GeomorphNav"
 import styles from "./Page.module.css"
-import { generateDungeon } from "./dungeon"
+import { generateDungeonComplex } from "./dungeon"
 import { describeDungeonRoom } from "./roomDescribe"
 import { describeElement } from "./elementDescribe"
+import { furnishingDef, describeFurnishing } from "./furnishings"
+import { occupantDef, describeOccupant } from "./occupants"
 import { SUB, trimIndexFor } from "./bitmask"
 import { TRIM_WALL, TRIM_WATER, PILLAR_TILE, STAIR_TILES, PORTAL_TILES, ROUND_CORNER_TILES, ROUND_TRIM_TILES, ROUNDED_CORNER_TILES, ROUNDED_TRIM_TILES, ALCOVE_BASE_TILES, ALCOVE_TRIM_TILES } from "./tileConfig"
 import { MATERIAL_COLOR, MATERIAL_LABEL, DETAIL_MATERIALS, PORTAL_STYLE } from "./materials"
@@ -19,8 +21,16 @@ const SHAPE_COLOR: Record<string, string> = { circle: "#e64980", rounded: "#f08c
 
 const DIRS8: [number, number][] = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]
 
-// Unified inspector selection — a room or a non-room element, identified by kind + per-kind number.
-type Sel = { kind: "room" | "hall" | "stair" | "connector" | "portal"; num: number } | null
+const DEFAULT_FLOORS = 3 // Idea 13: default depth of a new dungeon complex
+
+// Unified inspector reference — any inspectable object: a room / element (by per-kind number) or a
+// furnishing / occupant (by id). The inspector keeps a HISTORY STACK of these so cross-links push a new
+// view and a back button pops to the previous one.
+type Ref =
+  | { kind: "room" | "hall" | "stair" | "connector" | "portal"; num: number }
+  | { kind: "furnishing" | "occupant"; id: string }
+const sameRef = (a: Ref | null, b: Ref | null): boolean =>
+  !!a && !!b && a.kind === b.kind && ("num" in a && "num" in b ? a.num === b.num : "id" in a && "id" in b ? a.id === b.id : false)
 // Element number-pill styling per kind: a letter prefix + a distinct colour so they read apart from
 // the black room pills. (Doors get no map pill for now — halls/stairs/portals only.)
 const ELEM_PILL: Record<string, { prefix: string; color: string }> = {
@@ -28,6 +38,9 @@ const ELEM_PILL: Record<string, { prefix: string; color: string }> = {
   stair: { prefix: "S", color: "#e8590c" },
   portal: { prefix: "P", color: "#9c36b5" },
 }
+// Room-content pill colours (Idea 14): furnishings brown, occupants purple.
+const FURN_BG = "#8b5e34", OCC_BG = "#7c3aed"
+const contentLetter = (i: number) => (i < 26 ? String.fromCharCode(97 + i) : String(i))
 // Inspector title + one-line profile summary for a selected element (parallels the room profile line).
 const elementKindLabel = (el: MapElement) => (el.kind === "connector" ? "Door" : el.kind[0].toUpperCase() + el.kind.slice(1))
 function elementSummary(el: MapElement): string {
@@ -42,10 +55,20 @@ function elementSummary(el: MapElement): string {
 export default function GeomorphDungeonPage() {
   const [cols, setCols] = useState(20)
   const [rows, setRows] = useState(18)
-  const [dungeon, setDungeon] = useState(() => generateDungeon(20, 18))
+  // Idea 13: a multi-floor dungeon complex + which floor is currently viewed. `dungeon` = the selected
+  // floor, so all the tile/inspector code below keeps operating on one map unchanged.
+  const [floorCount, setFloorCount] = useState(DEFAULT_FLOORS)
+  const [complex, setComplex] = useState(() => generateDungeonComplex(20, 18, DEFAULT_FLOORS))
+  const [floorIndex, setFloorIndex] = useState(0)
+  const dungeon = complex.floors[floorIndex] ?? complex.floors[0]
   const [seedInput, setSeedInput] = useState("") // blank = fresh random seed each Regenerate; a value = reproduce that seed
-  // Unified inspector selection: a room OR a non-room element, by (kind, per-kind num). null = nothing selected.
-  const [selected, setSelected] = useState<Sel>(null)
+  // Inspector navigation: a HISTORY STACK of refs. `cur` = the view on top; cross-links push, back pops.
+  const [history, setHistory] = useState<Ref[]>([])
+  const cur = history.length ? history[history.length - 1] : null
+  const openRef = (ref: Ref) => setHistory(h => (sameRef(h[h.length - 1] ?? null, ref) ? [] : [ref])) // map click → fresh (re-click closes)
+  const pushRef = (ref: Ref) => setHistory(h => [...h, ref])   // cross-link → deeper
+  const backRef = () => setHistory(h => h.slice(0, -1))         // back button → previous view
+  const closeInspector = () => setHistory([])
   const mapWrapRef = useRef<HTMLDivElement>(null) // the scrollable map viewport (U1 mini-map reads its scroll)
   const miniRef = useRef<HTMLCanvasElement>(null) // mini-map canvas
   const [view, setView] = useState({ sl: 0, st: 0, cw: 0, ch: 0 }) // map wrapper scroll + client size → viewport rect
@@ -142,8 +165,12 @@ export default function GeomorphDungeonPage() {
   const [showHallLabels, setShowHallLabels] = useState(false)   // element pills — default off to keep the map uncluttered
   const [showStairLabels, setShowStairLabels] = useState(false)
   const [showPortalLabels, setShowPortalLabels] = useState(false)
+  const [showFurnishings, setShowFurnishings] = useState(true) // Idea 14: furnishing glyph markers
+  const [showOccupants, setShowOccupants] = useState(true)     // Idea 14: occupant (monster/NPC) tokens
   const [hoverRoom, setHoverRoom] = useState<number | null>(null) // room number whose name popup is showing
   const [hoverEl, setHoverEl] = useState<string | null>(null)     // element id whose name popup is showing
+  const [hoverFurn, setHoverFurn] = useState<string | null>(null) // furnishing id whose name popup is showing
+  const [hoverOcc, setHoverOcc] = useState<string | null>(null)   // occupant id whose name popup is showing
   const [navOpen, setNavOpen] = useState(false) // hamburger nav flyout
   const [settingsOpen, setSettingsOpen] = useState(false) // settings (layer toggles) flyout
   const [miniOpen, setMiniOpen] = useState(true) // mini-map show/hide
@@ -162,21 +189,23 @@ export default function GeomorphDungeonPage() {
 
   // blank seed input → undefined → generateDungeon rolls a fresh random seed; a number → reproduce it.
   const seedArg = () => { const t = seedInput.trim(); return t === "" ? undefined : Number(t) }
-  const regenerate = (c = cols, r = rows) => { setDungeon(generateDungeon(c, r, seedArg())); setSelected(null) }
+  const regenerate = (c = cols, r = rows, f = floorCount) => { setComplex(generateDungeonComplex(c, r, f, seedArg())); setFloorIndex(0); closeInspector() }
 
-  // Idea 6: export the current dungeon (fully serialisable DungeonResult + repro metadata) as a JSON file.
+  // Idea 6: export the whole dungeon complex (all floors, fully serialisable + repro metadata) as JSON.
   const downloadJson = () => {
-    const payload = { version: 1, cols, rows, S, SUB, materialLegend: MATERIAL_LABEL, ...dungeon }
+    const payload = { version: 2, cols, rows, S, SUB, materialLegend: MATERIAL_LABEL, ...complex }
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
-    a.download = `dungeon-${cols}x${rows}-seed${dungeon.seed}.json`
+    a.download = `dungeon-${cols}x${rows}-${complex.floors.length}f-seed${complex.seed}.json`
     a.click()
     URL.revokeObjectURL(url)
   }
   const handleCols = (n: number) => { setCols(n); regenerate(n, rows) }
   const handleRows = (n: number) => { setRows(n); regenerate(cols, n) }
+  const handleFloors = (n: number) => { setFloorCount(n); regenerate(cols, rows, n) }
+  const selectFloor = (i: number) => { setFloorIndex(i); closeInspector() } // switching floors clears the inspector
 
   // Base layer: material-coloured cells.
   const baseCells = useMemo(() => {
@@ -406,11 +435,11 @@ export default function GeomorphDungeonPage() {
       const cx = (rm.x + rm.w / 2) * S, cy = (rm.y + rm.h / 2) * S
       roomNumberTiles.push(
         <div key={`rn${rm.num}`} onMouseEnter={() => setHoverRoom(rm.num)} onMouseLeave={() => setHoverRoom(null)}
-          onClick={() => setSelected(s => s?.kind === "room" && s.num === rm.num ? null : { kind: "room", num: rm.num })} style={{
+          onClick={() => openRef({ kind: "room", num: rm.num })} style={{
           position: "absolute", left: cx, top: cy,
           transform: "translate(-50%, -50%)", display: "inline-flex", alignItems: "center", justifyContent: "center",
           height: 16, minWidth: 16, padding: "0 5px", boxSizing: "border-box", borderRadius: 999,
-          background: selected?.kind === "room" && selected.num === rm.num ? "#1e5fbf" : "#000", color: "#fff", font: "600 11px sans-serif", lineHeight: 1,
+          background: cur?.kind === "room" && cur.num === rm.num ? "#1e5fbf" : "#000", color: "#fff", font: "600 11px sans-serif", lineHeight: 1,
           pointerEvents: "auto", cursor: "pointer",
         }}>{rm.num}</div>
       )
@@ -448,10 +477,10 @@ export default function GeomorphDungeonPage() {
     if (el.kind === "hall" || el.kind === "stair") { const mid = el.cells[Math.floor(el.cells.length / 2)]; mc = mid[0]; mr = mid[1] }
     else { mc = el.c; mr = el.r }
     const cx = (mc + 0.5) * S, cy = (mr + 0.5) * S
-    const isSel = selected?.kind === el.kind && selected.num === el.num
+    const isSel = cur?.kind === el.kind && "num" in cur && cur.num === el.num
     elementNumberTiles.push(
       <div key={el.id} onMouseEnter={() => setHoverEl(el.id)} onMouseLeave={() => setHoverEl(null)}
-        onClick={() => setSelected(s => s?.kind === el.kind && s.num === el.num ? null : { kind: el.kind, num: el.num })} style={{
+        onClick={() => openRef({ kind: el.kind, num: el.num })} style={{
         position: "absolute", left: cx, top: cy,
         transform: "translate(-50%, -50%)", display: "inline-flex", alignItems: "center", justifyContent: "center",
         height: 16, minWidth: 16, padding: "0 5px", boxSizing: "border-box", borderRadius: 999,
@@ -467,6 +496,81 @@ export default function GeomorphDungeonPage() {
           font: "600 11px sans-serif", whiteSpace: "nowrap", pointerEvents: "none", zIndex: 20, textAlign: "center",
         }}>{el.name}</div>
       )
+    }
+  }
+
+  // Idea 14: one shared a,b,c… label sequence per room across its furnishings + occupants, so every
+  // content marker gets a unique room-scoped id like "2a"/"2b"/"2c" (colour tells furnishing vs occupant).
+  const contentLabels = useMemo(() => {
+    const m = new Map<string, string>()
+    for (const rm of rooms) {
+      let i = 0
+      for (const f of rm.furnishings ?? []) m.set(f.id, `${rm.num}${contentLetter(i++)}`)
+      for (const o of rm.occupants ?? []) m.set(o.id, `${rm.num}${contentLetter(i++)}`)
+    }
+    return m
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dungeon])
+  const labelOf = (id: string) => contentLabels.get(id) ?? "?"
+  // A small colour-coded content-label pill (used in the inspector so map ↔ panel correlate).
+  const labelChip = (id: string, bg: string) => (
+    <span style={{ background: bg, color: "#fff", borderRadius: 999, padding: "0 5px", fontSize: 11, fontWeight: 600, lineHeight: "16px" }}>{labelOf(id)}</span>
+  )
+
+  // Furnishing markers (Idea 14): a brown room-number-style pill "<roomNum><letter>"; hover → its name.
+  const furnishingTiles = []
+  if (showFurnishings) {
+    for (const rm of rooms) for (const f of rm.furnishings ?? []) {
+      const cx = (f.c + 0.5) * S, cy = (f.r + 0.5) * S
+      const fSel = cur?.kind === "furnishing" && cur.id === f.id
+      furnishingTiles.push(
+        <div key={f.id} onMouseEnter={() => setHoverFurn(f.id)} onMouseLeave={() => setHoverFurn(null)}
+          onClick={() => openRef({ kind: "furnishing", id: f.id })} style={{
+          position: "absolute", left: cx, top: cy, transform: "translate(-50%, -50%)",
+          display: "inline-flex", alignItems: "center", justifyContent: "center",
+          height: 16, minWidth: 16, padding: "0 5px", boxSizing: "border-box", borderRadius: 999,
+          background: FURN_BG, color: "#fff", font: "600 11px sans-serif", lineHeight: 1,
+          outline: fSel ? "2px solid #cfe0ff" : "none", pointerEvents: "auto", cursor: "pointer",
+        }}>{labelOf(f.id)}</div>
+      )
+      if (hoverFurn === f.id) {
+        furnishingTiles.push(
+          <div key={`${f.id}-lbl`} style={{
+            position: "absolute", left: cx, top: cy - S * 0.45, transform: "translate(-50%, -100%)",
+            background: "#000", color: "#fff", padding: "3px 7px", borderRadius: 4,
+            font: "600 11px sans-serif", whiteSpace: "nowrap", pointerEvents: "none", zIndex: 20,
+          }}>{f.name}</div>
+        )
+      }
+    }
+  }
+
+  // Occupant tokens (Idea 14): a ROUND token (distinct from the square furnishing chips), coloured by
+  // category (monster/NPC), with a count badge for groups; hover → name (×count).
+  const occupantTiles = []
+  if (showOccupants) {
+    for (const rm of rooms) for (const o of rm.occupants ?? []) {
+      const cx = (o.c + 0.5) * S, cy = (o.r + 0.5) * S
+      const oSel = cur?.kind === "occupant" && cur.id === o.id
+      occupantTiles.push(
+        <div key={o.id} onMouseEnter={() => setHoverOcc(o.id)} onMouseLeave={() => setHoverOcc(null)}
+          onClick={() => openRef({ kind: "occupant", id: o.id })} style={{
+          position: "absolute", left: cx, top: cy, transform: "translate(-50%, -50%)",
+          display: "inline-flex", alignItems: "center", justifyContent: "center",
+          height: 16, minWidth: 16, padding: "0 5px", boxSizing: "border-box", borderRadius: 999,
+          background: OCC_BG, color: "#fff", font: "600 11px sans-serif", lineHeight: 1,
+          outline: oSel ? "2px solid #cfe0ff" : "none", pointerEvents: "auto", cursor: "pointer",
+        }}>{labelOf(o.id)}</div>
+      )
+      if (hoverOcc === o.id) {
+        occupantTiles.push(
+          <div key={`${o.id}-lbl`} style={{
+            position: "absolute", left: cx, top: cy - S * 0.45, transform: "translate(-50%, -100%)",
+            background: "#000", color: "#fff", padding: "3px 7px", borderRadius: 4,
+            font: "600 11px sans-serif", whiteSpace: "nowrap", pointerEvents: "none", zIndex: 20,
+          }}>{o.name}{o.count > 1 ? ` ×${o.count}` : ""}</div>
+        )
+      }
     }
   }
 
@@ -565,6 +669,8 @@ export default function GeomorphDungeonPage() {
     ["Room numbers", showRoomNumbers, setShowRoomNumbers],
     ["Hall labels", showHallLabels, setShowHallLabels], ["Stair labels", showStairLabels, setShowStairLabels],
     ["Portal labels", showPortalLabels, setShowPortalLabels],
+    ["Furnishings", showFurnishings, setShowFurnishings],
+    ["Occupants", showOccupants, setShowOccupants],
   ]
 
   const legend = (
@@ -654,7 +760,7 @@ export default function GeomorphDungeonPage() {
   // U2: keep the map at its top-left origin by default (scroll past the top-left gutter). Skipped while
   // something is selected so it doesn't fight click-to-center. Runs before paint → no flash.
   useLayoutEffect(() => {
-    if (selected == null) mapWrapRef.current?.scrollTo(pad.x, pad.y)
+    if (cur == null) mapWrapRef.current?.scrollTo(pad.x, pad.y)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pad, dungeon, cols, rows])
   // Draw the miniature: one filled rect per base cell, coloured by raw material.
@@ -669,20 +775,27 @@ export default function GeomorphDungeonPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dungeon, cols, rows, miniOpen])
 
-  // U2: when something is selected, recenter the map on it (runs after the inspector drawer narrows the
-  // content column, so clientWidth is the visible map width). Smooth-scroll the map wrapper. Works for a
-  // room (bbox centre) or an element (path/run midpoint; portal cell).
+  // Resolve the current inspector ref to its object (room / element / furnishing / occupant).
+  const selRoom = cur?.kind === "room" ? rooms.find(r => r.num === cur.num) ?? null : null
+  const selElement = cur && cur.kind !== "room" && "num" in cur ? elements.find(e => e.kind === cur.kind && e.num === cur.num) ?? null : null
+  const selFurn = cur?.kind === "furnishing" ? rooms.flatMap(r => r.furnishings ?? []).find(f => f.id === cur.id) ?? null : null
+  const selOcc = cur?.kind === "occupant" ? rooms.flatMap(r => r.occupants ?? []).find(o => o.id === cur.id) ?? null : null
+  const hasSelection = !!(selRoom || selElement || selFurn || selOcc)
+  const roomNumOf = (id: string) => Number(id.split("-")[1]) // furn-<roomNum>-<k> / occ-<roomNum>-<k>
+
+  // Recenter the map on the current ref (runs after the drawer narrows the content column). Works for a
+  // room (bbox centre), an element (path/run midpoint; cell), or a furnishing/occupant (its cell).
   useEffect(() => {
-    if (selected == null) return
+    if (cur == null) return
     let cx = 0, cy = 0
-    if (selected.kind === "room") {
-      const rm = rooms.find(r => r.num === selected.num); if (!rm) return
-      cx = (rm.x + rm.w / 2) * S; cy = (rm.y + rm.h / 2) * S
-    } else {
-      const el = elements.find(e => e.kind === selected.kind && e.num === selected.num); if (!el) return
+    if (selRoom) { cx = (selRoom.x + selRoom.w / 2) * S; cy = (selRoom.y + selRoom.h / 2) * S }
+    else if (selFurn) { cx = (selFurn.c + 0.5) * S; cy = (selFurn.r + 0.5) * S }
+    else if (selOcc) { cx = (selOcc.c + 0.5) * S; cy = (selOcc.r + 0.5) * S }
+    else if (selElement) {
+      const el = selElement
       if (el.kind === "hall" || el.kind === "stair") { const m = el.cells[Math.floor(el.cells.length / 2)]; cx = (m[0] + 0.5) * S; cy = (m[1] + 0.5) * S }
       else { cx = (el.c + 0.5) * S; cy = (el.r + 0.5) * S }
-    }
+    } else return
     // Wait out the 0.2s drawer-width transition so clientWidth is the narrowed visible width.
     const t = setTimeout(() => {
       const elw = mapWrapRef.current; if (!elw) return
@@ -690,16 +803,16 @@ export default function GeomorphDungeonPage() {
     }, 230)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected])
+  }, [history])
 
-  // P4: resolve the selection to a room OR an element + its inspector description, memoized so hovering
-  // (which re-renders the page) doesn't re-run the description generator on every mouse-move.
-  const selRoom = selected?.kind === "room" ? rooms.find(r => r.num === selected.num) ?? null : null
-  const selElement = selected && selected.kind !== "room" ? elements.find(e => e.kind === selected.kind && e.num === selected.num) ?? null : null
-  const hasSelection = !!(selRoom || selElement)
+  // The current ref's inspector description, memoized so hovering doesn't re-run the generator.
   const inspectorDesc = useMemo(
-    () => selRoom ? describeDungeonRoom(selRoom, dungeon.seed) : selElement ? describeElement(selElement, dungeon.seed) : [],
-    [selected, dungeon]) // eslint-disable-line react-hooks/exhaustive-deps
+    () => selRoom ? describeDungeonRoom(selRoom, dungeon.seed)
+      : selElement ? describeElement(selElement, dungeon.seed)
+      : selFurn ? describeFurnishing(selFurn, dungeon.seed)
+      : selOcc ? describeOccupant(selOcc, dungeon.seed)
+      : [],
+    [history, dungeon]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Responsive inspector-drawer width: smaller at standard breakpoints; on tiny
   // screens fit within the window (winW - 32) so the panel never overflows.
@@ -717,8 +830,8 @@ export default function GeomorphDungeonPage() {
           onClick={() => regenerate()}>↻</button>
         <button aria-label="Download JSON" title="Export this dungeon as JSON" className={styles.iconBtn}
           onClick={downloadJson}>⤓</button>
-        <h2 className={styles.title}>{dungeon.name}</h2>
-        <span style={{ color: "#888", fontSize: 12, alignSelf: "center" }}>· {dungeon.type}</span>
+        <h2 className={styles.title}>{complex.name}</h2>
+        <span style={{ color: "#888", fontSize: 12, alignSelf: "center" }}>· {complex.type}</span>
 
         {navOpen && (<>
           <div className={styles.backdrop} onClick={() => setNavOpen(false)} />
@@ -741,6 +854,16 @@ export default function GeomorphDungeonPage() {
         <label>Rows: {rows}&nbsp;
           <input type="range" min={4} max={30} value={rows} onChange={e => handleRows(Number(e.target.value))} />
         </label>
+        <label>Floors: {floorCount}&nbsp;
+          <input type="range" min={1} max={8} value={floorCount} onChange={e => handleFloors(Number(e.target.value))} />
+        </label>
+        <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          Floor:
+          <button onClick={() => selectFloor(floorIndex - 1)} disabled={floorIndex === 0} title="Up one floor">▲</button>
+          <strong>{dungeon.number}</strong>/{complex.floors.length}
+          <button onClick={() => selectFloor(floorIndex + 1)} disabled={floorIndex >= complex.floors.length - 1} title="Down one floor">▼</button>
+          <span style={{ color: "#888", fontSize: 12 }}>{dungeon.name} · {dungeon.type}</span>
+        </span>
       </div>
 
       <div className={styles.mapArea}>
@@ -758,6 +881,8 @@ export default function GeomorphDungeonPage() {
           {portalTiles}
           {shapeTiles}
           {gridOverlay}
+          {furnishingTiles}
+          {occupantTiles}
           {roomNumberTiles}
           {elementNumberTiles}
           </div>
@@ -789,7 +914,7 @@ export default function GeomorphDungeonPage() {
         <span className={styles.seedCurrent}>
           current:&nbsp;
           <code className={styles.seedCode} title="Click to reuse this seed"
-            onClick={() => setSeedInput(String(dungeon.seed))}>{dungeon.seed}</code>
+            onClick={() => setSeedInput(String(complex.seed))}>{complex.seed}</code>
         </span>
       </div>
       </div>
@@ -798,7 +923,11 @@ export default function GeomorphDungeonPage() {
           the mini-map visible. Its own scroll so the page never scrolls. */}
       <div className={styles.drawer} style={{ width: hasSelection ? drawerW : 0, height: hasSelection ? "100vh" : 0 }}>
         <div className={styles.drawerInner} style={{ width: drawerW }}>
-          <button onClick={() => setSelected(null)} title="Close" aria-label="Close"
+          {history.length > 1 && (
+            <button onClick={backRef} title="Back" aria-label="Back"
+              style={{ float: "left", fontSize: 18, lineHeight: 1, background: "none", border: "none", color: "#aaa", cursor: "pointer", padding: 0 }}>←</button>
+          )}
+          <button onClick={closeInspector} title="Close" aria-label="Close"
             className={styles.drawerClose}>×</button>
           {selRoom && (
             <>
@@ -810,6 +939,32 @@ export default function GeomorphDungeonPage() {
                 </div>
               )}
               {inspectorDesc.map((para, i) => <p key={i} className={styles.roomPara}>{para}</p>)}
+              {!!selRoom.occupants?.length && (
+                <div style={{ marginTop: 10 }}>
+                  <div style={{ color: "#999", fontSize: 12, marginBottom: 4 }}>Occupants</div>
+                  {selRoom.occupants.map(o => (
+                    <div key={o.id} onClick={() => pushRef({ kind: "occupant", id: o.id })}
+                      style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, marginBottom: 2, cursor: "pointer" }}>
+                      {labelChip(o.id, OCC_BG)}
+                      <span style={{ color: "#9db8ff" }}>{o.name}{o.count > 1 ? ` ×${o.count}` : ""}</span>
+                      <span style={{ color: o.category === "monster" ? "#e07a70" : "#79c7bb", fontSize: 11 }}>{o.category}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {!!selRoom.furnishings?.length && (
+                <div style={{ marginTop: 10 }}>
+                  <div style={{ color: "#999", fontSize: 12, marginBottom: 4 }}>Furnishings</div>
+                  {selRoom.furnishings.map(f => (
+                    <div key={f.id} onClick={() => pushRef({ kind: "furnishing", id: f.id })}
+                      style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, marginBottom: 2, cursor: "pointer" }}>
+                      {labelChip(f.id, FURN_BG)}
+                      <span style={{ color: "#9db8ff" }}>{f.name}</span>
+                      <span style={{ color: "#888", fontSize: 11 }}>{furnishingDef(f.typeId)?.label ?? f.typeId}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </>
           )}
           {selElement && (
@@ -819,6 +974,32 @@ export default function GeomorphDungeonPage() {
               {inspectorDesc.map((para, i) => <p key={i} className={styles.roomPara}>{para}</p>)}
             </>
           )}
+          {selFurn && (() => {
+            const def = furnishingDef(selFurn.typeId), rn = roomNumOf(selFurn.id)
+            return (
+              <>
+                <div className={styles.roomName}>{labelChip(selFurn.id, FURN_BG)} {selFurn.name}</div>
+                <div className={styles.roomProfile}>
+                  {def?.label ?? selFurn.typeId} · cell ({selFurn.c},{selFurn.r}) · in{" "}
+                  <span onClick={() => pushRef({ kind: "room", num: rn })} style={{ cursor: "pointer", color: "#9db8ff" }}>Room {rn}</span>
+                </div>
+                {inspectorDesc.map((para, i) => <p key={i} className={styles.roomPara}>{para}</p>)}
+              </>
+            )
+          })()}
+          {selOcc && (() => {
+            const def = occupantDef(selOcc.typeId), rn = roomNumOf(selOcc.id)
+            return (
+              <>
+                <div className={styles.roomName}>{labelChip(selOcc.id, OCC_BG)} {selOcc.name}{selOcc.count > 1 ? ` ×${selOcc.count}` : ""}</div>
+                <div className={styles.roomProfile}>
+                  {selOcc.category} · {def?.label ?? selOcc.typeId} · {selOcc.count} · cell ({selOcc.c},{selOcc.r}) · in{" "}
+                  <span onClick={() => pushRef({ kind: "room", num: rn })} style={{ cursor: "pointer", color: "#9db8ff" }}>Room {rn}</span>
+                </div>
+                {inspectorDesc.map((para, i) => <p key={i} className={styles.roomPara}>{para}</p>)}
+              </>
+            )
+          })()}
         </div>
       </div>
     </div>
