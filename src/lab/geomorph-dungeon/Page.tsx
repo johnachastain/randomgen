@@ -2,13 +2,16 @@ import { useState, useMemo, useRef, useEffect, useLayoutEffect, type PointerEven
 import { GeomorphNav } from "../../legacy/refactorGeomorphs/geomorph-shared/GeomorphNav"
 import styles from "./Page.module.css"
 import { generateDungeonComplex } from "./dungeon"
+import { generateCave } from "./cave"
+import { subSeed } from "../../core/rng"
 import { describeDungeonRoom } from "./roomDescribe"
 import { describeElement } from "./elementDescribe"
 import { furnishingDef, describeFurnishing } from "./furnishings"
 import { occupantDef, describeOccupant } from "./occupants"
 import { SUB, trimIndexFor } from "./bitmask"
 import { TRIM_WALL, TRIM_WATER, PILLAR_TILE, STAIR_TILES, PORTAL_TILES, ROUND_CORNER_TILES, ROUND_TRIM_TILES, ROUNDED_CORNER_TILES, ROUNDED_TRIM_TILES, ALCOVE_BASE_TILES, ALCOVE_TRIM_TILES } from "./tileConfig"
-import { MATERIAL_COLOR, MATERIAL_LABEL, DETAIL_MATERIALS, PORTAL_STYLE } from "./materials"
+import { CAVE_CORNER_VARIANTS, CAVE_POCKET } from "./caveTileConfig"
+import { MATERIAL_COLOR, CAVE_MATERIAL_COLOR, MATERIAL_LABEL, DETAIL_MATERIALS, PORTAL_STYLE } from "./materials"
 import { Material, Edge, EDGE, Corner, type MapElement } from "./types"
 
 const S = 32 // px per base cell
@@ -60,7 +63,14 @@ export default function GeomorphDungeonPage() {
   const [floorCount, setFloorCount] = useState(DEFAULT_FLOORS)
   const [complex, setComplex] = useState(() => generateDungeonComplex(20, 18, DEFAULT_FLOORS))
   const [floorIndex, setFloorIndex] = useState(0)
-  const dungeon = complex.floors[floorIndex] ?? complex.floors[0]
+  const [caveMode, setCaveMode] = useState(false) // Idea 7: render this floor as an organic cave system
+  // Cave toggle swaps the viewed floor for an organically-generated cave (deterministic from the
+  // complex seed + floor index), leaving all downstream layers to recompute off `dungeon`.
+  const caveFloor = useMemo(
+    () => (caveMode ? { ...generateCave(cols, rows, subSeed(complex.seed, floorIndex + 1)), number: floorIndex + 1 } : null),
+    [caveMode, cols, rows, complex.seed, floorIndex],
+  )
+  const dungeon = caveFloor ?? complex.floors[floorIndex] ?? complex.floors[0]
   const [seedInput, setSeedInput] = useState("") // blank = fresh random seed each Regenerate; a value = reproduce that seed
   // Inspector navigation: a HISTORY STACK of refs. `cur` = the view on top; cross-links push, back pops.
   const [history, setHistory] = useState<Ref[]>([])
@@ -207,6 +217,73 @@ export default function GeomorphDungeonPage() {
   const handleFloors = (n: number) => { setFloorCount(n); regenerate(cols, rows, n) }
   const selectFloor = (i: number) => { setFloorIndex(i); closeInspector() } // switching floors clears the inspector
 
+  // Cave skin (Idea 7): in cave mode, swap base fills to the cave palette. Cave walls use the varied
+  // rounded corner tiles + wall bays (below) — NOT the fine-grid fringe trim, which is skipped.
+  const matColor = caveMode ? CAVE_MATERIAL_COLOR : MATERIAL_COLOR
+  const trimArt = TRIM_ART
+
+  // Cave rounding (Idea 7): de-squares the cave silhouette. TWO passes:
+  //  (a) 1-cell POCKETS — a floor cell walled on exactly 3 sides → one smooth half-circle "dome" tile
+  //      (like the dungeon's alcove), instead of two corner tiles meeting in an asymmetrical point.
+  //  (b) CONCAVE CORNERS — a vertex marching-squares scan; a lone floor cell (3 walls) gets a random
+  //      rounded fillet variant. Corners on a pocket cell, or any vertex touching a stairwell
+  //      (Material.Stairs), are skipped so pockets stay smooth and stairwells stay rectilinear.
+  const caveCorners = useMemo(() => {
+  type CC = { x: number; y: number; orient: Corner; variant: number }
+  const corners: CC[] = []
+  const pockets: { x: number; y: number; open: Edge }[] = []
+  if (caveMode) {
+    const isWall = (c: number, r: number) => c < 0 || c >= cols || r < 0 || r >= rows || grid[r][c] === Material.Wall
+    const isStair = (c: number, r: number) => c >= 0 && c < cols && r >= 0 && r < rows && grid[r][c] === Material.Stairs
+    // (a) 1-cell pockets
+    const pocketCells = new Set<number>()
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      if (grid[r][c] !== Material.Floor) continue
+      const n = isWall(c, r - 1), s = isWall(c, r + 1), e = isWall(c + 1, r), w = isWall(c - 1, r)
+      if ((+n + +s + +e + +w) !== 3) continue
+      const open: Edge = !n ? "n" : !s ? "s" : !e ? "e" : "w"
+      const oc = open === "e" ? c + 1 : open === "w" ? c - 1 : c
+      const or = open === "s" ? r + 1 : open === "n" ? r - 1 : r
+      if (isStair(oc, or)) continue // the open side is a stairwell mouth → leave it rectilinear
+      pocketCells.add(r * cols + c)
+      pockets.push({ x: c, y: r, open })
+    }
+    // (b) concave corners
+    const nVar = CAVE_CORNER_VARIANTS.nw.length
+    for (let j = 1; j < rows; j++) for (let i = 1; i < cols; i++) {
+      if (isStair(i - 1, j - 1) || isStair(i, j - 1) || isStair(i - 1, j) || isStair(i, j)) continue // no rounding around stairwells
+      const nw = isWall(i - 1, j - 1), ne = isWall(i, j - 1), sw = isWall(i - 1, j), se = isWall(i, j)
+      if (((nw ? 1 : 0) + (ne ? 1 : 0) + (sw ? 1 : 0) + (se ? 1 : 0)) !== 3) continue // concave pocket = lone floor cell
+      const b = !se ? { x: i, y: j, orient: "nw" as Corner } : !sw ? { x: i - 1, y: j, orient: "ne" as Corner }
+        : !ne ? { x: i, y: j - 1, orient: "sw" as Corner } : { x: i - 1, y: j - 1, orient: "se" as Corner }
+      if (pocketCells.has(b.y * cols + b.x)) continue // this cell is a dome, not corner-rounded
+      let h = ((b.x * 73856093) ^ (b.y * 19349663) ^ (b.orient.charCodeAt(0) * 2654435761)) >>> 0
+      h ^= h >>> 13; h = (Math.imul(h, 0x5bd1e995)) >>> 0
+      corners.push({ ...b, variant: h % nVar })
+    }
+  }
+  return { corners, pockets }
+  }, [dungeon, cols, rows, caveMode])
+
+  // Cave overlay tiles (rendered in the cornerTiles layer slot): pocket domes + varied corner fillets,
+  // painting cave wall over the floor base. Base grid untouched.
+  const caveCornerTiles = useMemo(() => {
+  const out = []
+  if (caveMode && showBase) {
+    for (let k = 0; k < caveCorners.pockets.length; k++) {
+      const p = caveCorners.pockets[k]
+      out.push(<img key={`cp${k}`} src={CAVE_POCKET[p.open]} width={S} height={S} alt=""
+        style={{ position: "absolute", left: p.x * S, top: p.y * S, display: "block" }} />)
+    }
+    for (let k = 0; k < caveCorners.corners.length; k++) {
+      const b = caveCorners.corners[k]
+      out.push(<img key={`cc${k}`} src={CAVE_CORNER_VARIANTS[b.orient][b.variant]} width={S} height={S} alt=""
+        style={{ position: "absolute", left: b.x * S, top: b.y * S, display: "block" }} />)
+    }
+  }
+  return out
+  }, [caveMode, showBase, caveCorners])
+
   // Base layer: material-coloured cells.
   const baseCells = useMemo(() => {
   const baseCells = []
@@ -236,13 +313,13 @@ export default function GeomorphDungeonPage() {
       baseCells.push(
         <div key={`b${c}-${r}`} style={{
           position: "absolute", left: c * S, top: r * S, width: S, height: S,
-          background: MATERIAL_COLOR[displayM],
+          background: matColor[displayM],
         }} />
       )
     }
   }
   return baseCells
-  }, [dungeon, cols, rows, showBase, showWater, cornerCellSet])
+  }, [dungeon, cols, rows, showBase, showWater, cornerCellSet, caveMode])
 
   // Rounded/round-corner overlay: the wall "bite" only (transparent inside the arc), scaled to the
   // r×r block, on a layer above the base squares (so water shows through) and below the arc lip.
@@ -282,9 +359,10 @@ export default function GeomorphDungeonPage() {
   const trimGrid = smAlcoveCells.size ? grid.map(row => row.slice()) : grid
   if (smAlcoveCells.size) for (const key of smAlcoveCells) trimGrid[Math.floor(key / cols)][key % cols] = Material.Floor
   for (const spec of DETAIL_MATERIALS) {
+    if (caveMode) continue // caves use varied corner tiles + wall bays, not the fine-grid fringe trim
     if (spec.name === "wall" && !showWall) continue
     if (spec.name === "water" && !showWater) continue
-    const art = TRIM_ART[spec.name]
+    const art = trimArt[spec.name]
     for (let fr = 0; fr < rows * SUB; fr++) for (let fc = 0; fc < cols * SUB; fc++) {
       // In a rounded/round corner block, the straight wall lip is replaced by the arc trim below —
       // skip the marching-squares wall trim there so the two don't fight.
@@ -324,7 +402,7 @@ export default function GeomorphDungeonPage() {
     // adjacent junction so it looks like a lone-feature end. (Reuses TRIM_ART.wall nub tiles.)
     const pushNub = (idx: number, fc: number, fr: number, key: string) =>
       wallDetailTiles.push(
-        <img key={key} src={TRIM_ART.wall[idx]} width={s} height={s} alt=""
+        <img key={key} src={trimArt.wall[idx]} width={s} height={s} alt=""
           style={{ position: "absolute", left: fc * s, top: fr * s, display: "block" }} />
       )
     for (const rm of rooms) {
@@ -346,7 +424,7 @@ export default function GeomorphDungeonPage() {
     }
   }
   return { wallDetailTiles, waterDetailTiles }
-  }, [dungeon, cols, rows, showWall, showWater, showApses, showAlcoves, cornerCellSet, cornerBlocks, alcoveRender, smAlcoveCells])
+  }, [dungeon, cols, rows, showWall, showWater, showApses, showAlcoves, cornerCellSet, cornerBlocks, alcoveRender, smAlcoveCells, caveMode])
 
   // Doors: a leaf strip on the threshold EDGE (recorded at generation → no flip), on its
   // own layer, CENTERED on the boundary grid line (straddles both cells equally). A vertical
@@ -363,7 +441,7 @@ export default function GeomorphDungeonPage() {
       doorTiles.push(
         <div key={`dv${col}-${r}`} style={{
           position: "absolute", left: col * S - DT / 2, top: r * S + DOOR_GAP, width: DT, height: S - 2 * DOOR_GAP,
-          background: MATERIAL_COLOR[Material.Door],
+          background: matColor[Material.Door],
         }} />
       )
     }
@@ -372,13 +450,13 @@ export default function GeomorphDungeonPage() {
       doorTiles.push(
         <div key={`dh${c}-${row}`} style={{
           position: "absolute", left: c * S + DOOR_GAP, top: row * S - DT / 2, width: S - 2 * DOOR_GAP, height: DT,
-          background: MATERIAL_COLOR[Material.Door],
+          background: matColor[Material.Door],
         }} />
       )
     }
   }
   return doorTiles
-  }, [dungeon, cols, rows, showDoors])
+  }, [dungeon, cols, rows, showDoors, caveMode])
 
   // Stairs: a full-cell tile (treads perpendicular to travel + up-chevron) per stair
   // cell. Rendered BELOW the wall/water detail layer so the wall lips paint over the
@@ -864,6 +942,10 @@ export default function GeomorphDungeonPage() {
           <button onClick={() => selectFloor(floorIndex + 1)} disabled={floorIndex >= complex.floors.length - 1} title="Down one floor">▼</button>
           <span style={{ color: "#888", fontSize: 12 }}>{dungeon.name} · {dungeon.type}</span>
         </span>
+        <label title="Render this floor as an organic cave system (Idea 7 PoC)">
+          <input type="checkbox" checked={caveMode} onChange={e => { setCaveMode(e.target.checked); closeInspector() }} />
+          &nbsp;Cave
+        </label>
       </div>
 
       <div className={styles.mapArea}>
@@ -875,6 +957,7 @@ export default function GeomorphDungeonPage() {
           {waterDetailTiles}
           {doorTiles}
           {cornerTiles}
+          {caveCornerTiles}
           {wallDetailTiles}
           {pillarTiles}
           {levelTiles}

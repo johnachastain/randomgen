@@ -30,7 +30,7 @@ export type WaterCondition = "dry" | "pool" | "partial" | "full"
 export type RoomSize = "small" | "medium" | "large"
 export type RoomProfile = {
   type: string             // rotunda | cistern | vault | hall | chamber | cell (feature-derived)
-  material: "masonry"      // only value until cave generation (Idea 7)
+  material: "masonry" | "cave" // "cave" for organic cave rooms (Idea 7); masonry otherwise
   size: RoomSize
   water: WaterCondition
   pillared: boolean

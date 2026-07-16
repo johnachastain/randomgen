@@ -32,6 +32,7 @@ import { Page4 } from './legacy/configDungeonGen/pages/Page4';
 import { BaseRefactor } from './legacy/baseRefactor/pages/BaseRefactor';
 import RoomDescriptionPage from './lab/room-description/Page';
 import RoomDescriptionEditorPage from './lab/room-description/EditorPage';
+import TileEdgeStudioPage from './lab/tile-edge-studio/Page';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
       <Route path="/base" component={Base} />
       <Route path="/lab/room-description" component={RoomDescriptionPage} />
       <Route path="/lab/room-description/edit" component={RoomDescriptionEditorPage} />
+      <Route path="/lab/tile-edge-studio" component={TileEdgeStudioPage} />
       <Route path="/geomorph" component={Geomorph} />
       <Route path="/geomorph-walk" component={GeomorphWalkPage} />
       <Route path="/geomorph-dfs" component={GeomorphDfsPage} />

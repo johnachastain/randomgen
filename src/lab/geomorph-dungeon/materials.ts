@@ -52,3 +52,16 @@ export const TRIM_STYLE: Record<"wall" | "water", { body: string; bevel: string 
   wall:  { body: "#4a5160", bevel: "#6f7686" },
   water: { body: "#5b93cf", bevel: "#87b7e6" },
 }
+
+// --- Cave skin (Idea 7) --------------------------------------------------------------------
+// Caves reuse the standard dungeon palette (dark-gray wall, off-white floor) — same values as
+// MATERIAL_COLOR above. The base floor/wall `<div>` fills swap to this in cave mode; walls are
+// finished with the varied rounded corner tiles + wall bays (no fine-grid fringe). Kept as its own
+// map so the cave skin can diverge later if wanted.
+export const CAVE_MATERIAL_COLOR: Record<Material, string> = {
+  [Material.Floor]:  "#dfe3ea",
+  [Material.Wall]:   "#2c313b",
+  [Material.Water]:  "#5b93cf",
+  [Material.Door]:   "#8a5a2b",
+  [Material.Stairs]: "#b8b1a0",
+}

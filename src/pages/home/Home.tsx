@@ -23,6 +23,12 @@ const GROUPS: Group[] = [
     ],
   },
   {
+    title: "Tools / Studios",
+    pages: [
+      { path: "/lab/tile-edge-studio", label: "Tile Edge Studio" },
+    ],
+  },
+  {
     title: "Geomorphs — original",
     pages: [
       { path: "/geomorph-walk", label: "Drunken Walk" },
