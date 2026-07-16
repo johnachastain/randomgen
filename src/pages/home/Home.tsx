@@ -18,6 +18,7 @@ const GROUPS: Group[] = [
     title: "Lab",
     pages: [
       { path: "/refactor/geomorph-dungeon", label: "Dungeon (bitmask)" },
+      { path: "/lab/caves/1", label: "Caves 1 — CA blobs" },
       { path: "/lab/room-description", label: "Room Description Generator" },
       { path: "/lab/room-description/edit", label: "Room Description — template editor" },
     ],

@@ -1,7 +1,11 @@
-/* Static chrome for the Bitmask Dungeon page (src/lab/geomorph-dungeon/Page.tsx).
+/* Static chrome for the caves-1 prototype page (src/lab/caves-1/Page.tsx).
    Only the presentation of fixed UI elements lives here — the per-cell TILE styles
    (left/top/background/width computed from generation) stay inline in Page.tsx.
-   Tweak spacing, colours, sizes, fonts here without touching the component. */
+   Tweak spacing, colours, sizes, fonts here without touching the component.
+
+   Forked from the bitmask dungeon's Page.module.css. Every class survived the trim (the viewer
+   chrome is exactly what was worth keeping); it's forked so the cave prototypes can restyle
+   freely — see plans/cave-prototypes.md. */
 
 /* ── Layout shell ─────────────────────────────────────────────────────────── */
 .page {

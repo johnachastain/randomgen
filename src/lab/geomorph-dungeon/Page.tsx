@@ -199,7 +199,12 @@ export default function GeomorphDungeonPage() {
 
   // blank seed input → undefined → generateDungeon rolls a fresh random seed; a number → reproduce it.
   const seedArg = () => { const t = seedInput.trim(); return t === "" ? undefined : Number(t) }
-  const regenerate = (c = cols, r = rows, f = floorCount) => { setComplex(generateDungeonComplex(c, r, f, seedArg())); setFloorIndex(0); closeInspector() }
+  // `seed` is an explicit override for callers that set seedInput in the same handler — setSeedInput
+  // hasn't committed yet at that point, so seedArg() would read the PREVIOUS value.
+  const regenerate = (c = cols, r = rows, f = floorCount, seed = seedArg()) => { setComplex(generateDungeonComplex(c, r, f, seed)); setFloorIndex(0); closeInspector() }
+  // The field holds a seed that isn't the one on screen → it hasn't been applied yet. Drives the
+  // pending cue, which is the only feedback available when applying a seed leaves the map identical.
+  const seedPending = seedInput.trim() !== "" && Number(seedInput) !== complex.seed
 
   // Idea 6: export the whole dungeon complex (all floors, fully serialisable + repro metadata) as JSON.
   const downloadJson = () => {
@@ -992,12 +997,18 @@ export default function GeomorphDungeonPage() {
       <div className={styles.footer}>
         <label>Seed:&nbsp;
           <input type="number" value={seedInput} placeholder="random"
-            onChange={e => setSeedInput(e.target.value)} className={styles.seedInput} />
+            onChange={e => setSeedInput(e.target.value)}
+            onKeyDown={e => { if (e.key === "Enter") regenerate() }}
+            onBlur={() => { if (seedPending) regenerate() }}
+            data-pending={seedPending ? "" : undefined}
+            title="Type a seed and press Enter to reproduce that dungeon; clear it for a random one"
+            className={styles.seedInput} />
         </label>
+        {seedPending && <span className={styles.seedHint}>press Enter to apply</span>}
         <span className={styles.seedCurrent}>
           current:&nbsp;
           <code className={styles.seedCode} title="Click to reuse this seed"
-            onClick={() => setSeedInput(String(complex.seed))}>{complex.seed}</code>
+            onClick={() => { setSeedInput(String(complex.seed)); regenerate(cols, rows, floorCount, complex.seed) }}>{complex.seed}</code>
         </span>
       </div>
       </div>

@@ -21,6 +21,13 @@ Hold this and you can churn/delete experiments without ever touching core. Enfor
 ### Promotion = extract, don't copy
 When something graduates: stabilize its public API (barrel `index.ts`), add tests, strip experiment-only hacks, and **retire the experiment's copy** (it then imports core, or is deleted). Never keep two live forks — that's the divergence the `v1–v4` *snapshots* have on purpose but the working core must not.
 
+### The exception — a prototype fork is not a failed promotion
+A **competing-prototype track** is a third legitimate reason to copy, alongside snapshots. When a feature needs to be explored as several divergent implementations before a winner exists (the **cave track**: `src/lab/caves-N/`, [`cave-prototypes.md`](./cave-prototypes.md)), each prototype forks the modules it needs — `caves-1` carries its own trimmed `types`/`materials`/`Page.module.css`/nav rather than importing or promoting the dungeon's.
+
+This is deliberate, not debt. Promotion requires knowing the shared shape, and **you can't know it from one implementation** — extracting now would freeze the current prototype's assumptions into core and make the next prototype fight them. Prototypes are also load-bearingly free to diverge; a shared module is exactly the coupling that prevents that. Note the layout below already anticipates the eventual destination (`core/grid/` — "flood-fill, union-find, bitmask/marching-squares"), and the fork keeps that door open rather than walking through it early.
+
+**So: don't "fix" a prototype fork's duplication.** Promotion happens when the cave track picks its final candidate and the shape it actually needs is known — at which point the losing prototypes are deleted (not left as live forks) and the winner promotes normally, per the checklist below. The forks are still bound by the hard rule: they import **down** into `core/` and never sideways into another lab.
+
 ### Proposed layout (let it emerge — don't scaffold empty folders up front)
 ```
 src/
